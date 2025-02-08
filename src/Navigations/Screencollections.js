@@ -1,59 +1,25 @@
-import BigBox from "../Components/Others/BigBox";
-import ChatScreen from "../Screens/Chat";
-import Home from "../Screens/Home";
-import Live from "../Screens/Live";
-import Login from "../Screens/Login";
-import Network from "../Screens/Netwrok";
-import Nofiticationtets from "../Screens/Nofiticationtets";
-import Reports from "../Screens/Reports";
-import Scheduled from "../Screens/Scheduled";
-import TextHome from "../Screens/TextHome";
+import ProfileScreen from "../Screens/ProfileScreen"
+import BookingScreen from "../Screens/BookingScreen"
+import GamesScreen from "../Screens/GamesScreen"
 
+// BottomBar
+import { CustomBottomTabs } from "./BottomNavigation"
 
-
-export const AllScreen=[
-
+export const AllScreen = [
     {
-        name:"Login",
-        component:Login,
-    },
-
-    {
-        name:"Network",
-        component:Network
+        name: "BottomNavigation",
+        component: CustomBottomTabs,
     },
     {
-        name:"Home",
-        component:Home
+        name: "ProfileScreen",
+        component: ProfileScreen,
     },
     {
-        name:"Scheduled",
-        component:Scheduled
+        name: "BookingScreen",
+        component: BookingScreen,
     },
     {
-        name:"Live",
-        component:Live
+        name: "GamesScreen",
+        component: GamesScreen,
     },
-    {
-        name:"chat",
-        component:ChatScreen
-    },
-    {
-        name:"Notification",
-        component:Nofiticationtets
-    },
-    {
-        name:"TextHome",
-        component:TextHome
-    },
-    {
-        name:"BigBox",
-        component:BigBox
-    },
-  
-    {
-        name:"Reports",
-        component:Reports
-    },
-  
 ]
