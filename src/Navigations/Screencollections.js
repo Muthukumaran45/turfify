@@ -5,6 +5,11 @@ import GamesScreen from "../Screens/GamesScreen"
 // BottomBar
 import { CustomBottomTabs } from "./BottomNavigation"
 
+// InitialScreens
+import LoginScreen from "../Screens/InitialScreens/LoginScreen"
+import OtpScreen from "../Screens/InitialScreens/OtpScreen"
+
+
 export const AllScreen = [
     {
         name: "BottomNavigation",
@@ -21,5 +26,13 @@ export const AllScreen = [
     {
         name: "GamesScreen",
         component: GamesScreen,
+    },
+    {
+        name: "LoginScreen",
+        component: LoginScreen,
+    },
+    {
+        name: "OtpScreen",
+        component: OtpScreen,
     },
 ]

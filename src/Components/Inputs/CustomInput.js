@@ -25,13 +25,14 @@ const CustomInput = ({
   isPhoneNumber = false,
   countryCode = "+91",
   height = hp(7), 
+  maxLength,
   ...props
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
 
   return (
     <View
-      className={`flex-row items-center border border-gray-300 rounded-lg px-3 ${className}`}
+      className={`flex-row items-center border border-gray-300 px-3 ${className}`}
       style={[{ height }, style]} 
     >
       {/* Left Icon or Country Code */}
@@ -41,6 +42,7 @@ const CustomInput = ({
             value={countryCode}
             editable={false}
             style={{ fontSize: RFValue(16), fontWeight: "bold" }}
+            className="text-neutral-600"
           />
         </View>
       ) : (
@@ -58,6 +60,7 @@ const CustomInput = ({
         onChangeText={onChangeText}
         secureTextEntry={isPasswordVisible}
         keyboardType={keyboardType}
+        maxLength={maxLength}
         style={[{ fontSize: RFValue(16), flex: 1 }, inputStyle]}
         {...props}
       />

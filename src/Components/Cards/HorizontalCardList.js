@@ -28,7 +28,7 @@ const HorizontalCardList = ({ data, onPressItem }) => (
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: wp('2%'),
+    paddingHorizontal: hp(2),
   },
   card: {
     backgroundColor: '#fff',

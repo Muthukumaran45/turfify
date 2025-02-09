@@ -16,7 +16,7 @@ const CustomButton = ({
       activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
-      className={`bg-green-600 dark:bg-green-400 px-4 py-3 rounded-lg ${className} ${disabled ? "opacity-50" : ""}`}
+      className={`bg-green-600 dark:bg-green-400 px-4 py-3 ${className} ${disabled ? "opacity-50" : ""}`}
       style={style}
     >
       <Text 

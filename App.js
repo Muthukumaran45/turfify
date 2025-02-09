@@ -1,17 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import AnimatedSplash from "react-native-animated-splash-screen";
 
-// screens
-import Navigation from './src/Navigations/Navigation'
+// Screens
+import Navigation from "./src/Navigations/Navigation";
 
-import "./global.css"
+import "./global.css";
 
 const App = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 3000); 
+  }, []);
+
   return (
-    <Navigation />
-  )
-}
+    <AnimatedSplash
+      isLoaded={isLoaded}
+      logoImage={require("./src/Assets/logo.png")} 
+      backgroundColor={"#0F0D0D"}
+      logoHeight={150}
+      logoWidth={150}
+    >
+      <Navigation />
+    </AnimatedSplash>
+  );
+};
 
-export default App
+export default App;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

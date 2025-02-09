@@ -6,7 +6,11 @@ import { LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+// colors
 import { COLORS } from "../Constants/Colors";
+
+// components
 import CustomText from "../Components/Texts/CustomText";
 
 const sportsData = [
@@ -31,7 +35,7 @@ const GamesScreen = () => {
           <View className="rounded-full items-center justify-center" style={styles.iconCircle}>
             <Icon size={30} color="black" />
           </View>
-          <CustomText className={`font-medium`}>{name}</CustomText>
+          <CustomText className={`font-medium`} size={12} style={styles.txt}>{name}</CustomText>
         </View>
       )}
     />
@@ -47,10 +51,13 @@ const styles = StyleSheet.create({
     marginHorizontal: hp(1),
   },
   iconCircle: {
-    width: hp(9),
-    height: hp(9),
+    width: hp(7),
+    height: hp(7),
     backgroundColor: COLORS.gradient,
   },
+  txt : {
+    marginTop: hp(1)
+  }
 });
 
 export default GamesScreen;
