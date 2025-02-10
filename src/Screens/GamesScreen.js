@@ -1,63 +1,45 @@
-import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React from 'react'
 
-// icons
-import { LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "lucide-react-native"; // Use available icons
-
-// Packages
+// packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-// colors
-import { COLORS } from "../Constants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 // components
-import CustomText from "../Components/Texts/CustomText";
+import CustomText from '../Components/Texts/CustomText';
 
-const sportsData = [
-  { id: "1", name: "Cricket", icon: LaptopMinimalCheckIcon },
-  { id: "2", name: "Badminton", icon: UserRoundIcon },
-  { id: "3", name: "Football", icon: HouseIcon },
-  { id: "4", name: "Swimming", icon: Gamepad2Icon },
-  { id: "5", name: "Football", icon: HouseIcon },
-  { id: "6", name: "Badminton", icon: UserRoundIcon },
-];
+// icons
+import { Redo2, Heart, } from "lucide-react-native";
+import SearchBar from '../Components/SearchBars/SearchBar';
 
 const GamesScreen = () => {
   return (
-    <FlatList
-      data={sportsData}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.listContainer}
-      renderItem={({ item: { name, icon: Icon } }) => (
-        <View style={styles.itemContainer}>
-          <View className="rounded-full items-center justify-center" style={styles.iconCircle}>
-            <Icon size={30} color="black" />
-          </View>
-          <CustomText className={`font-medium`} size={12} style={styles.txt}>{name}</CustomText>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+
+        <View className={`flex-row items-center justify-between`} style={{ margin: hp(2) }}>
+          <TouchableOpacity className={`flex-row items-center`}>
+            <Redo2 size={hp(4)} style={{ marginRight: hp(1) }} />
+            <CustomText>ECR, chennai</CustomText>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Heart size={hp(3.5)} fill={"red"} color={"red"} />
+          </TouchableOpacity>
         </View>
-      )}
-    />
-  );
-};
 
-const styles = StyleSheet.create({
-  listContainer: {
-    paddingHorizontal: hp(1),
-  },
-  itemContainer: {
-    alignItems: "center",
-    marginHorizontal: hp(1),
-  },
-  iconCircle: {
-    width: hp(7),
-    height: hp(7),
-    backgroundColor: COLORS.gradient,
-  },
-  txt : {
-    marginTop: hp(1)
-  }
-});
+        {/* search bar */}
+        <View style={{ marginHorizontal: hp(2) }}>
+          <SearchBar placeholder="Search here..." onFilterPress={() => Alert.alert("Filter clicked!")} />
+        </View>
 
-export default GamesScreen;
+      </ScrollView>
+    </SafeAreaView>
+  )
+}
+
+export default GamesScreen
+
+const styles = StyleSheet.create({})

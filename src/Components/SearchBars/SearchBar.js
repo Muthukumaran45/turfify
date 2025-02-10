@@ -8,7 +8,7 @@ const SearchBar = ({ placeholder, onFilterPress }) => {
   return (
     <View style={styles.container}>
       {/* Search Icon */}
-      <Search size={RFValue(16)} color="#000" style={styles.iconLeft} />
+      <Search size={RFValue(20)} color="#000" style={styles.iconLeft} />
 
       {/* Input Field */}
       <TextInput

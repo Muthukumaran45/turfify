@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: wp(100),
-    height: hp(25),
+    height: hp(20),
     borderRadius: 10,
   },
   pagination: {

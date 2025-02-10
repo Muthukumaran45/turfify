@@ -39,12 +39,9 @@ const BookingScreen = () => {
   const handlePress = (item) => console.log('Clicked:', item);
 
   return (
-    <ScrollView>
+    <View>
       <CardList data={CardListData} />
-
-      <View style={{marginBottom: hp(15)}} />
-
-    </ScrollView>
+    </View>
 
   )
 }

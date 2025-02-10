@@ -2,13 +2,19 @@ import ProfileScreen from "../Screens/ProfileScreen"
 import BookingScreen from "../Screens/BookingScreen"
 import GamesScreen from "../Screens/GamesScreen"
 
-// BottomBar
+// Bottom Bar
 import { CustomBottomTabs } from "./BottomNavigation"
 
-// InitialScreens
+// Initial Screens
 import LoginScreen from "../Screens/InitialScreens/LoginScreen"
 import OtpScreen from "../Screens/InitialScreens/OtpScreen"
 
+
+// sports screen
+import CricketScreen from "../Screens/SportsScreens/CricketScreen"
+import BadmintonScreen from "../Screens/SportsScreens/BadmintonScreen"
+import FootballScreen from "../Screens/SportsScreens/FootballScreen"
+import SwimmingScreen from "../Screens/SportsScreens/SwimmingScreen"
 
 export const AllScreen = [
     {
@@ -34,5 +40,21 @@ export const AllScreen = [
     {
         name: "OtpScreen",
         component: OtpScreen,
+    },
+    {
+        name: "CricketScreen",
+        component: CricketScreen,
+    },
+    {
+        name: "BadmintonScreen",
+        component: BadmintonScreen,
+    },
+    {
+        name: "FootballScreen",
+        component: FootballScreen,
+    },
+    {
+        name: "SwimmingScreen",
+        component: SwimmingScreen,
     },
 ]

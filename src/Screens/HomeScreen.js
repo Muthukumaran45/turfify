@@ -3,20 +3,19 @@ import React from 'react'
 
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useNavigation } from "@react-navigation/native";
 
 // component
 import CustomText from '../Components/Texts/CustomText'
-import CustomButton from '../Components/Buttons/CustomButton'
-import CustomInput from '../Components/Inputs/CustomInput'
 import SearchBar from '../Components/SearchBars/SearchBar';
 import FadeImageSlider from '../Components/Sliders/FadeImageSlider'
-import GamesScreen from './GamesScreen';
 import HorizontalCardList from '../Components/Cards/HorizontalCardList';
+import HorizontalIconList from '../Components/Cards/HorizontalIconList';
 
 // icons
-import { Redo2, Heart } from "lucide-react-native";
+import { Redo2, Heart, LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "lucide-react-native";
 
-
+// colors
 import { COLORS } from '../Constants/Colors';
 
 
@@ -37,10 +36,29 @@ const data = [
   { id: '5', title: 'Urban Turf', location: 'OMR, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg' },
 ];
 
+// icons
+const sportsData = [
+  { id: "1", name: "Cricket", icon: LaptopMinimalCheckIcon, screen: "CricketScreen" },
+  { id: "2", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
+  { id: "3", name: "Football", icon: HouseIcon, screen: "FootballScreen" },
+  { id: "4", name: "Swimming", icon: Gamepad2Icon, screen: "SwimmingScreen" },
+  { id: "5", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
+  { id: "6", name: "Football", icon: HouseIcon, screen: "FootballScreen" },
+  { id: "7", name: "Cricket", icon: LaptopMinimalCheckIcon, screen: "CricketScreen" },
+  { id: "8", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
+];
+
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
+  const handleNavigation = (screen) => {
+    if (screen) {
+      navigation.navigate(screen);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -48,15 +66,16 @@ const HomeScreen = () => {
 
         <View className={`flex-row items-center justify-between`} style={{ margin: hp(2) }}>
           <TouchableOpacity className={`flex-row items-center`}>
-            <Redo2 size={hp(4.5)} style={{ marginRight: hp(1) }} />
+            <Redo2 size={hp(4)} style={{ marginRight: hp(1) }} />
             <CustomText>ECR, chennai</CustomText>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Heart size={hp(4.5)} fill={"red"} color={"red"} />
+            <Heart size={hp(3.5)} fill={"red"} color={"red"} />
           </TouchableOpacity>
         </View>
 
+        {/* search bar */}
         <View style={{ marginHorizontal: hp(2) }}>
           <SearchBar placeholder="Search here..." onFilterPress={() => Alert.alert("Filter clicked!")} />
         </View>
@@ -74,7 +93,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <GamesScreen />
+          <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
         </View>
 
         <View style={{ marginVertical: hp(3), }}>
@@ -112,7 +131,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   fadeSlider: {
-    borderRadius: hp(2)
+    borderRadius: hp(2),
   },
   nearBytxt: {
     marginLeft: hp(2)
