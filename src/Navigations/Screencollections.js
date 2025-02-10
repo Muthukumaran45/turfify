@@ -1,60 +1,40 @@
-import ProfileScreen from "../Screens/ProfileScreen"
-import BookingScreen from "../Screens/BookingScreen"
-import GamesScreen from "../Screens/GamesScreen"
+import { CustomBottomTabs } from "./BottomNavigation";
 
-// Bottom Bar
-import { CustomBottomTabs } from "./BottomNavigation"
-
-// Initial Screens
-import LoginScreen from "../Screens/InitialScreens/LoginScreen"
-import OtpScreen from "../Screens/InitialScreens/OtpScreen"
-
-
-// sports screen
-import CricketScreen from "../Screens/SportsScreens/CricketScreen"
-import BadmintonScreen from "../Screens/SportsScreens/BadmintonScreen"
-import FootballScreen from "../Screens/SportsScreens/FootballScreen"
-import SwimmingScreen from "../Screens/SportsScreens/SwimmingScreen"
+// Importing screens dynamically using object grouping
+const Screens = {
+    BottomTab: {
+        ProfileScreen: require("../Screens/BottomTabScreens/ProfileScreen").default,
+        BookingScreen: require("../Screens/BottomTabScreens/BookingScreen").default,
+        GamesScreen: require("../Screens/BottomTabScreens/GamesScreen").default,
+    },
+    Initial: {
+        LoginScreen: require("../Screens/InitialScreens/LoginScreen").default,
+        OtpScreen: require("../Screens/InitialScreens/OtpScreen").default,
+        WelcomeScreen: require("../Screens/InitialScreens/WelcomeScreen").default,
+        OnboardingScreen: require("../Screens/InitialScreens/OnBoardingScreen").default,
+    },
+    Sports: {
+        CricketScreen: require("../Screens/SportsScreens/CricketScreen").default,
+        BadmintonScreen: require("../Screens/SportsScreens/BadmintonScreen").default,
+        FootballScreen: require("../Screens/SportsScreens/FootballScreen").default,
+        SwimmingScreen: require("../Screens/SportsScreens/SwimmingScreen").default,
+    },
+    Profile: {
+        EditProfileScreen: require("../Screens/ProfileScreens/EditProfileScreen").default,
+        BookingHistoryScreen: require("../Screens/ProfileScreens/BookingHistoryScreen").default,
+        HelpScreen: require("../Screens/ProfileScreens/HelpScreen").default,
+        PaymentScreen: require("../Screens/ProfileScreens/PaymentScreen").default,
+    },
+    Others: {
+        WishListScreen: require("../Screens/WishListScreen").default,
+        TournamentDetailsScreen: require("../Screens/TournamentDetailsScreen").default,
+        TournamentFormScreen: require("../Screens/TournamentFormScreen").default,
+    }
+};
 
 export const AllScreen = [
-    {
-        name: "BottomNavigation",
-        component: CustomBottomTabs,
-    },
-    {
-        name: "ProfileScreen",
-        component: ProfileScreen,
-    },
-    {
-        name: "BookingScreen",
-        component: BookingScreen,
-    },
-    {
-        name: "GamesScreen",
-        component: GamesScreen,
-    },
-    {
-        name: "LoginScreen",
-        component: LoginScreen,
-    },
-    {
-        name: "OtpScreen",
-        component: OtpScreen,
-    },
-    {
-        name: "CricketScreen",
-        component: CricketScreen,
-    },
-    {
-        name: "BadmintonScreen",
-        component: BadmintonScreen,
-    },
-    {
-        name: "FootballScreen",
-        component: FootballScreen,
-    },
-    {
-        name: "SwimmingScreen",
-        component: SwimmingScreen,
-    },
-]
+    { name: "BottomNavigation", component: CustomBottomTabs },
+    ...Object.entries(Screens).flatMap(([_, category]) =>
+        Object.entries(category).map(([name, component]) => ({ name, component }))
+    ),
+];

@@ -6,11 +6,11 @@ const Stack = createNativeStackNavigator();
 
 // Animation mapping for different screens
 const screenAnimations = {
-    CricketScreen: "slide_from_bottom",
-    BadmintonScreen: "slide_from_bottom",
-    FootballScreen: "slide_from_bottom",
-    SwimmingScreen: "slide_from_bottom", 
-    TennisScreen: "slide_from_bottom",
+    // CricketScreen: "slide_from_bottom",
+    // BadmintonScreen: "slide_from_bottom",
+    // FootballScreen: "slide_from_bottom",
+    // SwimmingScreen: "slide_from_bottom", 
+    // TennisScreen: "slide_from_bottom",
 };
 
 const MainNavigation = () => {
@@ -18,13 +18,13 @@ const MainNavigation = () => {
         <Stack.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                animation: screenAnimations[route.name] || "slide_from_right" 
+                animation: screenAnimations[route.name] || "fade" 
             })}
-            initialRouteName={"LoginScreen"}
+            initialRouteName={"WelcomeScreen"}
         >
             {AllScreen.map((item, index) => (
                 <Stack.Screen
-                    key={index}
+                    key={item.name}
                     name={item.name}
                     component={item.component}
                 />

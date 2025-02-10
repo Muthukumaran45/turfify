@@ -3,10 +3,10 @@ import { Gamepad2Icon, HouseIcon, UserRoundIcon, LaptopMinimalCheckIcon } from '
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 
 // Screens
-import HomeScreen from '../Screens/HomeScreen';
-import ProfileScreen from '../Screens/ProfileScreen';
-import BookingScreen from '../Screens/BookingScreen';
-import GamesScreen from '../Screens/GamesScreen';
+import HomeScreen from '../Screens/BottomTabScreens/HomeScreen';
+import ProfileScreen from '../Screens/BottomTabScreens/ProfileScreen';
+import BookingScreen from '../Screens/BottomTabScreens/BookingScreen';
+import GamesScreen from '../Screens/BottomTabScreens/GamesScreen';
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -61,7 +61,7 @@ export const CustomBottomTabs = () => {
     >
       {/* Home Tab */}
       <Tab.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,

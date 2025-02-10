@@ -28,6 +28,7 @@ const HorizontalCardList = ({ data, onPressItem }) => (
 
 const styles = StyleSheet.create({
   container: {
+    
     paddingHorizontal: hp(2),
   },
   card: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     height: hp('28%'),
     elevation: 3,
     overflow: 'hidden',
-    marginVertical: hp(2),
+    marginVertical: hp(1.5),
   },
   image: {
     width: '100%',

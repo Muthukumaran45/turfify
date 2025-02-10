@@ -16,7 +16,7 @@ const CardItem = ({ item }) => {
       )}
 
       {/* Image */}
-      <Image source={{ uri: item.image }} style={styles.image} resizeMode='contain' />
+      <Image source={{ uri: item.image }} style={styles.image} resizeMode='cover' />
 
       {/* Content */}
       <View style={styles.info}>
@@ -51,13 +51,13 @@ const CardItem = ({ item }) => {
 };
 
 // 🔹 Reusable Card List Component
-const CardList = ({ data }) => {
+const CardList = ({ data, style }) => {
   return (
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <CardItem item={item} />}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={style}
       showsVerticalScrollIndicator={false}
     />
   );
@@ -65,7 +65,6 @@ const CardList = ({ data }) => {
 
 // 🔹 Styles
 const styles = StyleSheet.create({
-  container: { padding: wp('2%') },
   card: {
     backgroundColor: '#fff',
     borderRadius: wp('2%'),

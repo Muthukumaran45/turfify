@@ -47,7 +47,7 @@ const FadeImageSlider = (
         <Animated.Image
           source={{ uri: slides[activeIndex]?.image }}
           style={[styles.image, animatedStyle]}
-          resizeMode={"contain"}
+          resizeMode={"cover"}
         />
       </View>
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    width: wp(100),
+    width: wp(93),
     height: hp(20),
     borderRadius: 10,
   },

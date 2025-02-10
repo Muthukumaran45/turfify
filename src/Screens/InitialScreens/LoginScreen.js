@@ -52,6 +52,6 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     otpBtn: {
-        marginTop: hp(6)
+        marginTop: hp(4)
     }
 }) 

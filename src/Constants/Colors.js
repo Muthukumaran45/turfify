@@ -3,6 +3,9 @@
 export const COLORS = {
   primary: "#378E26",
   gradient: "#78C560",
+  bgPrimary: "#F8F8F8",
+
+
   themeColor: "#00D09C",
   lite_black: "#3D3D3D2B",
   Ash: "#DBC1FC",
