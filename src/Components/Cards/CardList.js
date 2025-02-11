@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+
+// packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFPercentage as rf } from 'react-native-responsive-fontsize';
-import { CrownIcon, PhoneCallIcon } from 'lucide-react-native'; // Import Lucide icons
 
-// 🔹 Reusable Card Item Component
+// icons
+import { CrownIcon, PhoneCallIcon } from 'lucide-react-native'; 
+
 const CardItem = ({ item }) => {
   return (
     <TouchableOpacity style={styles.card}>
@@ -25,7 +28,7 @@ const CardItem = ({ item }) => {
           <Text style={styles.title}>{item.title}</Text>
           <View style={styles.ratingDistanceContainer}><Text style={styles.rating}>⭐ {item.rating}</Text>
             <View style={styles.middleBorder} />
-            <Text style={styles.distance}>📍 1.5 km</Text>
+            <Text style={styles.distance}>Distance 1.5 km</Text>
           </View>
         </View>
 
@@ -59,6 +62,7 @@ const CardList = ({ data, style }) => {
       renderItem={({ item }) => <CardItem item={item} />}
       contentContainerStyle={style}
       showsVerticalScrollIndicator={false}
+      scrollEnabled={false} 
     />
   );
 };
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
   title: { fontSize: rf(2.5), fontWeight: 'bold', flex: 1 },
   ratingDistanceContainer: { flexDirection: 'row', alignItems: 'center' },
   rating: { fontSize: rf(2), color: 'green' },
-  middleBorder: { width: wp('0.5%'), height: hp('2%'), backgroundColor: 'gray', marginHorizontal: wp('2%') },
+  middleBorder: { width: wp('0.3%'), height: hp('2%'), backgroundColor: 'gray', marginHorizontal: wp('2%') },
   distance: { fontSize: rf(2), color: 'gray' },
   location: { fontSize: rf(1.8), color: 'gray', marginTop: hp('0.5%') },
   price: { fontSize: rf(2), marginVertical: hp('1%') },

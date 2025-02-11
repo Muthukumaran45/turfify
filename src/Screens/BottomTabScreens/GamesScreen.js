@@ -21,6 +21,8 @@ import TournamentCardList from '../../Components/Cards/TournamentCard';
 
 
 const GamesScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
@@ -34,7 +36,7 @@ const GamesScreen = () => {
             <CustomText>ECR, chennai</CustomText>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("WishListScreen")}>
             <Heart size={hp(3.5)} fill={"red"} color={"red"} />
           </TouchableOpacity>
         </View>

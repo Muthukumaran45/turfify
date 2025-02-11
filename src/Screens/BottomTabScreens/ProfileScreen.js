@@ -11,6 +11,7 @@ import { LogOut, History, Heart, Gift, HelpCircle, DollarSign, ChevronLeft, Chev
 
 // components
 import CustomText from "../../Components/Texts/CustomText";
+import Header from "../../Components/Headers/Header";
 
 // colors
 import { COLORS } from "../../Constants/Colors";
@@ -24,11 +25,8 @@ const ProfileScreen = () => {
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.bgPrimary }}>
 
       {/* header */}
-      <View className={`flex-row items-center`} style={{ marginVertical: hp(2), paddingHorizontal: hp(2) }}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-          <ChevronLeft size={rf(22)} color={"#000"} />
-        </TouchableOpacity>
-        <CustomText size={17} className={`font-medium`} style={styles.profileHeader}>My Profile</CustomText>
+      <View style={{ marginHorizontal: hp(2) }}>
+        <Header />
       </View>
 
       {/* user image & user details */}
@@ -98,9 +96,7 @@ const MenuItem = ({ icon: Icon, text, isLogout, onPress }) => (
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  profileHeader: {
-    paddingLeft: wp(28)
-  },
+
   menuItem: {
     marginLeft: hp(3)
   }

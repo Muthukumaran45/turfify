@@ -6,7 +6,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 const CustomText = ({ className, style, size = 16, children, ...props }) => {
   return (
-    <Text className={`text-neutral-700 dark:text-white ${className}`} style={[{ fontSize: RFValue(size) }, style]} {...props}>
+    <Text className={`text-neutral-700 ${className}`} style={[{ fontSize: RFValue(size) }, style]} {...props}>
       {children}
     </Text>
   );

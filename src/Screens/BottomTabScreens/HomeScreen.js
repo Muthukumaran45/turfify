@@ -14,7 +14,7 @@ import HorizontalIconList from '../../Components/Cards/HorizontalIconList';
 import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
 
 // icons
-import { Redo2, Heart, LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "lucide-react-native";
+import { Redo2, Heart } from "lucide-react-native";
 
 // colors
 import { COLORS } from '../../Constants/Colors';

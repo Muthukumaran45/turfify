@@ -9,16 +9,18 @@ import { useNavigation } from '@react-navigation/native';
 // component
 import CustomText from '../../Components/Texts/CustomText'
 import HorizontalCardList from '../../Components/Cards/HorizontalCardList';
-
-// icons
-import { ChevronLeft } from "lucide-react-native";
 import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
 import SearchBar from '../../Components/SearchBars/SearchBar';
 import HorizontalIconList from '../../Components/Cards/HorizontalIconList';
 import CardList from '../../Components/Cards/CardList';
 
+// icons
+import { ChevronLeft } from "lucide-react-native";
+
+
 // data's
 import { data, sportsData, CardListData } from '../../Constants/Datas';
+import Header from '../../Components/Headers/Header';
 
 const CricketScreen = () => {
   const navigation = useNavigation();
@@ -30,11 +32,8 @@ const CricketScreen = () => {
     >
 
       {/* header */}
-      <View className={`flex-row items-center`} style={{ marginVertical: hp(2), paddingHorizontal: hp(2) }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <ChevronLeft size={FS(3)} color={"#000"} />
-        </TouchableOpacity>
-        <CustomText size={17} className={`font-medium`} style={styles.header}>Cricket Turf</CustomText>
+      <View style={{marginHorizontal: hp(2)}}>
+        <Header title='Cricket Turf' />
       </View>
 
       {/* search bar */}

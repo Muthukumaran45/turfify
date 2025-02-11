@@ -61,7 +61,7 @@ export const CustomBottomTabs = () => {
     >
       {/* Home Tab */}
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,

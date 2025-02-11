@@ -15,7 +15,7 @@ const LoginScreen = () => {
     const navigation = useNavigation();
 
     return (
-        <SafeAreaView style={{ flex: 1 }} className='dark:bg-black'>
+        <SafeAreaView style={{ flex: 1 }} >
             <View style={{ padding: hp(3), paddingTop: hp(7) }}>
 
                 {/* skip btn */}
@@ -42,6 +42,7 @@ const LoginScreen = () => {
                     style={styles.otpBtn}
                     size={20}
                     onPress={() => navigation.replace('OtpScreen')}
+                    height={hp(6)}
                 />
             </View>
         </SafeAreaView>
@@ -52,6 +53,6 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     otpBtn: {
-        marginTop: hp(4)
+        marginTop: hp(4),
     }
 }) 

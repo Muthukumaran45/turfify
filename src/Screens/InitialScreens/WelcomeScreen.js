@@ -37,7 +37,7 @@ const WelcomeScreen = () => {
             <Animated.View style={fadeInStyle}>
                 <Image
                     source={require("../../Assets/logo.png")}
-                    style={{ width: wp(55), height: hp(20) }}
+                    style={{ width: wp(75), height: hp(20) }}
                     resizeMode='contain'
                 />
             </Animated.View>

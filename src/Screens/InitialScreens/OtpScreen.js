@@ -37,7 +37,7 @@ const OtpScreen = () => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }} className='dark:bg-black'>
+        <SafeAreaView style={{ flex: 1 }} >
             <View style={{ padding: hp(3), paddingTop: hp(7) }}>
                 <View style={{ marginVertical: hp(8), marginTop: hp(12) }}>
                     <CustomText className={`font-medium`} size={25}>OTP Verification Code</CustomText>
@@ -77,6 +77,7 @@ const OtpScreen = () => {
                     className='bg-primary rounded-full'
                     style={styles.confirmBtn}
                     onPress={() => navigation.replace('BottomNavigation')}
+                    height={hp(6)}
                 />
             </View>
         </SafeAreaView>

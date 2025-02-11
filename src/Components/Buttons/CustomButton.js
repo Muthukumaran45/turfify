@@ -1,5 +1,8 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+
+// packages
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const CustomButton = ({ 
@@ -9,18 +12,19 @@ const CustomButton = ({
   className = "", 
   style = {}, 
   textStyle = {}, 
-  disabled = false 
+  disabled = false ,
+  height,
 }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
-      className={`bg-green-600 dark:bg-green-400 px-4 py-3 ${className} ${disabled ? "opacity-50" : ""}`}
-      style={style}
+      className={`bg-green-600 px-4 items-center justify-center ${className} ${disabled ? "opacity-50" : ""}`}
+      style={[style, {height: height || hp(5)}]}
     >
       <Text 
-        className="text-white text-center"
+        className="text-white"
         style={[{ fontSize: RFValue(size) }, textStyle]}
       >
         {title}
@@ -30,3 +34,5 @@ const CustomButton = ({
 };
 
 export default CustomButton;
+
+const styles = StyleSheet.create({})
