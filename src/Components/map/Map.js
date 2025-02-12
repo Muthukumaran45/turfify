@@ -205,7 +205,7 @@ const LocationComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  container: { flex: 1, justifyContent: "center", },
   modalContainer: { flex: 1, backgroundColor: "white" },
   map: { flex: 1 },
   closeButton: { position: "absolute", top: 30, right: 20, backgroundColor: "black", padding: 8, borderRadius: 20 },

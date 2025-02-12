@@ -1,67 +1,53 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert, ScrollView } from 'react-native'
-import React from 'react'
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, ScrollView } from 'react-native';
+import React, { useCallback } from 'react';
 
-// packages
+// Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-// component
-import CustomText from '../../Components/Texts/CustomText'
+// Components
+import CustomText from '../../Components/Texts/CustomText';
 import SearchBar from '../../Components/SearchBars/SearchBar';
-import FadeImageSlider from '../../Components/Sliders/FadeImageSlider'
+import FadeImageSlider from '../../Components/Sliders/FadeImageSlider';
 import HorizontalCardList from '../../Components/Cards/HorizontalCardList';
 import HorizontalIconList from '../../Components/Cards/HorizontalIconList';
 import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
-import AndroidLocationComponent from '../../Components/map/Map';
+import LocationComponent from '../../Components/map/Map';
 
-// icons
-import { Redo2, Heart } from "lucide-react-native";
+// Icons
+import { Heart } from "lucide-react-native";
 
-// colors
+// Constants
 import { COLORS } from '../../Constants/Colors';
+import { slides, data, perfectData, sportsData } from '../../Constants/Datas';
 
 // utils
 import { navigate } from '../../Utils/NavigationUtil';
 
-// data's
-import { slides, data, perfectData, sportsData } from '../../Constants/Datas';
-
 
 const HomeScreen = () => {
-
-  const handleNavigation = (screen) => {
-    if (screen) {
-      navigate(screen);
-    }
-  };
+  const handleNavigation = useCallback((screen) => {
+    if (screen) navigate(screen);
+  }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-
-        {/* location & wishlist */}
-        <View className={`flex-row items-center justify-between`} style={{ margin: hp(2) }}>
-          <TouchableOpacity className={` `}>
-            <AndroidLocationComponent />
-          </TouchableOpacity>
-
+        {/* Location & Wishlist */}
+        <View style={styles.row}>
+          <LocationComponent />
           <TouchableOpacity onPress={() => navigate("WishListScreen")}>
             <Heart size={hp(3.5)} fill={"red"} color={"red"} />
           </TouchableOpacity>
         </View>
 
-
-        {/* search bar */}
-        <View style={{ marginHorizontal: hp(2) }}>
+        {/* Search Bar */}
+        <View style={styles.marginHorizontal}>
           <SearchBar placeholder="Search here..." onFilterPress={() => Alert.alert("Filter clicked!")} />
         </View>
 
-
-
-        {/* fade image slider */}
-        <View style={{ marginVertical: hp(3), marginHorizontal: hp(2) }}>
+        {/* Fade Image Slider */}
+        <View style={[styles.marginHorizontal, styles.marginVertical]}>
           <FadeImageSlider
             slides={slides}
             interval={5000}
@@ -73,40 +59,58 @@ const HomeScreen = () => {
           />
         </View>
 
-        {/* horizontal icon list */}
-        <View>
-          <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
-        </View>
+        {/* Horizontal Icon List */}
+        <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
 
-        {/* near by court */}
-        <View style={{ marginVertical: hp(3), }}>
-          <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Near by Court</CustomText>
+        {/* Nearby Court */}
+        <View style={styles.section}>
+          <CustomText size={18} className="font-medium" style={styles.title}>Nearby Court</CustomText>
           <HorizontalCardList data={data} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
-        {/* perfect pick for you */}
-        <View>
-          <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Perfect pick for you</CustomText>
+        {/* Perfect Pick for You */}
+        <View style={styles.section}>
+          <CustomText size={18} className="font-medium" style={styles.title}>Perfect pick for you</CustomText>
           <HorizontalCardList data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
-        {/* bottom slider */}
+        {/* Bottom Image List */}
         <HorizontalImageList data={data} />
 
-
-        <View style={{ marginBottom: hp(10) }} />
+        <View style={styles.bottomSpacing} />
       </ScrollView>
-
-
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: hp(2),
+  },
+  marginHorizontal: {
+    marginHorizontal: hp(2),
+  },
+  marginVertical: {
+    marginVertical: hp(3),
+  },
   fadeSlider: {
     borderRadius: hp(2),
   },
-
-})
+  section: {
+    marginTop: hp(3),
+  },
+  title: {
+    marginLeft: hp(2),
+  },
+  bottomSpacing: {
+    marginBottom: hp(10),
+  },
+});

@@ -30,7 +30,7 @@ const TournamentCard = ({ item }) => {
   );
 };
 
-const TournamentCardList = ({ data }) => {
+const TournamentCardList = ({ data , style}) => {
   const navigation = useNavigation();
 
   return (
@@ -38,7 +38,7 @@ const TournamentCardList = ({ data }) => {
       data={data}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
-        <View>
+        <View style={style}>
           <TournamentCard item={item} />
 
           <CustomButton

@@ -1,46 +1,43 @@
-import { Image, StyleSheet, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { Image, StyleSheet } from "react-native";
+import React, { useEffect, useCallback } from "react";
 
-// Packages
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
-import { useNavigation } from '@react-navigation/native';
+// packages
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, Easing } from "react-native-reanimated";
 import LinearGradient from "react-native-linear-gradient";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+
+// utils
+import { resetAndNavigate } from "../../Utils/NavigationUtil";
 
 const WelcomeScreen = () => {
-    const navigation = useNavigation();
-
     const opacity = useSharedValue(0);
 
-    useEffect(() => {
-        opacity.value = withTiming(1, {
-            duration: 1500,
-            easing: Easing.ease,
-        });
-
-        setTimeout(() => navigation.replace("OnboardingScreen"), 2500);
+    const navigateToOnboarding = useCallback(() => {
+        resetAndNavigate("OnboardingScreen");
     }, []);
 
-    const fadeInStyle = useAnimatedStyle(() => {
-        return { opacity: opacity.value };
-    });
+    useEffect(() => {
+        opacity.value = withDelay(
+            300, 
+            withTiming(1, { duration: 1000, easing: Easing.ease })
+        );
+
+        const timer = setTimeout(navigateToOnboarding, 1500);
+        return () => clearTimeout(timer); 
+    }, [navigateToOnboarding]);
+
+    const fadeInStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
     return (
         <LinearGradient
-            colors={["#16351D", "#0F0D0D"]} 
-            start={{ x: 0, y: 0 }} 
-            end={{ x: 0.5, y: 1 }} 
-            locations={[0.2, 1]} 
+            colors={["#16351D", "#0F0D0D"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            locations={[0.2, 1]}
             style={styles.gradientBackground}
         >
-            {/* Animated Logo */}
-            <Animated.View style={fadeInStyle}>
-                <Image
-                    source={require("../../Assets/logo.png")}
-                    style={{ width: wp(75), height: hp(20) }}
-                    resizeMode='contain'
-                />
-            </Animated.View>
+            <Animated.Image source={require("../../Assets/logo.png")} style={[styles.logo, fadeInStyle]} resizeMode="contain" />
         </LinearGradient>
     );
 };
@@ -52,5 +49,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    logo: {
+        width: wp(75),
+        height: hp(20),
     },
 });

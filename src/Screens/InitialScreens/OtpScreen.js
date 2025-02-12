@@ -1,47 +1,50 @@
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState, useRef } from 'react';
+import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState, useRef, useCallback } from 'react';
 
-// packages
+// Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
-import { RFValue as rf } from "react-native-responsive-fontsize";
+import { RFValue as rf } from 'react-native-responsive-fontsize';
 
-// components
+// Components
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
 
+// Utils
+import { resetAndNavigate } from '../../Utils/NavigationUtil';
+
 const OtpScreen = () => {
-    const navigation = useNavigation();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputs = useRef([]);
 
-    const handleChange = (text, index) => {
-        if (text.length > 1) {
-            text = text[text.length - 1]; // Take only the last digit
+    const handleChange = useCallback((text, index) => {
+        const lastChar = text.slice(-1); 
+
+        setOtp((prevOtp) => {
+            const newOtp = [...prevOtp];
+            newOtp[index] = lastChar;
+            return newOtp;
+        });
+
+        
+        if (lastChar && index < otp.length - 1) {
+            inputs.current[index + 1]?.focus();
         }
+    }, []);
 
-        const newOtp = [...otp];
-        newOtp[index] = text;
-        setOtp(newOtp);
-
-        // Move focus to the next input
-        if (text && index < 3) {
-            inputs.current[index + 1].focus();
-        }
-    };
-
-    const handleBackspace = (text, index) => {
+    const handleBackspace = useCallback((text, index) => {
         if (!text && index > 0) {
-            inputs.current[index - 1].focus();
+            inputs.current[index - 1]?.focus();
         }
-    };
+    }, []);
 
     return (
-        <SafeAreaView style={{ flex: 1 }} >
-            <View style={{ padding: hp(3), paddingTop: hp(7) }}>
-                <View style={{ marginVertical: hp(8), marginTop: hp(12) }}>
-                    <CustomText className={`font-medium`} size={25}>OTP Verification Code</CustomText>
-                    <CustomText size={12} className={`text-neutral-400 my-2`}>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.content}>
+
+                {/* Title Section */}
+                <View style={styles.titleContainer}>
+                    <CustomText className="font-medium" size={25}>OTP Verification Code</CustomText>
+                    <CustomText size={12} className="text-neutral-400 my-2">
                         We have sent the code to 91+ 9840247340
                     </CustomText>
                 </View>
@@ -64,19 +67,21 @@ const OtpScreen = () => {
                     ))}
                 </View>
 
-                <View className={`flex-row`} style={{ marginVertical: hp(3) }}>
-                    <CustomText className={`text-neutral-400`}>Didn't receive a code?</CustomText>
-                    <TouchableOpacity style={{ marginLeft: hp(1) }}>
-                        <Text className={`text-red-400`}>Resend code</Text>
+                {/* Resend Code Section */}
+                <View style={styles.resendContainer}>
+                    <CustomText className="text-neutral-400">Didn't receive a code?</CustomText>
+                    <TouchableOpacity>
+                        <CustomText className="text-red-400 ml-2">Resend code</CustomText>
                     </TouchableOpacity>
                 </View>
 
+                {/* Confirm Button */}
                 <CustomButton
-                    title={"Confirm"}
+                    title="Confirm"
                     size={20}
-                    className='bg-primary rounded-full'
+                    className="bg-primary rounded-full"
                     style={styles.confirmBtn}
-                    onPress={() => navigation.replace('BottomNavigation')}
+                    onPress={() => resetAndNavigate('BottomNavigation')}
                     height={hp(6)}
                 />
             </View>
@@ -87,8 +92,16 @@ const OtpScreen = () => {
 export default OtpScreen;
 
 const styles = StyleSheet.create({
-    confirmBtn: {
-        marginTop: hp(6),
+    container: {
+        flex: 1,
+    },
+    content: {
+        padding: hp(3),
+        paddingTop: hp(7),
+    },
+    titleContainer: {
+        marginVertical: hp(8),
+        marginTop: hp(12),
     },
     otpContainer: {
         flexDirection: 'row',
@@ -101,6 +114,14 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         textAlign: 'center',
         fontSize: rf(20),
-        marginRight: hp(2)
+        marginRight: hp(2),
+    },
+    resendContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: hp(3),
+    },
+    confirmBtn: {
+        marginTop: hp(6),
     },
 });

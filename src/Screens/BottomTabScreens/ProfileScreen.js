@@ -4,7 +4,6 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from "rea
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue as rf } from "react-native-responsive-fontsize";
-import { useNavigation } from '@react-navigation/native';
 
 // icons
 import { LogOut, History, Heart, Gift, HelpCircle, DollarSign, ChevronLeft, ChevronRight } from "lucide-react-native";
@@ -16,10 +15,13 @@ import Header from "../../Components/Headers/Header";
 // colors
 import { COLORS } from "../../Constants/Colors";
 
+// utils
+import { navigate, resetAndNavigate } from "../../Utils/NavigationUtil";
+
 
 
 const ProfileScreen = () => {
-  const navigation = useNavigation();
+
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.bgPrimary }}>
@@ -45,19 +47,19 @@ const ProfileScreen = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("EditProfileScreen")} style={{ marginBottom: hp("3%"), marginLeft: hp(3) }}>
+      <TouchableOpacity onPress={() => navigate("EditProfileScreen")} style={{ marginBottom: hp("3%"), marginLeft: hp(3) }}>
         <CustomText size={14}>Edit Profile </CustomText>
       </TouchableOpacity>
 
 
-      <MenuItem icon={History} text="My Booking History" onPress={() => navigation.navigate("BookingScreen")} />
-      <MenuItem icon={Heart} text="My Favorites" onPress={() => navigation.navigate("WishListScreen")} />
-      <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigation.navigate("HelpScreen")} />
-      <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigation.navigate("PaymentScreen")} />
+      <MenuItem icon={History} text="My Booking History" onPress={() => navigate("BookingScreen")} />
+      <MenuItem icon={Heart} text="My Favorites" onPress={() => navigate("WishListScreen")} />
+      <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigate("HelpScreen")} />
+      <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigate("PaymentScreen")} />
       <MenuItem
         icon={LogOut}
         text="Log Out"
-        onPress={() => navigation.replace("LoginScreen")}
+        onPress={() => resetAndNavigate("LoginScreen")}
       />
 
       <View className={`flex-row items-center`} style={{ margin: hp("2%") }}>

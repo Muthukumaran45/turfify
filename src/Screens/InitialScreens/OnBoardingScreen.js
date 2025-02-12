@@ -12,10 +12,12 @@ import {
 
 // packages
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 // utils
 import { resetAndNavigate } from "../../Utils/NavigationUtil";
-import { WP, HP } from "../../Utils/Scaling";
+
 
 // data's
 import { onboardingData } from "../../Constants/Datas";
@@ -117,12 +119,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: RFPercentage(2),
     textAlign: "center",
-    marginHorizontal: WP(5),
+    marginHorizontal: wp(5),
   },
   skipButton: {
     position: "absolute",
-    bottom: HP(5),
-    right: WP(5),
+    bottom: hp(5),
+    right: wp(5),
   },
   skipText: {
     color: "#fff",
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     position: "absolute",
-    bottom: HP(10),
+    bottom: hp(10),
     flexDirection: "row",
     alignSelf: "center",
   },
