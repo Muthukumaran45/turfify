@@ -17,10 +17,11 @@ export const normalizeHeight = (size) => {
   return PixelRatio.roundToNearestPixel(verticalScale(size));
 };
 
-export const widthPercentage = (size)  =>{
+export const WP = (size)  =>{
   return wp(size)
 } 
-export const heightPercentage = (size)  =>{
+
+export const HP = (size)  =>{
   return hp(size)
 } 
 

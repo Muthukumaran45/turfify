@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,106 +9,82 @@ import {
   StyleSheet,
   Animated,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+
+// packages
 import { RFPercentage } from "react-native-responsive-fontsize";
+
+// utils
+import { resetAndNavigate } from "../../Utils/NavigationUtil";
+import { WP, HP } from "../../Utils/Scaling";
+
+// data's
+import { onboardingData } from "../../Constants/Datas";
 
 const { width } = Dimensions.get("window");
 
-const data = [
-  { id: 1, image: require("../../Assets/onboardingImg/img1.jpg") },
-  { id: 2, image: require("../../Assets/onboardingImg/img3.jpg") },
-  { id: 3, image: require("../../Assets/onboardingImg/img1.jpg") },
-];
-
+// parent
 const OnboardingScreen = () => {
-  const navigation = useNavigation();
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (activeIndex < data.length - 1) {
+    timerRef.current = setTimeout(() => {
+      if (activeIndex < onboardingData.length - 1) {
         flatListRef.current?.scrollToIndex({ index: activeIndex + 1, animated: true });
-        setActiveIndex((prevIndex) => prevIndex + 1);
-      } else {
-        clearInterval(interval);
+        setActiveIndex((prev) => prev + 1);
       }
     }, 2000);
 
-    return () => clearInterval(interval);
+    return () => clearTimeout(timerRef.current);
   }, [activeIndex]);
+
+  const handleScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+    { useNativeDriver: false }
+  );
+
+  const handleMomentumScrollEnd = useCallback((event) => {
+    const index = Math.round(event.nativeEvent.contentOffset.x / width);
+    setActiveIndex(index);
+  }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         ref={flatListRef}
-        data={data}
+        data={onboardingData}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        onMomentumScrollEnd={(event) => {
-          const index = Math.round(event.nativeEvent.contentOffset.x / width);
-          setActiveIndex(index);
-        }}
-        renderItem={({ item, index }) => (
+        onScroll={handleScroll}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        renderItem={({ item }) => (
           <ImageBackground source={item.image} style={styles.imageBackground} resizeMode="cover">
             <View style={styles.textContainer}>
               <Text style={styles.title}>Welcome to BookmyTurf</Text>
-              <Text style={styles.subtitle}>
-                Experience seamless turf booking with ease.
-              </Text>
+              <Text style={styles.subtitle}>Experience seamless turf booking with ease.</Text>
             </View>
-            {index === data.length - 1 && (
-              <TouchableOpacity
-                style={styles.skipButton}
-                onPress={() => navigation.replace("LoginScreen")}
-              >
-                <Text style={styles.skipText}>Skip ➤</Text>
-              </TouchableOpacity>
-            )}
           </ImageBackground>
         )}
       />
 
+      <TouchableOpacity style={styles.skipButton} onPress={() => resetAndNavigate("LoginScreen")}>
+        <Text style={styles.skipText}>Skip ➤</Text>
+      </TouchableOpacity>
+
       {/* Animated Pagination */}
       <View style={styles.paginationContainer}>
-        {data.map((_, i) => {
+        {onboardingData.map((_, i) => {
           const dotWidth = scrollX.interpolate({
-            inputRange: [
-              (i - 1) * width,
-              i * width,
-              (i + 1) * width,
-            ],
-            outputRange: [8, 16, 8], // Enlarge active dot
+            inputRange: [(i - 1) * width, i * width, (i + 1) * width],
+            outputRange: [8, 16, 8],
             extrapolate: "clamp",
           });
 
-          const opacity = scrollX.interpolate({
-            inputRange: [
-              (i - 1) * width,
-              i * width,
-              (i + 1) * width,
-            ],
-            outputRange: [0.5, 1, 0.5], // Dim inactive dots
-            extrapolate: "clamp",
-          });
-
-          return (
-            <Animated.View
-              key={i}
-              style={[styles.dot, { width: dotWidth, opacity }]}
-            />
-          );
+          return <Animated.View key={i} style={[styles.dot, { width: dotWidth }]} />;
         })}
       </View>
     </View>
@@ -122,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imageBackground: {
-    width: width,
+    width,
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -141,12 +117,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: RFPercentage(2),
     textAlign: "center",
-    marginHorizontal: wp(5),
+    marginHorizontal: WP(5),
   },
   skipButton: {
     position: "absolute",
-    bottom: hp(5),
-    right: wp(5),
+    bottom: HP(5),
+    right: WP(5),
   },
   skipText: {
     color: "#fff",
@@ -154,7 +130,7 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     position: "absolute",
-    bottom: hp(10),
+    bottom: HP(10),
     flexDirection: "row",
     alignSelf: "center",
   },

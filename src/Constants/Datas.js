@@ -1,6 +1,13 @@
 import { LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "lucide-react-native";
 import { Volleyball, Footprints, Aperture } from 'lucide-react-native';
 
+// onboarding data
+export const onboardingData = [
+    { id: 1, image: require("../Assets/onboardingImg/img1.jpg") },
+    { id: 2, image: require("../Assets/onboardingImg/img3.jpg") },
+    { id: 3, image: require("../Assets/onboardingImg/img1.jpg") },
+];
+
 // data for fadeIn slides
 export const slides = [
     { id: "1", image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg" },
@@ -101,7 +108,7 @@ export const tournamentData = [
         date: "20th & 21st Oct",
         teamSize: "8+2",
     },
-   
+
 ];
 
 // wishlist data
@@ -138,7 +145,7 @@ export const WishListData = [
             'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg',
             'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg',
 
-         
+
         ]
     }
 ];
@@ -146,47 +153,47 @@ export const WishListData = [
 // upcoming booking data
 export const bookings = {
     upcoming: [
-      {
-        id: "1",
-        title: "Spark Academy",
-        date: "Jan - 13th",
-        venue: "Strikers Academy, Purasaiwakkam, Chennai",
-        time: "10 AM - 11:30 AM",
-        image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
-      },
+        {
+            id: "1",
+            title: "Spark Academy",
+            date: "Jan - 13th",
+            venue: "Strikers Academy, Purasaiwakkam, Chennai",
+            time: "10 AM - 11:30 AM",
+            image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+        },
     ],
     past: [
-      {
-        id: "2",
-        title: "Strikers Academy",
-        location: "Purasaiwakkam, Chennai",
-        distance: "0.5 km",
-        image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
-      },
-      {
-        id: "3",
-        title: "Strikers Academy",
-        location: "Purasaiwakkam, Chennai",
-        distance: "0.5 km",
-        image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
-      },
+        {
+            id: "2",
+            title: "Strikers Academy",
+            location: "Purasaiwakkam, Chennai",
+            distance: "0.5 km",
+            image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+        },
+        {
+            id: "3",
+            title: "Strikers Academy",
+            location: "Purasaiwakkam, Chennai",
+            distance: "0.5 km",
+            image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+        },
     ],
-  };
+};
 
 // past booking data
 export const pastBookingData = [
     {
-      name: 'Strikers Academy',
-      location: 'Purasaiwakkam, Chennai',
-      rating: 4.8,
-      distance: 1.5,
-      image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg'
+        name: 'Strikers Academy',
+        location: 'Purasaiwakkam, Chennai',
+        rating: 4.8,
+        distance: 1.5,
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg'
     },
     {
-      name: 'Elite Sports Arena',
-      location: 'Anna Nagar, Chennai',
-      rating: 4.6,
-      distance: 2.2,
-      image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg'
+        name: 'Elite Sports Arena',
+        location: 'Anna Nagar, Chennai',
+        rating: 4.6,
+        distance: 2.2,
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg'
     }
-  ];
+];

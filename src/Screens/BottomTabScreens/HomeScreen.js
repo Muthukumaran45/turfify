@@ -3,7 +3,6 @@ import React from 'react'
 
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation } from "@react-navigation/native";
 
 // component
 import CustomText from '../../Components/Texts/CustomText'
@@ -12,6 +11,7 @@ import FadeImageSlider from '../../Components/Sliders/FadeImageSlider'
 import HorizontalCardList from '../../Components/Cards/HorizontalCardList';
 import HorizontalIconList from '../../Components/Cards/HorizontalIconList';
 import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
+import AndroidLocationComponent from '../../Components/map/Map';
 
 // icons
 import { Redo2, Heart } from "lucide-react-native";
@@ -19,16 +19,18 @@ import { Redo2, Heart } from "lucide-react-native";
 // colors
 import { COLORS } from '../../Constants/Colors';
 
+// utils
+import { navigate } from '../../Utils/NavigationUtil';
+
 // data's
 import { slides, data, perfectData, sportsData } from '../../Constants/Datas';
 
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
 
   const handleNavigation = (screen) => {
     if (screen) {
-      navigation.navigate(screen);
+      navigate(screen);
     }
   };
 
@@ -41,20 +43,22 @@ const HomeScreen = () => {
 
         {/* location & wishlist */}
         <View className={`flex-row items-center justify-between`} style={{ margin: hp(2) }}>
-          <TouchableOpacity className={`flex-row items-center`}>
-            <Redo2 size={hp(4)} style={{ marginRight: hp(1) }} />
-            <CustomText>ECR, chennai</CustomText>
+          <TouchableOpacity className={` `}>
+            <AndroidLocationComponent />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate("WishListScreen")}>
+          <TouchableOpacity onPress={() => navigate("WishListScreen")}>
             <Heart size={hp(3.5)} fill={"red"} color={"red"} />
           </TouchableOpacity>
         </View>
+
 
         {/* search bar */}
         <View style={{ marginHorizontal: hp(2) }}>
           <SearchBar placeholder="Search here..." onFilterPress={() => Alert.alert("Filter clicked!")} />
         </View>
+
+
 
         {/* fade image slider */}
         <View style={{ marginVertical: hp(3), marginHorizontal: hp(2) }}>
@@ -77,13 +81,13 @@ const HomeScreen = () => {
         {/* near by court */}
         <View style={{ marginVertical: hp(3), }}>
           <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Near by Court</CustomText>
-          <HorizontalCardList data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
+          <HorizontalCardList data={data} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* perfect pick for you */}
         <View>
           <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Perfect pick for you</CustomText>
-          <HorizontalCardList data={perfectData} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
+          <HorizontalCardList data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* bottom slider */}

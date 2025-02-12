@@ -3,23 +3,24 @@ import React from 'react'
 
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
 
 // components
 import CustomInput from '../../Components/Inputs/CustomInput'
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
 
+// utils
+import { navigate, resetAndNavigate } from '../../Utils/NavigationUtil';
+
 const LoginScreen = () => {
 
-    const navigation = useNavigation();
 
     return (
         <SafeAreaView style={{ flex: 1 }} >
             <View style={{ padding: hp(3), paddingTop: hp(7) }}>
 
                 {/* skip btn */}
-                <TouchableOpacity onPress={() => navigation.replace("BottomNavigation")} className='flex-row justify-end'>
+                <TouchableOpacity onPress={() => resetAndNavigate("BottomNavigation")} className='flex-row justify-end'>
                     <CustomText>Skip</CustomText>
                 </TouchableOpacity>
 
@@ -41,7 +42,7 @@ const LoginScreen = () => {
                     className='bg-primary rounded-full'
                     style={styles.otpBtn}
                     size={20}
-                    onPress={() => navigation.replace('OtpScreen')}
+                    onPress={() => navigate('OtpScreen')}
                     height={hp(6)}
                 />
             </View>
