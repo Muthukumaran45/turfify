@@ -21,9 +21,13 @@ const Screens = {
     },
     Profile: {
         EditProfileScreen: require("../Screens/ProfileScreens/EditProfileScreen").default,
-        BookingHistoryScreen: require("../Screens/ProfileScreens/BookingHistoryScreen").default,
         HelpScreen: require("../Screens/ProfileScreens/HelpScreen").default,
         PaymentScreen: require("../Screens/ProfileScreens/PaymentScreen").default,
+    },
+    TurfBooking: {
+        TurfDetailsScreen: require("../Screens/TurfBookingScreens/TurfDetailsScreen").default,
+        BookingInfoScreen: require("../Screens/TurfBookingScreens/BookingInfoScreen").default,
+        BookingDateTimeScreen: require("../Screens/TurfBookingScreens/BookingDateTimeScreen").default,
     },
     Others: {
         WishListScreen: require("../Screens/WishListScreen").default,

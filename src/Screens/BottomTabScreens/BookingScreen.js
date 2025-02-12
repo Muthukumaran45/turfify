@@ -41,7 +41,6 @@ const BookingScreen = () => {
         <FlatList
           data={bookings.upcoming}
           keyExtractor={(item) => item.id}
-          style={{ marginHorizontal: hp(2) }}
           contentContainerStyle={{ paddingBottom: hp(10) }}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -64,7 +63,7 @@ const BookingScreen = () => {
           ListFooterComponent={<View style={{ height: hp(5) }} />}
         />
       ) : (
-        <View style={{marginHorizontal: hp(2)}}>
+        <View >
           <PastBookingCard data={pastBookingData} />
         </View>
       )}
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   activeTab: { backgroundColor: "#2C3E50" },
   tabText: { fontSize: RFPercentage(2), color: "#000" },
   activeTabText: { color: "#FFF", fontWeight: "bold" },
-  card: { backgroundColor: "#FFF", borderRadius: wp(3), marginBottom: hp(2), overflow: "hidden", elevation: 3 },
+  card: { backgroundColor: "#FFF", borderRadius: wp(3), marginBottom: hp(2), overflow: "hidden", elevation: 3, marginHorizontal: hp(2)  },
   image: { width: "100%", height: hp(20) },
   cardContent: { padding: wp(4) },
   title: { fontSize: RFPercentage(2.5), fontWeight: "bold" },

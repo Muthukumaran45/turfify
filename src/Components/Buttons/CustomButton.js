@@ -20,7 +20,7 @@ const CustomButton = ({
       activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}
-      className={`bg-green-600 px-4 items-center justify-center ${className} ${disabled ? "opacity-50" : ""}`}
+      className={`bg-primary px-4 items-center justify-center ${className} ${disabled ? "opacity-50" : ""}`}
       style={[style, {height: height || hp(5)}]}
     >
       <Text 

@@ -54,7 +54,7 @@ const CricketScreen = () => {
       {/* best deals */}
       <View style={{ marginVertical: hp(3), }}>
         <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Best Deals for you</CustomText>
-        <HorizontalCardList data={data} />
+        <HorizontalCardList data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
       </View>
 
       {/* short by distance */}

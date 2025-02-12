@@ -50,7 +50,7 @@ const ProfileScreen = () => {
       </TouchableOpacity>
 
 
-      <MenuItem icon={History} text="My Booking History" onPress={() => navigation.navigate("BookingHistoryScreen")} />
+      <MenuItem icon={History} text="My Booking History" onPress={() => navigation.navigate("BookingScreen")} />
       <MenuItem icon={Heart} text="My Favorites" onPress={() => navigation.navigate("WishListScreen")} />
       <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigation.navigate("HelpScreen")} />
       <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigation.navigate("PaymentScreen")} />

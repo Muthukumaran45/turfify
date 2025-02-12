@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { RFPercentage as rf } from 'react-native-responsive-fontsize';
 
 const CardItem = ({ item, onPress }) => (
-  <TouchableOpacity style={styles.card} onPress={onPress}>
+  <TouchableOpacity style={styles.card} onPress={() => onPress?.(item)}>
     <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
     <View style={styles.info}>
       <Text style={styles.title}>{item.title}</Text>
@@ -27,7 +27,7 @@ const HorizontalCardList = ({ data, onPressItem }) => (
 );
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     paddingHorizontal: hp(2),
   },
   card: {

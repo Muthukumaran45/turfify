@@ -77,13 +77,13 @@ const HomeScreen = () => {
         {/* near by court */}
         <View style={{ marginVertical: hp(3), }}>
           <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Near by Court</CustomText>
-          <HorizontalCardList data={data} />
+          <HorizontalCardList data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
         </View>
 
         {/* perfect pick for you */}
         <View>
           <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Perfect pick for you</CustomText>
-          <HorizontalCardList data={perfectData} />
+          <HorizontalCardList data={perfectData} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
         </View>
 
         {/* bottom slider */}

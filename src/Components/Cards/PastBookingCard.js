@@ -6,7 +6,13 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import CustomButton from '../Buttons/CustomButton';
 import CustomText from '../Texts/CustomText';
 
+// packages
+import { useNavigation } from '@react-navigation/native';
+
+
 const Card = ({ item }) => {
+      const navigation = useNavigation();
+    
     return (
         <View style={{
             backgroundColor: '#fff',
@@ -17,7 +23,8 @@ const Card = ({ item }) => {
             shadowOpacity: 0.1,
             shadowRadius: 4,
             elevation: 5,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            marginHorizontal: hp(2)
         }}>
             <Image
                 source={{ uri: item.image }}

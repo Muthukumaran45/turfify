@@ -7,7 +7,6 @@ const Stack = createNativeStackNavigator();
 // Animation mapping for different screens
 const screenAnimations = {
     CricketScreen: "slide_from_bottom",
-    WishListScreen: "slide_from_right",
 };
 
 const MainNavigation = () => {
