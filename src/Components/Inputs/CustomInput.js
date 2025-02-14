@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextInput, View, TouchableOpacity } from "react-native";
+import { TextInput, View, TouchableOpacity, Text } from "react-native";
 
 // Packages
 import { RFValue } from "react-native-responsive-fontsize";
@@ -26,57 +26,63 @@ const CustomInput = ({
   countryCode = "+91",
   height = hp(7), 
   maxLength,
+  error, // 🔴 New error prop
   ...props
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
 
   return (
-    <View
-      className={`flex-row items-center border border-gray-300 px-3 ${className}`}
-      style={[{ height }, style]} 
-    >
-      {/* Left Icon or Country Code */}
-      {isPhoneNumber ? (
-        <View className="pr-2">
-          <TextInput
-            value={countryCode}
-            editable={false}
-            style={{ fontSize: RFValue(16), fontWeight: "bold" }}
-            className="text-neutral-600"
-          />
-        </View>
-      ) : (
-        leftIcon && (
-          <TouchableOpacity onPress={onLeftPress} className="pr-2">
-            {leftIcon}
-          </TouchableOpacity>
-        )
-      )}
+    <View style={{ marginBottom: hp(2) }}>
+      <View
+        className={`flex-row items-center border px-3 ${className} ${error ? 'border-red-500' : 'border-gray-300'}`} // 🔴 Change border color if error exists
+        style={[{ height }, style]} 
+      >
+        {/* Left Icon or Country Code */}
+        {isPhoneNumber ? (
+          <View className="pr-2">
+            <TextInput
+              value={countryCode}
+              editable={false}
+              style={{ fontSize: RFValue(16), fontWeight: "bold" }}
+              className="text-neutral-600"
+            />
+          </View>
+        ) : (
+          leftIcon && (
+            <TouchableOpacity onPress={onLeftPress} className="pr-2">
+              {leftIcon}
+            </TouchableOpacity>
+          )
+        )}
 
-      {/* Input Field */}
-      <TextInput
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-        secureTextEntry={isPasswordVisible}
-        keyboardType={keyboardType}
-        maxLength={maxLength}
-        style={[{ fontSize: RFValue(16), flex: 1 }, inputStyle]}
-        {...props}
-      />
+        {/* Input Field */}
+        <TextInput
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={isPasswordVisible}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          style={[{ fontSize: RFValue(16), flex: 1 }, inputStyle]}
+          {...props}
+        />
 
-      {/* Right Icon (Password Toggle or Custom) */}
-      {secureTextEntry ? (
-        <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)} className="pl-2">
-          {isPasswordVisible ? <EyeOff size={iconSize} /> : <Eye size={iconSize} />}
-        </TouchableOpacity>
-      ) : (
-        rightIcon && (
-          <TouchableOpacity onPress={onRightPress} className="pl-2">
-            {rightIcon}
+        {/* Right Icon (Password Toggle or Custom) */}
+        {secureTextEntry ? (
+          <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)} className="pl-2">
+            {isPasswordVisible ? <EyeOff size={iconSize} /> : <Eye size={iconSize} />}
           </TouchableOpacity>
-        )
-      )}
+        ) : (
+          rightIcon && (
+            <TouchableOpacity onPress={onRightPress} className="pl-2">
+              {rightIcon}
+            </TouchableOpacity>
+          )
+        )}
+      </View>
+
+      {/* 🔴 Show Error Message */}
+      {error && <Text style={{ color: "red", marginTop: 5, fontSize: RFValue(12) }}>{error}</Text>}
     </View>
   );
 };

@@ -25,6 +25,14 @@ export const data = [
     { id: '5', title: 'Urban Turf', location: 'OMR, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174876/img3_tt3uu5.jpg' },
 ];
 
+// upcoming booing data
+export const bookingData = {
+    date: 'Jan - 13th',
+    title: 'Spark Academy',
+    venue: 'Strikers Academy, Purasaiwakkam, Chennai',
+    time: '10 AM - 11:30 AM'
+  };
+
 export const perfectData = [
     { id: '1', title: 'Game On 2.0', location: 'Thoraipakkam, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg' },
     { id: '2', title: 'Spark Academy', location: 'Sholinganallur, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg' },

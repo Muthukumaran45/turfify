@@ -1,20 +1,28 @@
-import { Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useEffect, useCallback } from "react";
 
-// packages
+// Packages
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, Easing } from "react-native-reanimated";
 import LinearGradient from "react-native-linear-gradient";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import MMKVStorage from 'react-native-mmkv-storage';
 
-
-// utils
+// Utils
 import { resetAndNavigate } from "../../Utils/NavigationUtil";
+
+const MMKV = new MMKVStorage.Loader().initialize();
 
 const WelcomeScreen = () => {
     const opacity = useSharedValue(0);
 
-    const navigateToOnboarding = useCallback(() => {
-        resetAndNavigate("OnboardingScreen");
+    const navigateToNextScreen = useCallback(() => {
+        const storedPhoneNumber = MMKV.getString('userPhoneNumber');
+
+        if (storedPhoneNumber) {
+            resetAndNavigate("BottomNavigation"); // If user exists, go to home
+        } else {
+            resetAndNavigate("OnboardingScreen"); // Otherwise, go to onboarding
+        }
     }, []);
 
     useEffect(() => {
@@ -23,9 +31,9 @@ const WelcomeScreen = () => {
             withTiming(1, { duration: 1000, easing: Easing.ease })
         );
 
-        const timer = setTimeout(navigateToOnboarding, 1500);
+        const timer = setTimeout(navigateToNextScreen, 1500);
         return () => clearTimeout(timer); 
-    }, [navigateToOnboarding]);
+    }, [navigateToNextScreen]);
 
     const fadeInStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 

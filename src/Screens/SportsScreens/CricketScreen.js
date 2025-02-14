@@ -47,7 +47,7 @@ const CricketScreen = () => {
       </View>
 
       {/* horizontal icon list */}
-      <View>
+      <View style={{marginTop: hp(4)}}>
         <HorizontalIconList data={sportsData} />
       </View>
 

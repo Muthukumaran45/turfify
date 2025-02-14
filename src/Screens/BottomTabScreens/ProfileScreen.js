@@ -1,37 +1,42 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 
-// packages
+// Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue as rf } from "react-native-responsive-fontsize";
+import MMKVStorage from 'react-native-mmkv-storage';
 
-// icons
-import { LogOut, History, Heart, Gift, HelpCircle, DollarSign, ChevronLeft, ChevronRight } from "lucide-react-native";
+// Icons
+import { LogOut, History, Heart, HelpCircle, DollarSign, ChevronRight } from "lucide-react-native";
 
-// components
+// Components
 import CustomText from "../../Components/Texts/CustomText";
 import Header from "../../Components/Headers/Header";
 
-// colors
+// Colors
 import { COLORS } from "../../Constants/Colors";
 
-// utils
+// Utils
 import { navigate, resetAndNavigate } from "../../Utils/NavigationUtil";
 
-
+const MMKV = new MMKVStorage.Loader().initialize();
 
 const ProfileScreen = () => {
 
+  const handleLogout = () => {
+    MMKV.removeItem("userPhoneNumber"); // Remove user data from storage
+    resetAndNavigate("LoginScreen"); // Navigate to login screen
+  };
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: COLORS.bgPrimary }}>
 
-      {/* header */}
+      {/* Header */}
       <View style={{ marginHorizontal: hp(2) }}>
         <Header />
       </View>
 
-      {/* user image & user details */}
+      {/* User image & details */}
       <View className={`flex-row items-center`} style={{ marginVertical: hp("3%"), marginHorizontal: hp(2) }}>
         <Image
           source={require("../../Assets/profile.png")}
@@ -43,7 +48,7 @@ const ProfileScreen = () => {
         />
         <View style={{ marginLeft: hp(2) }}>
           <CustomText size={18} className={`font-medium`}>Sāndy Šānjai</CustomText>
-          <CustomText size={13} className={`text-neutral-400`}> I am an enthusiastic Sport man{"\n"}#⚡shuttler{"\n"}##❤️ fitness life styler</CustomText>
+          <CustomText size={13} className={`text-neutral-400`}>I am an enthusiastic Sport man{"\n"}#⚡shuttler{"\n"}##❤️ fitness life styler</CustomText>
         </View>
       </View>
 
@@ -51,25 +56,12 @@ const ProfileScreen = () => {
         <CustomText size={14}>Edit Profile </CustomText>
       </TouchableOpacity>
 
-
       <MenuItem icon={History} text="My Booking History" onPress={() => navigate("BookingScreen")} />
       <MenuItem icon={Heart} text="My Favorites" onPress={() => navigate("WishListScreen")} />
       <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigate("HelpScreen")} />
       <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigate("PaymentScreen")} />
-      <MenuItem
-        icon={LogOut}
-        text="Log Out"
-        onPress={() => resetAndNavigate("LoginScreen")}
-      />
+      <MenuItem icon={LogOut} text="Log Out" isLogout onPress={handleLogout} />
 
-      <View className={`flex-row items-center`} style={{ margin: hp("2%") }}>
-        <TouchableOpacity style={{ marginHorizontal: wp("2%") }}>
-          <Text style={{ fontSize: rf(24) }}>🟢</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginHorizontal: wp("2%") }}>
-          <Text style={{ fontSize: rf(24) }}>📸</Text>
-        </TouchableOpacity>
-      </View>
     </ScrollView>
   );
 };
@@ -83,25 +75,18 @@ const MenuItem = ({ icon: Icon, text, isLogout, onPress }) => (
     }}
     onPress={onPress}
   >
-    {/* Left Icon and Text */}
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Icon size={rf(18)} color={isLogout ? "red" : "black"} />
       <CustomText className={`text-neutral-400`} size={13} style={styles.menuItem}>{text}</CustomText>
     </View>
-
-    {/* Right Chevron Icon */}
     <ChevronRight size={rf(18)} />
   </TouchableOpacity>
 );
 
-
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-
   menuItem: {
     marginLeft: hp(3)
   }
-})
-
-
+});

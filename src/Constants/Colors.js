@@ -4,7 +4,9 @@ export const COLORS = {
   primary: "#378E26",
   gradient: "#78C560",
   bgPrimary: "#F8F8F8",
-
+  likedColor: "#E23E2B",
+  discountGradient1: "#FF4B4B",
+  discountGradient2: "#8E0508",
 
   themeColor: "#00D09C",
   lite_black: "#3D3D3D2B",

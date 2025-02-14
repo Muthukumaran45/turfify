@@ -4,18 +4,25 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFPercentage as rf } from 'react-native-responsive-fontsize';
+import LinearGradient from "react-native-linear-gradient";
 
 // icons
-import { CrownIcon, PhoneCallIcon } from 'lucide-react-native'; 
+import { CrownIcon, PhoneCallIcon } from 'lucide-react-native';
+import { COLORS } from '../../Constants/Colors';
 
-const CardItem = ({ item }) => {
+const CardItem = ({ item, onPressBtn }) => {
   return (
-    <TouchableOpacity style={styles.card}>
+    <View style={styles.card}>
       {/* Discount Badge */}
       {item.discount && (
-        <View style={styles.discountBadge}>
+        <LinearGradient
+          colors={[COLORS.discountGradient1, COLORS.discountGradient2]}
+          style={styles.discountBadge}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
           <Text style={styles.discountText}>{item.discount}</Text>
-        </View>
+        </LinearGradient>
       )}
 
       {/* Image */}
@@ -44,25 +51,25 @@ const CardItem = ({ item }) => {
           </View>
 
           {/* Book Now Button */}
-          <TouchableOpacity style={styles.bookNow}>
+          <TouchableOpacity style={styles.bookNow} onPress={onPressBtn}>
             <Text style={styles.bookNowText}>Book Now</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 // 🔹 Reusable Card List Component
-const CardList = ({ data, style }) => {
+const CardList = ({ data, style, onPressBtn }) => {
   return (
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <CardItem item={item} />}
+      renderItem={({ item }) => <CardItem item={item} onPressBtn={onPressBtn} />}
       contentContainerStyle={style}
       showsVerticalScrollIndicator={false}
-      scrollEnabled={false} 
+      scrollEnabled={false}
     />
   );
 };

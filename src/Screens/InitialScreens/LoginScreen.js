@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,13 +8,58 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import CustomInput from '../../Components/Inputs/CustomInput';
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
+import { errorAlert, successAlert } from "../../Components/Toast/ToastServices";
 
 // Utils
 import { navigate, resetAndNavigate } from '../../Utils/NavigationUtil';
+import api from '../../Services/Api/Api';
 
 const LoginScreen = () => {
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [phoneError, setPhoneError] = useState(""); // Error state
+    const [loading, setLoading] = useState(false); // Loading state
+
     const handleSkip = useCallback(() => resetAndNavigate("BottomNavigation"), []);
-    const handleSendOtp = useCallback(() => navigate('OtpScreen'), []);
+
+
+    const handleInputChange = (text) => {
+        setPhoneNumber(text);
+        if (phoneError) setPhoneError("");
+    };
+
+    const handleSendOtp = useCallback(async () => {
+        if (!/^\d{10}$/.test(phoneNumber)) {
+            setPhoneError("Please enter a valid 10-digit phone number.");
+            return;
+        }
+    
+        setLoading(true);
+        try {
+            const otp = Math.floor(1000 + Math.random() * 9000); 
+            console.log("Generated OTP:", otp); 
+    
+            const payload = {
+                username: "heoo",
+                mobileNumber: phoneNumber,
+            };
+            const response = await api.post("users/create", payload);
+    
+            if (response.status === 201) {
+                successAlert({ message: "OTP sent successfully!" });
+                navigate("OtpScreen", { phoneNumber, otp }); 
+                setPhoneError("");
+            } else {
+                errorAlert({ message: "Something went wrong" });
+            }
+        } catch (error) {
+            console.log("Error sending login data:", error);
+            errorAlert({ message: "Mobile number already exists" });
+        } finally {
+            setLoading(false);
+        }
+    }, [phoneNumber]);
+    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -28,16 +73,19 @@ const LoginScreen = () => {
                 {/* Title Section */}
                 <View style={styles.titleContainer}>
                     <CustomText className="font-medium" size={25}>Log in</CustomText>
-                    <CustomText>Dorem ipsum dolor sit amet</CustomText>
+                    <CustomText>Enter your phone number to continue</CustomText>
                 </View>
 
                 {/* Input Field */}
                 <CustomInput
                     isPhoneNumber
                     keyboardType="phone-pad"
-                    placeholder=""
+                    placeholder="Enter your phone number"
                     maxLength={10}
+                    value={phoneNumber}
+                    onChangeText={handleInputChange}
                     className="rounded-full bg-white border-0"
+                    error={phoneError}
                 />
 
                 {/* OTP Button */}
@@ -48,6 +96,7 @@ const LoginScreen = () => {
                     size={20}
                     onPress={handleSendOtp}
                     height={hp(6)}
+                    loading={loading}
                 />
             </View>
         </SafeAreaView>

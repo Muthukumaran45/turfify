@@ -20,6 +20,7 @@ import { data, categoryData, tournamentData } from '../../Constants/Datas';
 
 // Utils
 import { navigate } from '../../Utils/NavigationUtil';
+import { COLORS } from '../../Constants/Colors';
 
 const GamesScreen = () => {
 
@@ -36,9 +37,11 @@ const GamesScreen = () => {
           <>
             {/* Location & Wishlist */}
             <View className="flex-row items-center justify-between" style={{ margin: hp(2) }}>
-              <LocationComponent />
+              <View>
+                <LocationComponent />
+              </View>
               <TouchableOpacity onPress={() => navigate("WishListScreen")}>
-                <Heart size={hp(3.5)} fill={"red"} color={"red"} />
+                <Heart size={hp(3.5)} fill={COLORS.likedColor} color={COLORS.likedColor} />
               </TouchableOpacity>
             </View>
 
@@ -63,7 +66,7 @@ const GamesScreen = () => {
               <CustomText size={18} className="font-medium" style={{ marginLeft: hp(2), marginBottom: hp(2) }}>
                 Near you
               </CustomText>
-              <TournamentCardList data={tournamentData} style={{marginHorizontal: hp(2)}} />
+              <TournamentCardList data={tournamentData} style={{ marginHorizontal: hp(2) }} />
             </View>
 
             <View style={{ marginBottom: hp(8) }} />

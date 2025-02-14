@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import AnimatedSplash from "react-native-animated-splash-screen";
+
+// packages
 
 // Screens
 import Navigation from "./src/Navigations/Navigation";
@@ -8,10 +9,11 @@ import Navigation from "./src/Navigations/Navigation";
 import "./global.css";
 
 const App = () => {
-  
 
   return (
+  
       <Navigation />
+    
   );
 };
 

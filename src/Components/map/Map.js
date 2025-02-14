@@ -7,14 +7,24 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
+
+// env
+import { API_URL, GOOGLE_API_KEY } from '@env';
+
+// store
+
+// package
 import MapView, { Marker } from "react-native-maps";
-import { X, LocateFixed, Search, Redo2 } from "lucide-react-native";
 import GetLocation from "react-native-get-location";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import axios from "axios";
+
+// iconzzs
+import { X, LocateFixed, Search, Redo2 } from "lucide-react-native";
+
+// component
 import CustomButton from "../Buttons/CustomButton";
 import CustomInput from "../Inputs/CustomInput";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-
-const GOOGLE_API_KEY = "AIzaSyB-Epzh0bpcXLhrHzSdztyoemggD607530";
 
 const LocationComponent = () => {
   const [location, setLocation] = useState(null);
@@ -24,6 +34,8 @@ const LocationComponent = () => {
   const [mapRef, setMapRef] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  // zustand store
 
   // Get address from coordinates
   const getAddress = async (latitude, longitude) => {
@@ -76,6 +88,8 @@ const LocationComponent = () => {
           longitudeDelta: 0.01,
         });
       }
+
+
     } catch (error) {
       console.warn("Error fetching current location:", error);
     }
@@ -137,6 +151,12 @@ const LocationComponent = () => {
     getCurrentLocation();
   }, []);
 
+  useEffect(() => {
+    if (selectedLocation) {
+      fetchLocationData(selectedLocation.latitude, selectedLocation.longitude);
+    }
+  }, [selectedLocation]);
+
   return (
     <>
       {/* Display selected address */}
@@ -159,7 +179,6 @@ const LocationComponent = () => {
             onChangeText={handleSearch}
             leftIcon={<Search size={20} />}
           />
-
 
 
           {/* Search results list */}
@@ -192,7 +211,15 @@ const LocationComponent = () => {
           </MapView>
 
           {/* Submit Button */}
-          <CustomButton title="Submit" onPress={() => setModalVisible(false)} />
+          <CustomButton
+            title="Submit"
+            onPress={() => {
+              if (selectedLocation) {
+                sendLocationToBackend(selectedLocation.latitude, selectedLocation.longitude);
+              }
+              setModalVisible(false);
+            }}
+          />
 
           {/* Locate Button */}
           <TouchableOpacity style={styles.locateButton} onPress={getCurrentLocation}>
@@ -205,7 +232,7 @@ const LocationComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", },
+  container: { flex: 1, justifyContent: "center" },
   modalContainer: { flex: 1, backgroundColor: "white" },
   map: { flex: 1 },
   closeButton: { position: "absolute", top: 30, right: 20, backgroundColor: "black", padding: 8, borderRadius: 20 },
