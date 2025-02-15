@@ -17,10 +17,12 @@ import CardList from '../../Components/Cards/CardList';
 // icons
 import { ChevronLeft } from "lucide-react-native";
 
-
 // data's
 import { data, sportsData, CardListData } from '../../Constants/Datas';
 import Header from '../../Components/Headers/Header';
+
+// utils
+import { navigate } from '../../Utils/NavigationUtil';
 
 const CricketScreen = () => {
   const navigation = useNavigation();
@@ -60,7 +62,7 @@ const CricketScreen = () => {
       {/* short by distance */}
       <View>
         <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2), marginBottom: hp(1) }}>Short by Distance</CustomText>
-        <CardList data={CardListData} style={{ marginHorizontal: hp(2) }} />
+        <CardList data={CardListData} style={{ marginHorizontal: hp(2) }} onPressBtn={() => navigate("TurfDetailsScreen")} />
       </View>
 
     </ScrollView>

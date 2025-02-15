@@ -32,7 +32,7 @@ const CustomInput = ({
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
 
   return (
-    <View style={{ marginBottom: hp(2) }}>
+    <View style={{ }}>
       <View
         className={`flex-row items-center border px-3 ${className} ${error ? 'border-red-500' : 'border-gray-300'}`} // 🔴 Change border color if error exists
         style={[{ height }, style]} 

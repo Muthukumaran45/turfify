@@ -15,10 +15,19 @@ import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../Constants/Colors';
 import CustomInput from '../Components/Inputs/CustomInput';
 import CustomButton from '../Components/Buttons/CustomButton';
+import { successAlert } from '../Components/Toast/ToastServices';
+import { navigate } from '../Utils/NavigationUtil';
 
 
 const TournamentForm = () => {
   const navigation = useNavigation();
+
+  const handleSendReq = () => {
+    successAlert({
+      message: "Request Send Successfully"
+    });
+    navigate("BottomNavigation")
+  }
 
   return (
     <ScrollView
@@ -94,7 +103,7 @@ const TournamentForm = () => {
         </View>
 
         <View style={{marginTop: hp(3), marginHorizontal: hp(4)}}>
-          <CustomButton className={`rounded-md`} title={"SEND REQUEST"} />
+          <CustomButton className={`rounded-md`} title={"SEND REQUEST"} onPress={handleSendReq} />
         </View>
 
       </View>

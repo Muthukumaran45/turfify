@@ -1,5 +1,8 @@
 import { LaptopMinimalCheckIcon, UserRoundIcon, HouseIcon, Gamepad2Icon } from "lucide-react-native";
 import { Volleyball, Footprints, Aperture } from 'lucide-react-native';
+import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // onboarding data
 export const onboardingData = [
@@ -103,15 +106,17 @@ export const perfectData = [
 ];
 
 // icons
+
+
 export const sportsData = [
-    { id: "1", name: "Cricket", icon: LaptopMinimalCheckIcon, screen: "CricketScreen" },
-    { id: "2", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
-    { id: "3", name: "Football", icon: HouseIcon, screen: "FootballScreen" },
-    { id: "4", name: "Swimming", icon: Gamepad2Icon, screen: "SwimmingScreen" },
-    { id: "5", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
-    { id: "6", name: "Football", icon: HouseIcon, screen: "FootballScreen" },
-    { id: "7", name: "Cricket", icon: LaptopMinimalCheckIcon, screen: "CricketScreen" },
-    { id: "8", name: "Badminton", icon: UserRoundIcon, screen: "BadmintonScreen" },
+    { id: "1", name: "Cricket", icon: { name: "sports-cricket", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "2", name: "Badminton", icon: { name: "sports-tennis", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "3", name: "Football", icon: { name: "soccer-ball-o", library: FontAwesome }, screen: "CricketScreen" },
+    { id: "4", name: "Golf", icon: { name: "sports-golf", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "5", name: "Basketball", icon: { name: "sports-basketball", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "6", name: "Hockey", icon: { name: "sports-hockey", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "7", name: "Volleyball", icon: { name: "sports-volleyball", library: MaterialIcons }, screen: "CricketScreen" },
+    { id: "8", name: "Kabaddi", icon: { name: "sports-kabaddi", library: MaterialIcons }, screen: "CricketScreen" },
 ];
 
 // large card data

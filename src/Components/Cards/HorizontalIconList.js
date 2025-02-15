@@ -12,14 +12,17 @@ const HorizontalIconList = ({ data, colors = ["#78C560", "#36AB70"], onPressItem
       showsHorizontalScrollIndicator={false}
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.listContainer}
-      renderItem={({ item: { name, icon: Icon, screen } }) => (
-        <TouchableOpacity style={styles.itemContainer} onPress={() => onPressItem(screen)}>
-          <LinearGradient colors={colors} style={styles.iconCircle}>
-            <Icon size={23} color="black" />
-          </LinearGradient>
-          <CustomText size={12} style={styles.txt}>{name}</CustomText>
-        </TouchableOpacity>
-      )}
+      renderItem={({ item: { name, icon, screen } }) => {
+        const IconComponent = icon.library; // Get the icon library
+        return (
+          <TouchableOpacity style={styles.itemContainer} onPress={() => onPressItem(screen)}>
+            <LinearGradient colors={colors} style={styles.iconCircle}>
+              <IconComponent name={icon.name} size={23} color="black" />
+            </LinearGradient>
+            <CustomText size={12} style={styles.txt}>{name}</CustomText>
+          </TouchableOpacity>
+        );
+      }}
     />
   );
 };

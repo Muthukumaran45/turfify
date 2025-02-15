@@ -10,6 +10,7 @@ import { Info, CalendarDays } from 'lucide-react-native';
 import { COLORS } from '../../Constants/Colors';
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
+import { navigate } from '../../Utils/NavigationUtil';
 
 const BookingDateTimeScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -160,8 +161,12 @@ const BookingDateTimeScreen = () => {
           )}
         </View>
 
-        <CustomButton className='rounded-md' title={'Next >>'} />
-     
+        <CustomButton
+          className='rounded-md'
+          title={'Next >>'}
+          onPress={() => navigate("BookingInfoScreen")}
+        />
+
       </View>
 
 

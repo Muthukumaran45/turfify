@@ -8,6 +8,7 @@ import CustomText from '../Texts/CustomText';
 
 // packages
 import { useNavigation } from '@react-navigation/native';
+import { navigate } from '../../Utils/NavigationUtil';
 
 
 const Card = ({ item }) => {
@@ -47,7 +48,7 @@ const Card = ({ item }) => {
 
 
                 <View style={{ marginTop: hp(3), marginLeft: hp(6) }}>
-                    <CustomButton size={14} className={`rounded-md`} title={'Book Again'} height={hp(4)} />
+                    <CustomButton size={14} className={`rounded-md`} title={'Book Again'} height={hp(4)} onPress={() => navigate("TurfDetailsScreen")} />
                 </View>
             </View>
         </View>

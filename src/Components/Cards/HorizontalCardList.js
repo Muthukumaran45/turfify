@@ -21,7 +21,7 @@ const CardItem = ({ item, onPress }) => {
         style={styles.like}
         onPress={() => setLiked(!liked)}
       >
-        <Heart size={hp(3.5)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
+        <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

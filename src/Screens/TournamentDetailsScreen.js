@@ -7,6 +7,7 @@ import CustomText from "../Components/Texts/CustomText";
 import { COLORS } from "../Constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../Components/Buttons/CustomButton";
+import Header from "../Components/Headers/Header";
 
 
 const TournamentDetailsScreen = () => {
@@ -20,6 +21,11 @@ const TournamentDetailsScreen = () => {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
+
+    {/* header */}
+    <View>
+      <Header title="" />
+    </View>
 
       {/* Display Image */}
       <View style={{ marginHorizontal: hp(2), marginTop: hp(5) }}>
