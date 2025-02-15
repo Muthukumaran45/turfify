@@ -19,13 +19,17 @@ import { COLORS } from "../../Constants/Colors";
 // Utils
 import { navigate, resetAndNavigate } from "../../Utils/NavigationUtil";
 
+// store
+import Zustand from "../../Zustand/Zustand"
+
 const MMKV = new MMKVStorage.Loader().initialize();
 
 const ProfileScreen = () => {
 
-  const handleLogout = () => {
-    MMKV.removeItem("userPhoneNumber"); // Remove user data from storage
-    resetAndNavigate("LoginScreen"); // Navigate to login screen
+  const {clearUser} = Zustand();
+
+  const handleLogout = async() => {
+   await clearUser() 
   };
 
   return (
@@ -56,7 +60,11 @@ const ProfileScreen = () => {
         <CustomText size={14}>Edit Profile </CustomText>
       </TouchableOpacity>
 
-      <MenuItem icon={History} text="My Booking History" onPress={() => navigate("BookingScreen")} />
+      <MenuItem
+        icon={History}
+        text="My Booking History"
+        onPress={() => navigate("BookingScreen", { defaultTab: "Past Booking" })}
+      />
       <MenuItem icon={Heart} text="My Favorites" onPress={() => navigate("WishListScreen")} />
       <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigate("HelpScreen")} />
       <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigate("PaymentScreen")} />

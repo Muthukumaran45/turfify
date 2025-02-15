@@ -6,12 +6,12 @@ const = async() => {
     }
 
     try {
-        const response = await api.post(" ", payload);
+        const response = await axios.post(`${API_URL}/`, payload);
         const Data = response.data
 
 
     } catch (error) {
-        console.log("Error from sending location data ", error)
+        console.log("Error from  ", error)
     }
 
 }

@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import axios from 'axios';
 
 // Components
 import CustomInput from '../../Components/Inputs/CustomInput';
@@ -12,12 +13,13 @@ import { errorAlert, successAlert } from "../../Components/Toast/ToastServices";
 
 // Utils
 import { navigate, resetAndNavigate } from '../../Utils/NavigationUtil';
-import api from '../../Services/Api/Api';
+import { API_URL } from '../../Services/Api';
 
 const LoginScreen = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneError, setPhoneError] = useState(""); // Error state
     const [loading, setLoading] = useState(false); // Loading state
+
 
     const handleSkip = useCallback(() => resetAndNavigate("BottomNavigation"), []);
 
@@ -27,7 +29,7 @@ const LoginScreen = () => {
         if (phoneError) setPhoneError("");
     };
 
-    const handleSendOtp = useCallback(async () => {
+    const handleSendOtp = async () => {
         if (!/^\d{10}$/.test(phoneNumber)) {
             setPhoneError("Please enter a valid 10-digit phone number.");
             return;
@@ -39,25 +41,28 @@ const LoginScreen = () => {
             console.log("Generated OTP:", otp); 
     
             const payload = {
-                username: "heoo",
+                username: "heKK",
                 mobileNumber: phoneNumber,
             };
-            const response = await api.post("users/create", payload);
+            const response = await axios.post(`${API_URL}/users/create`, payload);
+
+            const data = response.data.user
+            console.log("login data", data)
     
             if (response.status === 201) {
                 successAlert({ message: "OTP sent successfully!" });
-                navigate("OtpScreen", { phoneNumber, otp }); 
+                navigate("OtpScreen", {data,otp}); 
                 setPhoneError("");
             } else {
                 errorAlert({ message: "Something went wrong" });
             }
         } catch (error) {
             console.log("Error sending login data:", error);
-            errorAlert({ message: "Mobile number already exists" });
+            errorAlert({ message: error.message });
         } finally {
             setLoading(false);
         }
-    }, [phoneNumber]);
+    };
     
 
 

@@ -9,30 +9,32 @@ import MMKVStorage from 'react-native-mmkv-storage';
 
 // Utils
 import { resetAndNavigate } from "../../Utils/NavigationUtil";
-
+import Zustand from '../../Zustand/Zustand'
 const MMKV = new MMKVStorage.Loader().initialize();
 
 const WelcomeScreen = () => {
     const opacity = useSharedValue(0);
+    const { user } = Zustand()
 
-    const navigateToNextScreen = useCallback(() => {
-        const storedPhoneNumber = MMKV.getString('userPhoneNumber');
 
-        if (storedPhoneNumber) {
-            resetAndNavigate("BottomNavigation"); // If user exists, go to home
+
+    const navigateToNextScreen = () => {
+
+        if (user) {
+            resetAndNavigate("BottomNavigation");
         } else {
-            resetAndNavigate("OnboardingScreen"); // Otherwise, go to onboarding
+            resetAndNavigate("OnboardingScreen"); 
         }
-    }, []);
+    };
 
     useEffect(() => {
         opacity.value = withDelay(
-            300, 
+            300,
             withTiming(1, { duration: 1000, easing: Easing.ease })
         );
 
         const timer = setTimeout(navigateToNextScreen, 1500);
-        return () => clearTimeout(timer); 
+        return () => clearTimeout(timer);
     }, [navigateToNextScreen]);
 
     const fadeInStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));

@@ -5,7 +5,6 @@ import React, { useState, useRef, useCallback } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFValue as rf } from 'react-native-responsive-fontsize';
 import { useRoute } from '@react-navigation/native';
-import MMKVStorage from 'react-native-mmkv-storage';
 
 // Components
 import CustomText from '../../Components/Texts/CustomText';
@@ -15,11 +14,16 @@ import { successAlert, errorAlert } from "../../Components/Toast/ToastServices";
 // Utils
 import { resetAndNavigate } from '../../Utils/NavigationUtil';
 
-const MMKV = new MMKVStorage.Loader().initialize();
+// store
+import Zustand from "../../Zustand/Zustand"
 
 const OtpScreen = () => {
+    const { setUser, user } = Zustand();
+    console.log("kdfhkdsfhkdh", user)
+
     const route = useRoute();
-    const phoneNumber = route.params?.phoneNumber || "Unknown";
+    const userData = route.params?.data || "Unknown";
+    console.log("dfsksdhfkdfk", userData)
     const sentOtp = route.params?.otp || "";
 
     const [otp, setOtp] = useState(["", "", "", ""]);
@@ -50,33 +54,35 @@ const OtpScreen = () => {
     }, []);
 
     const handleLogin = async () => {
-        setLoading(true);
-        const enteredOtp = otp.join(""); // Convert array to string
-    
+
+        const enteredOtp = otp.join("");
+       
+
+
         if (enteredOtp.length < 4) {
             setError("Please enter the full OTP.");
             setLoading(false);
             return;
         }
-    
+
         if (enteredOtp !== sentOtp.toString()) {
             setError("Invalid OTP. Please try again.");
             errorAlert({ message: "Incorrect OTP. Try again!" });
             setLoading(false);
             return;
         }
-    
+
+        setLoading(true);
         try {
-            MMKV.setString('userPhoneNumber', phoneNumber);
-            successAlert({ message: "OTP verified! Welcome to TURFIFY" });
-            resetAndNavigate('BottomNavigation');
+            setUser(userData)
+           await resetAndNavigate('BottomNavigation');
         } catch (error) {
             console.error("Error storing user data:", error);
         } finally {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -86,7 +92,7 @@ const OtpScreen = () => {
                 <View style={styles.titleContainer}>
                     <CustomText className="font-medium" size={25}>OTP Verification Code</CustomText>
                     <CustomText size={12} className="text-neutral-400 my-2">
-                        We have sent the code to +91 {phoneNumber}
+                        We have sent the code to +91 {userData.mobileNumber}
                     </CustomText>
                 </View>
 

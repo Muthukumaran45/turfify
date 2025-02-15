@@ -10,11 +10,14 @@ export const onboardingData = [
 
 // data for fadeIn slides
 export const slides = [
-    { id: "1", image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg" },
-    { id: "2", image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg" },
-    { id: "3", image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg" },
-    { id: "4", image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg" },
-];
+"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
+"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
+"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+
+
+];  
 
 // data for Horizontal cards
 export const data = [
@@ -24,6 +27,64 @@ export const data = [
     { id: '4', title: 'Elite Sports', location: 'Anna Nagar, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg' },
     { id: '5', title: 'Urban Turf', location: 'OMR, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174876/img3_tt3uu5.jpg' },
 ];
+
+
+// Reward data
+export const rewardData = [
+    {
+        id: '1',
+        title: 'Game On 2.0',
+        location: 'Thoraipakkam, Chennai',
+        price: '₹350 ONWARDS',
+        rating: '4.8',
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg',
+        bookingsRequired: 20,
+        currentBookings: 16, 
+    },
+    {
+        id: '2',
+        title: 'Spark Academy',
+        location: 'Sholinganallur, Chennai',
+        price: '₹350 ONWARDS',
+        rating: '4.8',
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg',
+        bookingsRequired: 20,
+        currentBookings: 20,
+    },
+    {
+        id: '3',
+        title: 'Beyond Arena',
+        location: 'Velachery, Chennai',
+        price: '₹350 ONWARDS',
+        rating: '4.8',
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg',
+        bookingsRequired: 20,
+        currentBookings: 6,
+    },
+    {
+        id: '4',
+        title: 'Elite Sports',
+        location: 'Anna Nagar, Chennai',
+        price: '₹350 ONWARDS',
+        rating: '4.8',
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg',
+        bookingsRequired: 20,
+        currentBookings: 8,
+    },
+    {
+        id: '5',
+        title: 'Urban Turf',
+        location: 'OMR, Chennai',
+        price: '₹350 ONWARDS',
+        rating: '4.8',
+        image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174876/img3_tt3uu5.jpg',
+        bookingsRequired: 20,
+        currentBookings: 20,
+    },
+];
+
+
+
 
 // upcoming booing data
 export const bookingData = {

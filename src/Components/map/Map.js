@@ -151,11 +151,7 @@ const LocationComponent = () => {
     getCurrentLocation();
   }, []);
 
-  useEffect(() => {
-    if (selectedLocation) {
-      fetchLocationData(selectedLocation.latitude, selectedLocation.longitude);
-    }
-  }, [selectedLocation]);
+
 
   return (
     <>

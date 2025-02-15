@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import GetLocation from "react-native-get-location";
+import axios from 'axios';
 
 // Components
 import CustomText from '../../Components/Texts/CustomText';
@@ -14,6 +15,7 @@ import HorizontalIconList from '../../Components/Cards/HorizontalIconList';
 import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
 import LocationComponent from '../../Components/map/Map';
 import UpcomingBooking from '../../Components/Cards/UpcomingBooking';
+import RewardsCard from '../../Components/Cards/RewardsCard';
 
 // Icons
 import { Heart } from "lucide-react-native";
@@ -22,13 +24,17 @@ import { Heart } from "lucide-react-native";
 import { COLORS } from '../../Constants/Colors';
 
 // data's
-import {  data, perfectData, sportsData, bookingData } from '../../Constants/Datas';
+import { data, perfectData, sportsData, bookingData, slides, rewardData } from '../../Constants/Datas';
 
 // utils
 import { navigate } from '../../Utils/NavigationUtil';
-import api from '../../Services/Api/Api';
+import Zustand from '../../Zustand/Zustand'
+import { API_URL } from '../../Services/Api';
 
 const HomeScreen = () => {
+  const {user}=Zustand()
+
+  console.log(user,'useruseruser')
 
   const [location, setLocation] = useState({
     latitude: "",
@@ -71,12 +77,12 @@ const HomeScreen = () => {
     }
 
     try {
-      const response = await api.post("/banners/nearest", payload);
+      const response = await axios.post(`${API_URL}/banners/nearest`, payload);
       const Data = response.data.images
       setBannerImg(Data)
 
     } catch (error) {
-      console.log("Error from sending location data ", error)
+      console.log("Error from getting bannerSlide image", error)
     }
   }
 
@@ -88,23 +94,17 @@ const HomeScreen = () => {
     }
 
     try {
-      const response = await api.post("turfs/getnearestturfs", payload);
+      const response = await axios.post(`${API_URL}/turfs/getnearestturfs`, payload);
       const Data = response.data.turfs
       setNearbyTurf(Data)
-
     } catch (error) {
-      console.log("Error from sending location data ", error)
+      console.log("Error from getting nearbyTurf ", error)
     }
   }
-
-
 
   useEffect(() => {
     getCurrentLocation();
   }, []);
-
-
-
 
 
   return (
@@ -130,11 +130,12 @@ const HomeScreen = () => {
         {/* Banner Slider */}
         <View style={styles.marginVertical}>
           <ImageSlider
-            slides={bannerImg}
+            slides={bannerImg?.length ? bannerImg : slides}
             inactiveDotColor={"#ccc"}
             activeDotColor={COLORS.primary}
           />
         </View>
+
 
         {/* upcoming booking */}
         <View>
@@ -144,6 +145,12 @@ const HomeScreen = () => {
 
         {/* Horizontal Icon List */}
         <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
+
+        {/* Reward card */}
+        <View style={styles.section}>
+          <CustomText size={18} className="font-medium" style={styles.title}>Reward your Booking !</CustomText>
+          <RewardsCard data={rewardData} onPress={() => navigate("TurfDetailsScreen")} onPressBtn={() => navigate("TurfDetailsScreen")} />
+        </View>
 
         {/* Nearby Court */}
         <View style={styles.section}>

@@ -24,13 +24,12 @@ import { COLORS } from '../../Constants/Colors';
 
 const GamesScreen = () => {
 
-  // Dummy data for FlatList since it's the main scrollable component
   const sections = [{ id: '1' }];
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        data={sections} // Single item to render everything inside FlatList
+        data={sections} 
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={() => (

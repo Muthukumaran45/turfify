@@ -1,0 +1,172 @@
+import React, { useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { RFPercentage as rf } from "react-native-responsive-fontsize";
+import { Heart } from "lucide-react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { COLORS } from "../../Constants/Colors";
+
+const CardItem = ({ item, onPress, onPressBtn }) => {
+  const [liked, setLiked] = useState(false);
+
+  const progress = (item.currentBookings / item.bookingsRequired) * 100;
+  const isRewardReady = item.currentBookings >= item.bookingsRequired;
+
+  return (
+    <View style={styles.cardWrapper}>
+      {/* Card */}
+      <TouchableOpacity style={styles.card} onPress={onPress}>
+        <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+        <View style={styles.info}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.location}>{item.location}</Text>
+          <Text style={styles.price}>{item.price}</Text>
+          <Text style={styles.rating}>⭐ {item.rating}</Text>
+        </View>
+        <TouchableOpacity style={styles.like} onPress={() => setLiked(!liked)}>
+          <Heart size={hp(3.5)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
+        </TouchableOpacity>
+      </TouchableOpacity>
+
+      {/* Progress Row */}
+      <View style={styles.progressRow}>
+        <View style={styles.progressWrapper}>
+          <LinearGradient
+            colors={["#33CC66", "#173F63"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={[
+              styles.progressBar,
+              { width: `${Math.min(progress, 100)}%` },
+            ]}
+          />
+        </View>
+        {isRewardReady ? (
+          <Text style={styles.progressMax}>🏆</Text>
+        ) : (
+          <Text style={styles.progressMax}>{item.bookingsRequired}</Text>
+        )}
+      </View>
+
+      <Text style={styles.bookingsText}>
+        {item.bookingsRequired - item.currentBookings} booking{item.bookingsRequired - item.currentBookings !== 1 ? "s" : ""} more to reward!
+      </Text>
+
+      {/* Action Button */}
+      <TouchableOpacity onPress={onPressBtn} style={[styles.button, isRewardReady ? styles.claimButton : styles.bookAgainButton]}>
+        <Text style={[styles.buttonText, { color: isRewardReady ? "#fff" : "#000" }]}>
+          {isRewardReady ? "🎉 Claim Your Reward" : "Book Again"}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const RewardsCard = ({ data, onPressBtn, onPress }) => (
+  <FlatList
+    data={data}
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    keyExtractor={(item) => item.id}
+    renderItem={({ item }) => <CardItem item={item} onPress={onPress} onPressBtn={onPressBtn} />}
+    contentContainerStyle={styles.container}
+  />
+);
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: hp(2),
+  },
+  cardWrapper: {
+    marginRight: wp("3%"),
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: wp("2%"),
+    width: wp("40%"),
+    height: hp("26%"),
+    elevation: 3,
+    overflow: "hidden",
+    marginVertical: hp(1.5),
+  },
+  image: {
+    width: "100%",
+    height: hp("14%"),
+  },
+  like: {
+    position: "absolute",
+    right: hp(1),
+    top: hp(1),
+  },
+  info: {
+    height: hp("13%"),
+    padding: wp("2%"),
+  },
+  title: {
+    fontSize: rf(2.2),
+    fontWeight: "bold",
+  },
+  location: {
+    fontSize: rf(1.8),
+    color: "gray",
+  },
+  price: {
+    fontSize: rf(2),
+    fontWeight: "bold",
+    color: "green",
+  },
+  rating: {
+    fontSize: rf(2),
+    color: "orange",
+  },
+  progressRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: wp("40%"),
+    marginLeft: hp(.2)
+  },
+  progressWrapper: {
+    width: "85%",
+    backgroundColor: "#ddd",
+    height: hp(1),
+    borderRadius: hp(0.5),
+    overflow: "hidden",
+  },
+  progressBar: {
+    height: hp(1),
+    borderRadius: hp(0.5),
+  },
+  progressMax: {
+    fontSize: rf(1.8),
+    fontWeight: "bold",
+    color: "black",
+    marginLeft: wp(2),
+  },
+  bookingsText: {
+    fontSize: rf(1.6),
+    color: "gray",
+    marginTop: hp(0.5),
+  },
+  button: {
+    width: wp("40%"),
+    paddingVertical: hp(1),
+    borderRadius: hp(1),
+    alignItems: "center",
+    marginTop: hp(1),
+  },
+  bookAgainButton: {
+    backgroundColor: "#fff",
+    borderColor: "#4CAF50",
+    borderWidth: 1,
+  },
+  claimButton: {
+    backgroundColor: COLORS.claimRewardColor,
+  },
+  buttonText: {
+    fontSize: rf(2),
+    fontWeight: "bold",
+  },
+});
+
+export default RewardsCard;

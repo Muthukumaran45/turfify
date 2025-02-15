@@ -7,6 +7,7 @@ export const COLORS = {
   likedColor: "#E23E2B",
   discountGradient1: "#FF4B4B",
   discountGradient2: "#8E0508",
+  claimRewardColor: "#D9AB34",
 
   themeColor: "#00D09C",
   lite_black: "#3D3D3D2B",

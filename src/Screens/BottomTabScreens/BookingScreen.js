@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from "react-native";
+
+// package
+import { useRoute } from "@react-navigation/native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { MapPin, Clock } from "lucide-react-native";
-import Header from "../../Components/Headers/Header";
 
-import { pastBookingData, bookings } from "../../Constants/Datas";
+// components
+import Header from "../../Components/Headers/Header";
 import PastBookingCard from "../../Components/Cards/PastBookingCard";
+
+// data's
+import { pastBookingData, bookings } from "../../Constants/Datas";
 
 
 
 const BookingScreen = () => {
-  const [activeTab, setActiveTab] = useState("Upcoming");
+  const route = useRoute();
+  const { defaultTab } = route.params || {};  
+
+  const [activeTab, setActiveTab] = useState(defaultTab || "Upcoming");
 
   return (
     <View style={styles.container}>

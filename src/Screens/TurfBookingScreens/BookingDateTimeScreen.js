@@ -1,416 +1,295 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { RFValue } from "react-native-responsive-fontsize";
-import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
-const TimeSlot = ({ time, isSelected, isPartOfSelected, onPress }) => (
-  <TouchableOpacity
-    style={[
-      styles.timeSlot,
-      isSelected && styles.selectedTimeSlot,
-      isPartOfSelected && styles.partOfSelectedTimeSlot
-    ]}
-    onPress={onPress}
-  >
-    <Text style={[
-      styles.timeText,
-      (isSelected || isPartOfSelected) && styles.selectedTimeText
-    ]}>{time}</Text>
-  </TouchableOpacity>
-);
-
-const TimeSection = ({ period, slots, selectedTime, onTimeSelect }) => {
-  const getIcon = () => {
-    switch(period) {
-      case 'Morning': return '☀️';
-      case 'Noon': return '☀️';
-      case 'Evening': return '🌙';
-      case 'Twilight': return '🌑';
-      default: return '☀️';
-    }
-  };
-
-  const isPartOfSelectedTimeRange = (time) => {
-    if (selectedTime === '10am-11:30am') {
-      return time === '10am' || time === '11am';
-    }
-    return false;
-  };
-
-  return (
-    <View style={styles.timeSection}>
-      <View style={styles.periodHeader}>
-        <Text style={styles.periodIcon}>{getIcon()}</Text>
-        <Text style={styles.periodText}>{period}</Text>
-      </View>
-      <View style={styles.timeGrid}>
-        {slots.map((time, index) => (
-          <TimeSlot
-            key={`${time}-${index}`}
-            time={time}
-            isSelected={selectedTime === time}
-            isPartOfSelected={isPartOfSelectedTimeRange(time)}
-            onPress={() => onTimeSelect(time)}
-          />
-        ))}
-      </View>
-    </View>
-  );
-};
+// Components
+import Header from '../../Components/Headers/Header';
+import { Info, CalendarDays } from 'lucide-react-native';
+import { COLORS } from '../../Constants/Colors';
+import CustomText from '../../Components/Texts/CustomText';
+import CustomButton from '../../Components/Buttons/CustomButton';
 
 const BookingDateTimeScreen = () => {
-  const navigation = useNavigation();
-  const [selectedDate, setSelectedDate] = useState(17);
-  const [selectedTime, setSelectedTime] = useState("10am-11:30am");
-  const [selectedCourt, setSelectedCourt] = useState("Full Turf");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [baseDate, setBaseDate] = useState(new Date());
+  const [selectedTurf, setSelectedTurf] = useState('Full Turf');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
 
-  const weekDays = [
-    { day: "SAT", date: 15 },
-    { day: "SUN", date: 16 },
-    { day: "MON", date: 17 },
-    { day: "TUE", date: 18 },
-    { day: "WED", date: 19 },
-    { day: "THU", date: 20 },
-  ];
+  const getNextDays = (date) => {
+    return Array.from({ length: 6 }, (_, i) => moment(date).add(i, 'days'));
+  };
+
+  const nextDays = getNextDays(baseDate);
+
+  const handleDatePress = (date) => {
+    setSelectedDate(date.toDate());
+  };
+
+  const openCalendar = () => {
+    setShowPicker(true);
+  };
+
+  const onDateChange = (event, date) => {
+    setShowPicker(false);
+    if (date) {
+      setSelectedDate(date);
+      setBaseDate(date);
+    }
+  };
 
   const timeSlots = {
-    Morning: [
-      "6am", "7am", "7am", "8am", "8am", "9am",
-      "9am", "10am", "10am-11:30am", "12pm"
-    ],
-    Noon: [
-      "12pm", "1pm", "1pm", "2pm", "2pm", "3pm",
-      "3pm", "4pm", "4pm", "5pm", "5pm", "6pm"
-    ],
-    Evening: [
-      "6pm", "7pm", "7pm", "8pm", "8pm", "9pm",
-      "9pm", "10pm", "10pm", "11pm", "11pm", "12am"
-    ],
-    Twilight: [
-      "12am", "1am", "1am", "2am", "2am", "3am",
-      "3am", "4am", "4am", "5am", "5am", "6am"
-    ]
+    Morning: ["6am - 7am", "7am - 8am", "8am - 9am", "9am - 10am"],
+    Noon: ["10am - 11:30am", "11:30am - 12pm"],
+    Evening: ["4pm - 5pm", "5pm - 6pm", "6pm - 7pm"],
+    Twilight: ["7pm - 8pm", "8pm - 9pm", "9pm - 10pm"],
   };
 
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backButton}>←</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>KOOTTAM TURF</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.infoButton}>
-            <Text>ⓘ</Text>
+      <View className='flex-row items-center justify-between'>
+        <Header title={'Margin Turf'} />
+        <View className='flex-row items-center justify-center gap-5'>
+          <TouchableOpacity>
+            <Info size={hp(2.5)} strokeWidth={2} color={"#000"} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.calendarButton}>
-            <Text>📅</Text>
+          <TouchableOpacity onPress={openCalendar}>
+            <CalendarDays size={hp(2.5)} strokeWidth={2} color={"#000"} />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Date Selector */}
-      <View style={styles.dateSelector}>
-        {weekDays.map(({ day, date }) => (
+      {/* Date Selection */}
+      <View style={styles.dateList}>
+        {nextDays.map((date, index) => {
+          const isSelected = selectedDate.toDateString() === date.toDate().toDateString();
+          return (
+            <TouchableOpacity
+              key={index}
+              style={[styles.dateItem, isSelected && styles.selectedDate]}
+              onPress={() => handleDatePress(date)}
+            >
+              <Text style={[styles.dateText, isSelected && styles.selectedText]}>{date.format('D')}</Text>
+              <Text style={[styles.dayText, isSelected && styles.selectedText]}>{date.format('ddd').toUpperCase()}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <View
+        className={`flex-row justify-between items-center`}
+        style={{ marginTop: hp(3), marginBottom: hp(1) }}
+      >
+        <View>
+          <CustomText size={20} className={'font-medium'}>No.of Courts</CustomText>
+          <CustomText size={13}>each court varies in different size</CustomText>
+        </View>
+
+        <View>
+          <CustomText>cricket</CustomText>
+        </View>
+      </View>
+
+      {/* Turf Selection */}
+      <View style={styles.turfSelection}>
+        {['Full Turf', 'BOX - A (8v8)', 'BOX - B (8v8)'].map((turf, index) => (
           <TouchableOpacity
-            key={date}
-            style={[
-              styles.dateBox,
-              selectedDate === date && styles.selectedDate
-            ]}
-            onPress={() => setSelectedDate(date)}
+            key={index}
+            style={[styles.turfOption, selectedTurf === turf && styles.selectedTurf]}
+            onPress={() => setSelectedTurf(turf)}
           >
-            <Text style={[styles.dateText, selectedDate === date && styles.selectedDateText]}>{date}</Text>
-            <Text style={[styles.dayText, selectedDate === date && styles.selectedDayText]}>{day}</Text>
+            <CustomText size={13} style={[styles.turfText, selectedTurf === turf && styles.selectedTurfText]}>{turf}</CustomText>
           </TouchableOpacity>
         ))}
       </View>
 
-      {/* Court Types */}
-      <View style={styles.courtSection}>
-        <View style={styles.courtHeaderRow}>
-          <View>
-            <Text style={styles.courtTitle}>NO.of Courts</Text>
-            <Text style={styles.courtSubtitle}>Each court varies in different size</Text>
-          </View>
-          <View style={styles.sportBadge}>
-            <Text style={styles.sportText}>🏏 Cricket</Text>
-          </View>
-        </View>
-        
-        <View style={styles.courtButtons}>
-          <TouchableOpacity 
-            style={[styles.courtButton, selectedCourt === "Full Turf" && styles.selectedCourtButton]}
-            onPress={() => setSelectedCourt("Full Turf")}
-          >
-            <Text style={styles.courtButtonText}>Full Turf</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.courtButton, selectedCourt === "BOX-A" && styles.selectedCourtButton]}
-            onPress={() => setSelectedCourt("BOX-A")}
-          >
-            <Text style={styles.courtButtonText}>BOX - A (8v8)</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.courtButton, selectedCourt === "BOX-B" && styles.selectedCourtButton]}
-            onPress={() => setSelectedCourt("BOX-B")}
-          >
-            <Text style={styles.courtButtonText}>BOX - B (8v8)</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Time Slot Selection */}
+      <View style={styles.timeSlotContainer}>
+        {Object.keys(timeSlots).map((category) => {
+          const categoryIcons = {
+            Morning: "🌅 Morning",
+            Noon: "☀️ Noon",
+            Evening: "🌆 Evening",
+            Twilight: "🌙 Twilight",
+          };
+
+          return (
+            <View key={category} style={styles.timeSlotSection}>
+              <CustomText size={15} style={styles.timeSlotHeading}>{categoryIcons[category]}</CustomText>
+              <View style={styles.timeSlotRow}>
+                {timeSlots[category].map((time, index) => {
+                  const isSelected = selectedTimeSlot === time;
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={[styles.timeSlot, isSelected && styles.selectedTimeSlot]}
+                      onPress={() => setSelectedTimeSlot(time)}
+                    >
+                      <CustomText size={13} style={[styles.timeText, isSelected && styles.selectedTimeText]}>
+                        {time}
+                      </CustomText>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          );
+        })}
       </View>
 
-      {/* Time Slots */}
-      <ScrollView style={styles.timeSlotsContainer} showsVerticalScrollIndicator={false}>
-        {Object.entries(timeSlots).map(([period, slots]) => (
-          <TimeSection
-            key={period}
-            period={period}
-            slots={slots}
-            selectedTime={selectedTime}
-            onTimeSelect={setSelectedTime}
-          />
-        ))}
-      </ScrollView>
 
-      {/* Bottom Price Bar */}
-      <View style={styles.priceBar}>
-        <View style={styles.priceContent}>
-          <View style={styles.offerBadge}>
-            <Text style={styles.offerText}>Offer applied! you saving 150</Text>
-          </View>
-          <View style={styles.priceRow}>
-            <Text style={styles.currentPrice}>₹ 550</Text>
-            <Text style={styles.originalPrice}>₹650</Text>
-          </View>
-          <Text style={styles.timeSelected}>box A</Text>
+      {/* footer */}
+      <View style={styles.footer}>
+
+        <View style={styles.selectedDetails}>
+
+          <CustomText size={18} className={'font-medium'}>$ 550</CustomText>
+
+          {selectedTimeSlot && (
+            <View>
+              <CustomText size={12} style={styles.selectedTime}>
+                {selectedTimeSlot}
+              </CustomText>
+              <CustomText size={12} style={styles.selectedTurfFooter}>
+                {selectedTurf}
+              </CustomText>
+            </View>
+          )}
         </View>
-        <TouchableOpacity 
-          style={styles.nextButton}
-          onPress={() => navigation.navigate("BookingInfoScreen")}
-        >
-          <Text style={styles.nextButtonText}>Next »</Text>
-        </TouchableOpacity>
+
+        <CustomButton className='rounded-md' title={'Next >>'} />
+     
       </View>
+
+
+
+      {showPicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={onDateChange}
+        />
+      )}
     </View>
   );
 };
 
+export default BookingDateTimeScreen;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: wp(4),
-    paddingVertical: hp(1.5),
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  headerTitle: {
-    fontSize: RFValue(16),
-    fontWeight: 'bold',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  infoButton: {
-    marginRight: wp(3),
-  },
-  dateSelector: {
+  container: { flex: 1, paddingHorizontal: hp(2) },
+
+  // Date Selection
+  dateList: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: wp(2),
-    paddingVertical: hp(1),
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    marginTop: hp(2),
   },
-  dateBox: {
+  dateItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: wp(13),
-    height: wp(13),
-    borderRadius: wp(6.5),
-    backgroundColor: '#fff',
+    width: wp(14),
+    height: hp(7),
+    borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: '#ccc',
   },
   selectedDate: {
-    backgroundColor: '#4CAF50',
-    borderColor: '#4CAF50',
+    backgroundColor: 'green',
   },
-  dateText: {
-    fontSize: RFValue(14),
-    fontWeight: 'bold',
-  },
-  dayText: {
-    fontSize: RFValue(10),
-    color: '#666',
-  },
-  selectedDateText: {
-    color: '#fff',
-  },
-  selectedDayText: {
-    color: '#fff',
-  },
-  courtSection: {
-    paddingHorizontal: wp(4),
-    paddingVertical: hp(1),
-  },
-  courtHeaderRow: {
+  dateText: { fontSize: hp(2), fontWeight: 'bold', color: '#000' },
+  dayText: { fontSize: hp(1.5), color: '#000' },
+  selectedText: { color: '#fff' },
+
+  // Turf Selection
+  turfSelection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: hp(1),
+    marginVertical: hp(2),
   },
-  courtTitle: {
-    fontSize: RFValue(14),
-    fontWeight: 'bold',
-  },
-  courtSubtitle: {
-    fontSize: RFValue(10),
-    color: '#666',
-  },
-  sportBadge: {
-    backgroundColor: '#fff3e0',
-    padding: wp(2),
-    borderRadius: wp(2),
-  },
-  sportText: {
-    fontSize: RFValue(12),
-  },
-  courtButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: hp(1),
-  },
-  courtButton: {
+  turfOption: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: hp(1.2),
-    borderRadius: wp(1),
+    paddingVertical: hp(1.5),
     marginHorizontal: wp(1),
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
-  selectedCourtButton: {
-    backgroundColor: '#FFD700',
+  selectedTurf: {
+    backgroundColor: '#C7A34D',
+    borderColor: '#C7A34D',
   },
-  courtButtonText: {
-    fontSize: RFValue(12),
+  turfText: {
+    color: '#000',
   },
-  timeSlotsContainer: {
-    flex: 1,
-    paddingHorizontal: wp(4),
+  selectedTurfText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
-  timeSection: {
+
+  // Time Slot Selection
+  timeSlotContainer: {
+    marginTop: hp(2),
+  },
+  timeSlotSection: {
     marginBottom: hp(2),
-    backgroundColor: '#f8f8f8',
-    borderRadius: wp(2),
-    padding: wp(3),
   },
-  periodHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  timeSlotHeading: {
+    fontWeight: 'bold',
     marginBottom: hp(1),
   },
-  periodIcon: {
-    fontSize: RFValue(16),
-    marginRight: wp(2),
-  },
-  periodText: {
-    fontSize: RFValue(14),
-    fontWeight: '500',
-  },
-  timeGrid: {
+  timeSlotRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: wp(1),
   },
   timeSlot: {
-    width: wp(15),
-    paddingVertical: hp(1),
-    backgroundColor: '#fff',
-    borderRadius: wp(1),
+    width: wp(29),
+    paddingVertical: hp(1.5),
+    marginVertical: hp(0.5),
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: hp(0.5),
+    backgroundColor: '#fff',
+    marginRight: hp(.5)
   },
   selectedTimeSlot: {
-    backgroundColor: '#4CAF50',
-  },
-  partOfSelectedTimeSlot: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   timeText: {
-    fontSize: RFValue(12),
     color: '#000',
   },
   selectedTimeText: {
     color: '#fff',
-  },
-  priceBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: wp(4),
-    backgroundColor: '#f8f8f8',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
-  priceContent: {
-    flex: 1,
-  },
-  offerBadge: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: wp(2),
-    paddingVertical: hp(0.5),
-    borderRadius: wp(1),
-    alignSelf: 'flex-start',
-    marginBottom: hp(0.5),
-  },
-  offerText: {
-    color: '#fff',
-    fontSize: RFValue(12),
-  },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  currentPrice: {
-    fontSize: RFValue(16),
     fontWeight: 'bold',
-    marginRight: wp(2),
   },
-  originalPrice: {
-    fontSize: RFValue(14),
-    color: '#666',
-    textDecorationLine: 'line-through',
-  },
-  timeSelected: {
-    fontSize: RFValue(12),
-    color: '#666',
-    marginTop: hp(0.5),
-  },
-  nextButton: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: wp(4),
-    paddingVertical: hp(1.5),
-    borderRadius: wp(1),
-    marginLeft: wp(3),
-  },
-  nextButtonText: {
-    color: '#fff',
-    fontSize: RFValue(14),
-    fontWeight: '500',
-  },
-});
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "#fff",
+    padding: hp(2),
+    width: wp(100),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
 
-export default BookingDateTimeScreen;
+
+  },
+  selectedDetails: {
+    flexDirection: "column",
+  },
+  selectedTime: {
+    color: "#666",
+  },
+  selectedTurfFooter: {
+    color: "#666",
+  },
+
+});
