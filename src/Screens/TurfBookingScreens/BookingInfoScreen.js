@@ -35,7 +35,7 @@ const BookingInfoScreen = () => {
             runOnJS(setScrollEnabled)(true); // Re-enable scrolling
         },
     });
-    
+
 
     const animatedStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: translateX.value }],
@@ -136,40 +136,41 @@ const BookingInfoScreen = () => {
 
                 {/* Pay Button */}
                 <View
-    style={{
-        width: wp(80),
-        backgroundColor: 'green',
-        borderRadius: 50,
-        padding: hp(1),
-        position: 'relative',
-        height: 50,
-        justifyContent: 'center',
-    }}
->
-    <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View
-            style={[
-                {
-                    position: 'absolute',
-                    left: 0,
-                    backgroundColor: 'black',
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                },
-                animatedStyle,
-            ]}
-        >
-            <Text style={{ color: 'white', fontSize: 18 }}>»</Text>
-        </Animated.View>
-    </PanGestureHandler>
+                    style={{
+                        width: wp(91),
+                        backgroundColor: 'green',
+                        borderRadius: 50,
+                        padding: hp(1),
+                        position: 'relative',
+                        height: 50,
+                        justifyContent: 'center',
+                        marginTop: hp(3)
+                    }}
+                >
+                    <PanGestureHandler onGestureEvent={gestureHandler}>
+                        <Animated.View
+                            style={[
+                                {
+                                    position: 'absolute',
+                                    left: 0,
+                                    backgroundColor: 'black',
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 20,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                },
+                                animatedStyle,
+                            ]}
+                        >
+                            <Text style={{ color: 'white', fontSize: 18 }}>»</Text>
+                        </Animated.View>
+                    </PanGestureHandler>
 
-    <Text style={{ textAlign: 'center', color: 'white', fontSize: rf(2.5) }}>
-        Slide to Pay | ₹ 550
-    </Text>
-</View>
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: rf(2.5) }}>
+                        Slide to Pay | ₹ 550
+                    </Text>
+                </View>
 
 
                 <View style={{ marginBottom: hp(5) }} />
