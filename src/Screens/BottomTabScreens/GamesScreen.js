@@ -21,6 +21,7 @@ import { data, categoryData, tournamentData } from '../../Constants/Datas';
 // Utils
 import { navigate } from '../../Utils/NavigationUtil';
 import { COLORS } from '../../Constants/Colors';
+import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
 const GamesScreen = () => {
 
@@ -29,7 +30,7 @@ const GamesScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        data={sections} 
+        data={sections}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={() => (
@@ -54,17 +55,13 @@ const GamesScreen = () => {
 
             {/* Category List */}
             <View>
-              <CustomText size={18} className="font-medium" style={{ marginLeft: hp(2), marginBottom: hp(2) }}>
-                Category
-              </CustomText>
+              <CustomHeaderText ML={2} MB={2} MT={3}>Category</CustomHeaderText>
               <CategoryList data={categoryData} />
             </View>
 
             {/* Near You Section */}
-            <View style={{ marginVertical: hp(3) }}>
-              <CustomText size={18} className="font-medium" style={{ marginLeft: hp(2), marginBottom: hp(2) }}>
-                Near you
-              </CustomText>
+            <View>
+              <CustomHeaderText ML={2} MB={1.5} MT={3}>Near you</CustomHeaderText>
               <TournamentCardList data={tournamentData} style={{ marginHorizontal: hp(2) }} />
             </View>
 

@@ -1,20 +1,22 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { RFValue as rf } from "react-native-responsive-fontsize";
 import { ChevronLeft } from "lucide-react-native";
 import CustomText from "../../Components/Texts/CustomText";
+import { Nunito_Bold } from "../../Constants/FontFamily";
+const { width } = Dimensions.get('window');
+const PADDINGLEFT = width * 0.3
 
-const Header = ({ title = "My Profile", paddingLeft = wp(28), onPress, style = {}, textStyle = {} }) => {
+const Header = ({ title = "My Profile", paddingLeft = PADDINGLEFT, onPress, style = {}, textStyle = {} }) => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.container, style]}>
       <TouchableOpacity onPress={onPress || (() => navigation.goBack())}>
-        <ChevronLeft size={rf(22)} color={"#000"} />
+        <ChevronLeft size={hp(3)} color={"#000"} />
       </TouchableOpacity>
-      <CustomText size={17} className={`font-medium`} style={[{ paddingLeft: paddingLeft }, textStyle]}>
+      <CustomText size={2.3} fontFamily={Nunito_Bold} style={[{ paddingLeft: paddingLeft }, textStyle]}>
         {title}
       </CustomText>
     </View>

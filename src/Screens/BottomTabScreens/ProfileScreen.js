@@ -4,7 +4,6 @@ import { View, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-nat
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue as rf } from "react-native-responsive-fontsize";
-import MMKVStorage from 'react-native-mmkv-storage';
 
 // Icons
 import { LogOut, History, Heart, HelpCircle, DollarSign, ChevronRight } from "lucide-react-native";
@@ -21,8 +20,8 @@ import { navigate, resetAndNavigate } from "../../Utils/NavigationUtil";
 
 // store
 import Zustand from "../../Zustand/Zustand"
+import { Nunito_Bold } from "../../Constants/FontFamily";
 
-const MMKV = new MMKVStorage.Loader().initialize();
 
 const ProfileScreen = () => {
 
@@ -51,13 +50,13 @@ const ProfileScreen = () => {
           }}
         />
         <View style={{ marginLeft: hp(2) }}>
-          <CustomText size={18} className={`font-medium`}>Sāndy Šānjai</CustomText>
-          <CustomText size={13} className={`text-neutral-400`}>I am an enthusiastic Sport man{"\n"}#⚡shuttler{"\n"}##❤️ fitness life styler</CustomText>
+          <CustomText size={2} fontFamily={Nunito_Bold}>Sāndy Šānjai</CustomText>
+          <CustomText >I am an enthusiastic Sport man{"\n"}#⚡shuttler{"\n"}##❤️ fitness life styler</CustomText>
         </View>
       </View>
 
       <TouchableOpacity onPress={() => navigate("EditProfileScreen")} style={{ marginBottom: hp("3%"), marginLeft: hp(3) }}>
-        <CustomText size={14}>Edit Profile </CustomText>
+        <CustomText fontWight='700'>Edit Profile </CustomText>
       </TouchableOpacity>
 
       <MenuItem
@@ -85,7 +84,7 @@ const MenuItem = ({ icon: Icon, text, isLogout, onPress }) => (
   >
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Icon size={rf(18)} color={isLogout ? "red" : "black"} />
-      <CustomText className={`text-neutral-400`} size={13} style={styles.menuItem}>{text}</CustomText>
+      <CustomText ML={3} color="#1A1A1A">{text}</CustomText>
     </View>
     <ChevronRight size={rf(18)} />
   </TouchableOpacity>
@@ -94,7 +93,5 @@ const MenuItem = ({ icon: Icon, text, isLogout, onPress }) => (
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  menuItem: {
-    marginLeft: hp(3)
-  }
+
 });

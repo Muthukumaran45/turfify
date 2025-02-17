@@ -23,6 +23,7 @@ import Header from '../../Components/Headers/Header';
 
 // utils
 import { navigate } from '../../Utils/NavigationUtil';
+import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
 const CricketScreen = () => {
   const navigation = useNavigation();
@@ -34,7 +35,7 @@ const CricketScreen = () => {
     >
 
       {/* header */}
-      <View style={{marginHorizontal: hp(2)}}>
+      <View style={{ marginHorizontal: hp(2) }}>
         <Header title='Cricket Turf' />
       </View>
 
@@ -49,19 +50,19 @@ const CricketScreen = () => {
       </View>
 
       {/* horizontal icon list */}
-      <View style={{marginTop: hp(4)}}>
+      <View style={{ marginTop: hp(4) }}>
         <HorizontalIconList data={sportsData} />
       </View>
 
       {/* best deals */}
       <View style={{ marginVertical: hp(3), }}>
-        <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2) }}>Best Deals for you</CustomText>
+        <CustomHeaderText ML={2}>Best Deals for you</CustomHeaderText>
         <HorizontalCardList data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
       </View>
 
       {/* short by distance */}
       <View>
-        <CustomText size={18} className={`font-medium`} style={{ marginLeft: hp(2), marginBottom: hp(1) }}>Short by Distance</CustomText>
+        <CustomHeaderText ML={2} MB={1.5}>Short by Distance</CustomHeaderText>
         <CardList data={CardListData} style={{ marginHorizontal: hp(2) }} onPressBtn={() => navigate("TurfDetailsScreen")} />
       </View>
 

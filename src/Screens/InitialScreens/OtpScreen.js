@@ -16,6 +16,7 @@ import { resetAndNavigate } from '../../Utils/NavigationUtil';
 
 // store
 import Zustand from "../../Zustand/Zustand"
+import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
 const OtpScreen = () => {
     const { setUser, user } = Zustand();
@@ -56,7 +57,7 @@ const OtpScreen = () => {
     const handleLogin = async () => {
 
         const enteredOtp = otp.join("");
-       
+
 
 
         if (enteredOtp.length < 4) {
@@ -75,7 +76,7 @@ const OtpScreen = () => {
         setLoading(true);
         try {
             setUser(userData)
-           await resetAndNavigate('BottomNavigation');
+            await resetAndNavigate('BottomNavigation');
         } catch (error) {
             console.error("Error storing user data:", error);
         } finally {
@@ -90,7 +91,7 @@ const OtpScreen = () => {
 
                 {/* Title Section */}
                 <View style={styles.titleContainer}>
-                    <CustomText className="font-medium" size={25}>OTP Verification Code</CustomText>
+                    <CustomHeaderText size={3.5}>OTP Verification Code</CustomHeaderText>
                     <CustomText size={12} className="text-neutral-400 my-2">
                         We have sent the code to +91 {userData.mobileNumber}
                     </CustomText>

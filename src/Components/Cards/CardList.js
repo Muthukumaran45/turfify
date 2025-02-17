@@ -9,6 +9,8 @@ import LinearGradient from "react-native-linear-gradient";
 // icons
 import { CrownIcon, PhoneCallIcon } from 'lucide-react-native';
 import { COLORS } from '../../Constants/Colors';
+import CustomText from '../Texts/CustomText';
+import { Nunito_Bold } from '../../Constants/FontFamily';
 
 const CardItem = ({ item, onPressBtn }) => {
   return (
@@ -32,15 +34,18 @@ const CardItem = ({ item, onPressBtn }) => {
       <View style={styles.info}>
         {/* Title Row with Rating & Distance */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>{item.title}</Text>
-          <View style={styles.ratingDistanceContainer}><Text style={styles.rating}>⭐ {item.rating}</Text>
+          <CustomText size={2.3} fontFamily={Nunito_Bold}>{item.title}</CustomText>
+          <View style={styles.ratingDistanceContainer}>
+            <CustomText>⭐ ({item.rating})</CustomText>
             <View style={styles.middleBorder} />
-            <Text style={styles.distance}>Distance 1.5 km</Text>
+            <CustomText>Distance <CustomText color={COLORS.primary}>(1.5 km)</CustomText></CustomText>
           </View>
         </View>
 
-        <Text style={styles.location}>📍 {item.location}</Text>
-        <Text style={styles.price}>🏷️ Price Start From <Text style={{ fontWeight: 'bold' }}>{item.price}</Text></Text>
+        <View>
+          <CustomText MT={.5} MB={.5}>📍 {item.location}</CustomText>
+          <CustomText>🏷️ Price Start From <CustomText color='#023101' fontFamily={Nunito_Bold}>{item.price}</CustomText></CustomText>
+        </View>
 
         {/* Bottom Row: Icons on Left, Book Now on Right */}
         <View style={styles.bottomRow}>
@@ -78,9 +83,10 @@ const CardList = ({ data, style, onPressBtn }) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
-    borderRadius: wp('2%'),
+    borderRadius: wp('3%'),
     marginBottom: hp('2%'),
     width: '100%',
+    height: hp(40),
     elevation: 3,
     overflow: 'hidden',
   },
@@ -95,10 +101,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   discountText: { color: 'white', fontWeight: 'bold', fontSize: rf(1.8) },
-  image: { width: '100%', height: hp('20%') },
-  info: { padding: wp('3%') },
+  image: { width: '100%', height: hp('23.5%') },
+  info: { padding: wp('2%'), paddingHorizontal: wp(3) },
   titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  title: { fontSize: rf(2.5), fontWeight: 'bold', flex: 1 },
   ratingDistanceContainer: { flexDirection: 'row', alignItems: 'center' },
   rating: { fontSize: rf(2), color: 'green' },
   middleBorder: { width: wp('0.3%'), height: hp('2%'), backgroundColor: 'gray', marginHorizontal: wp('2%') },

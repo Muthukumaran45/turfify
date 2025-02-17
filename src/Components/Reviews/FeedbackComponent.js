@@ -9,7 +9,7 @@ const FeedbackComponent = ({ data }) => {
 
       <View className="flex-col flex-1" style={{ paddingLeft: 10 }}>
         <View className="flex-row items-center justify-between">
-          <CustomText size={20} className="font-medium text-neutral-400">
+          <CustomText  className="font-medium text-neutral-400">
             {item.reviewerId?.username || "Anonymous"}
           </CustomText>
           <CustomText className="mt-1" size={13} >

@@ -8,7 +8,7 @@ const SearchBar = ({ placeholder, onFilterPress }) => {
   return (
     <View style={styles.container}>
       {/* Search Icon */}
-      <Search size={RFValue(20)} color="#000" style={styles.iconLeft} />
+      <Search size={hp(2.5)} color="#000" style={styles.iconLeft} />
 
       {/* Input Field */}
       <TextInput
@@ -19,7 +19,7 @@ const SearchBar = ({ placeholder, onFilterPress }) => {
 
       {/* Filter Icon (Touchable) */}
       <TouchableOpacity onPress={onFilterPress}>
-        <Filter size={RFValue(16)} color="green" style={styles.iconRight} />
+        <Filter size={hp(2.5)} color="green" style={styles.iconRight} />
       </TouchableOpacity>
     </View>
   );
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     borderRadius: hp(5),
     paddingHorizontal: wp(4),
     height: hp(6),
-    width: wp(93),
     elevation: 3, 
     shadowColor: "#000", 
     shadowOffset: { width: 0, height: 2 },

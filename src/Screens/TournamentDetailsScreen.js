@@ -34,16 +34,16 @@ const TournamentDetailsScreen = () => {
 
       {/* Skills & Requirements Section */}
       <View style={styles.sectionContainer}>
-        <CustomText className={`font-medium`}>Skills & Requirements</CustomText>
-        <CustomText size={13} style={{ marginTop: hp(2) }}>• 3 years experience</CustomText>
-        <CustomText size={13} style={{ marginTop: hp(.8) }}>• Degree in Computer Science, Psychology, Design or any other related fields.</CustomText>
-        <CustomText size={13} style={{ marginTop: hp(.8) }}>• Proficiency in User Personas, Competitive Analysis, Empathy Maps and Information Architecture.</CustomText>
+        <CustomText size={2.3} fontWight='700'>Skills & Requirements</CustomText>
+        <CustomText MT={2}>• 3 years experience</CustomText>
+        <CustomText MT={.8}>• Degree in Computer Science, Psychology, Design or any other related fields.</CustomText>
+        <CustomText MT={.8}>• Proficiency in User Personas, Competitive Analysis, Empathy Maps and Information Architecture.</CustomText>
       </View>
 
       {/* Role Section */}
       <View style={styles.sectionContainer}>
-        <CustomText className={`font-medium`}>Your Role</CustomText>
-        <CustomText size={13} style={{ marginTop: hp(2) }}>
+        <CustomText size={2.3} fontWight='700'>Your Role</CustomText>
+        <CustomText MT={2}>
           As a UX Designer, you will be directly responsible for helping the evolution of enterprise design systems at Google.
           You will engineer solutions that create shareable web components to be used in enterprise products within the organization.
           You’ll support multiple different product areas and collaborate with multiple job functions across the globe.
@@ -52,8 +52,8 @@ const TournamentDetailsScreen = () => {
 
       {/* Benefits Section */}
       <View style={styles.sectionContainer}>
-        <CustomText className={`font-medium`}>Benefits</CustomText>
-        <CustomText size={13} style={{ marginTop: hp(2) }}>
+        <CustomText size={2.3} fontWight='700'>Benefits</CustomText>
+        <CustomText MT={2}>
           As a UX Designer, you will be directly responsible for helping the evolution of enterprise design systems at Google.
           You will engineer solutions that create shareable web components to be used in enterprise products within the organization.
           You’ll support multiple different product areas and collaborate with multiple job functions across the globe.

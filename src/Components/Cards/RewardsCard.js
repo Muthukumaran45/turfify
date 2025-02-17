@@ -5,6 +5,9 @@ import { RFPercentage as rf } from "react-native-responsive-fontsize";
 import { Heart } from "lucide-react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { COLORS } from "../../Constants/Colors";
+import CustomText from "../Texts/CustomText";
+import { truncateText } from "../../Utils/Scaling";
+import { Nunito_Bold } from "../../Constants/FontFamily";
 
 const CardItem = ({ item, onPress, onPressBtn }) => {
   const [liked, setLiked] = useState(false);
@@ -18,11 +21,14 @@ const CardItem = ({ item, onPress, onPressBtn }) => {
       <TouchableOpacity style={styles.card} onPress={onPress}>
         <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
         <View style={styles.info}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.location}>{item.location}</Text>
-          <Text style={styles.price}>{item.price}</Text>
-          <Text style={styles.rating}>⭐ {item.rating}</Text>
+          <CustomText size={1.9} fontFamily={Nunito_Bold}>{truncateText(item.title, 16)}</CustomText>
+          <CustomText>{truncateText(item.location, 19)}</CustomText>
+          <View className="flex-row justify-between items-center">
+            <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
+            <CustomText>⭐ ({item.rating})</CustomText>
+          </View>
         </View>
+
         <TouchableOpacity style={styles.like} onPress={() => setLiked(!liked)}>
           <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
         </TouchableOpacity>
@@ -54,9 +60,9 @@ const CardItem = ({ item, onPress, onPressBtn }) => {
 
       {/* Action Button */}
       <TouchableOpacity onPress={onPressBtn} style={[styles.button, isRewardReady ? styles.claimButton : styles.bookAgainButton]}>
-        <Text style={[styles.buttonText, { color: isRewardReady ? "#fff" : "#000" }]}>
+        <CustomText fontFamily={Nunito_Bold} style={{ color: isRewardReady ? "#fff" : "#000" }}>
           {isRewardReady ? "🎉 Claim Your Reward" : "Book Again"}
-        </Text>
+        </CustomText>
       </TouchableOpacity>
     </View>
   );
@@ -84,14 +90,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: wp("2%"),
     width: wp("40%"),
-    height: hp("26%"),
+    height: hp("24.5%"),
     elevation: 3,
     overflow: "hidden",
     marginVertical: hp(1.5),
   },
   image: {
     width: "100%",
-    height: hp("14%"),
+    height: hp("15%"),
   },
   like: {
     position: "absolute",
@@ -102,23 +108,7 @@ const styles = StyleSheet.create({
     height: hp("13%"),
     padding: wp("2%"),
   },
-  title: {
-    fontSize: rf(2.2),
-    fontWeight: "bold",
-  },
-  location: {
-    fontSize: rf(1.8),
-    color: "gray",
-  },
-  price: {
-    fontSize: rf(2),
-    fontWeight: "bold",
-    color: "green",
-  },
-  rating: {
-    fontSize: rf(2),
-    color: "orange",
-  },
+
   progressRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -163,10 +153,7 @@ const styles = StyleSheet.create({
   claimButton: {
     backgroundColor: COLORS.claimRewardColor,
   },
-  buttonText: {
-    fontSize: rf(2),
-    fontWeight: "bold",
-  },
+
 });
 
 export default RewardsCard;

@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFPercentage as rf } from 'react-native-responsive-fontsize';
 import { MapPin, Clock, MoreVertical } from 'lucide-react-native';
+import CustomHeaderText from '../Texts/CustomHeaderText';
+import CustomText from '../Texts/CustomText';
 
 const UpcomingBooking = ({ booking, onView, onDelete }) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -11,7 +13,7 @@ const UpcomingBooking = ({ booking, onView, onDelete }) => {
   return (
     <View style={{ marginBottom: hp(2) }}>
       {/* Title (Outside the white card) */}
-      <Text style={styles.title}>Upcoming Bookings</Text>
+      <CustomHeaderText  style={styles.title}>Upcoming Bookings</CustomHeaderText>
 
       {/* Booking Card */}
       <View style={styles.card}>
@@ -26,36 +28,32 @@ const UpcomingBooking = ({ booking, onView, onDelete }) => {
 
         {/* Booking Details */}
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: hp(1) }}>
-          <Text style={{ fontSize: rf(2), color: '#1E90FF', fontWeight: 'bold' }}>
-            {booking.date}
-          </Text>
-          <Text style={{ fontSize: rf(2), fontWeight: 'bold', marginLeft: wp(2) }}>
-            {booking.title}
-          </Text>
+          <CustomText size={2} color='#0E614C'>{booking.date}</CustomText>
+          <CustomText size={2.8} ML={1} fontWight='700'>{booking.title}</CustomText>
         </View>
 
         {/* Venue */}
         <View style={styles.infoRow}>
           <MapPin size={rf(2.5)} color="green" />
-          <Text style={styles.infoLabel}>Venue:</Text>
-          <Text style={styles.infoText}>{booking.venue}</Text>
+          <CustomText ML={1}>Venue:</CustomText>
+          <CustomText ML={1}>{booking.venue}</CustomText>
         </View>
 
         {/* Time */}
         <View style={styles.infoRow}>
           <Clock size={rf(2.5)} color="orange" />
-          <Text style={styles.infoLabel}>Time:</Text>
-          <Text style={styles.infoText}>{booking.time}</Text>
+          <CustomText ML={1}>Time:</CustomText>
+          <CustomText ML={1}>{booking.time}</CustomText>
         </View>
 
         {/* Pop-up Menu (Below MoreVertical Icon) */}
         {menuVisible && (
           <View style={styles.menu}>
             <TouchableOpacity onPress={() => { onView(); setMenuVisible(false); }}>
-              <Text style={styles.menuItem}>View</Text>
+              <CustomText>View</CustomText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { onDelete(); setMenuVisible(false); }}>
-              <Text style={styles.menuItem}>Delete</Text>
+              <CustomText>Delete</CustomText>
             </TouchableOpacity>
           </View>
         )}
@@ -66,12 +64,8 @@ const UpcomingBooking = ({ booking, onView, onDelete }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: rf(2.5),
-    fontWeight: 'bold',
-    color: '#000',
     marginLeft: wp(5),
     marginBottom: hp(1),
-    
   },
   card: {
     backgroundColor: '#F8F9FA',
@@ -94,18 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: hp(1),
   },
-  infoLabel: {
-    fontSize: rf(1.8),
-    fontWeight: 'bold',
-    marginLeft: wp(2),
-    color: '#000',
-  },
-  infoText: {
-    fontSize: rf(1.8),
-    marginLeft: wp(1),
-    color: '#333',
-    flexShrink: 1,
-  },
+
   menu: {
     position: 'absolute',
     top: hp(4),
@@ -119,13 +102,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     zIndex: 10,
   },
-  menuItem: {
-    fontSize: rf(2),
-    paddingVertical: hp(0.5),
-    textAlign: 'left',
-    color: '#333',
-    fontWeight: 'bold',
-  },
+
 });
 
 export default UpcomingBooking;

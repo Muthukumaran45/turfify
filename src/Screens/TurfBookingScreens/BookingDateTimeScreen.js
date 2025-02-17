@@ -11,6 +11,7 @@ import { COLORS } from '../../Constants/Colors';
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
 import { navigate } from '../../Utils/NavigationUtil';
+import { Nunito_Bold, Nunito_Regular, Roboto_Bold } from '../../Constants/FontFamily';
 
 const BookingDateTimeScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -73,8 +74,8 @@ const BookingDateTimeScreen = () => {
               style={[styles.dateItem, isSelected && styles.selectedDate]}
               onPress={() => handleDatePress(date)}
             >
-              <Text style={[styles.dateText, isSelected && styles.selectedText]}>{date.format('D')}</Text>
-              <Text style={[styles.dayText, isSelected && styles.selectedText]}>{date.format('ddd').toUpperCase()}</Text>
+              <CustomText size={2.7} fontFamily={Roboto_Bold} style={[styles.dateText, isSelected && styles.selectedText]}>{date.format('D')}</CustomText>
+              <CustomText fontFamily={Roboto_Bold} style={[styles.dayText, isSelected && styles.selectedText]}>{date.format('ddd').toUpperCase()}</CustomText>
             </TouchableOpacity>
           );
         })}
@@ -85,8 +86,8 @@ const BookingDateTimeScreen = () => {
         style={{ marginTop: hp(3), marginBottom: hp(1) }}
       >
         <View>
-          <CustomText size={20} className={'font-medium'}>No.of Courts</CustomText>
-          <CustomText size={13}>each court varies in different size</CustomText>
+          <CustomText size={2.5} fontFamily={Nunito_Bold}>No.of Courts</CustomText>
+          <CustomText >Each court varies in different size</CustomText>
         </View>
 
         <View>
@@ -102,7 +103,7 @@ const BookingDateTimeScreen = () => {
             style={[styles.turfOption, selectedTurf === turf && styles.selectedTurf]}
             onPress={() => setSelectedTurf(turf)}
           >
-            <CustomText size={13} style={[styles.turfText, selectedTurf === turf && styles.selectedTurfText]}>{turf}</CustomText>
+            <CustomText fontFamily={Nunito_Bold} style={[styles.turfText, selectedTurf === turf && styles.selectedTurfText]}>{turf}</CustomText>
           </TouchableOpacity>
         ))}
       </View>
@@ -119,7 +120,7 @@ const BookingDateTimeScreen = () => {
 
           return (
             <View key={category} style={styles.timeSlotSection}>
-              <CustomText size={15} style={styles.timeSlotHeading}>{categoryIcons[category]}</CustomText>
+              <CustomText fontFamily={Nunito_Bold} style={styles.timeSlotHeading}>{categoryIcons[category]}</CustomText>
               <View style={styles.timeSlotRow}>
                 {timeSlots[category].map((time, index) => {
                   const isSelected = selectedTimeSlot === time;
@@ -129,7 +130,7 @@ const BookingDateTimeScreen = () => {
                       style={[styles.timeSlot, isSelected && styles.selectedTimeSlot]}
                       onPress={() => setSelectedTimeSlot(time)}
                     >
-                      <CustomText size={13} style={[styles.timeText, isSelected && styles.selectedTimeText]}>
+                      <CustomText style={[styles.timeText, isSelected && styles.selectedTimeText]}>
                         {time}
                       </CustomText>
                     </TouchableOpacity>
@@ -147,14 +148,14 @@ const BookingDateTimeScreen = () => {
 
         <View style={styles.selectedDetails}>
 
-          <CustomText size={18} className={'font-medium'}>$ 550</CustomText>
+          <CustomText fontFamily={Nunito_Bold}>$ 550</CustomText>
 
           {selectedTimeSlot && (
             <View>
-              <CustomText size={12} style={styles.selectedTime}>
+              <CustomText style={styles.selectedTime}>
                 {selectedTimeSlot}
               </CustomText>
-              <CustomText size={12} style={styles.selectedTurfFooter}>
+              <CustomText style={styles.selectedTurfFooter}>
                 {selectedTurf}
               </CustomText>
             </View>
@@ -206,8 +207,8 @@ const styles = StyleSheet.create({
   selectedDate: {
     backgroundColor: 'green',
   },
-  dateText: { fontSize: hp(2), fontWeight: 'bold', color: '#000' },
-  dayText: { fontSize: hp(1.5), color: '#000' },
+  dateText: { fontWeight: 'bold', color: '#000' },
+  dayText: { fontSize: hp(1.5), color: '#000', fontWeight: 'bold', },
   selectedText: { color: '#fff' },
 
   // Turf Selection
@@ -246,7 +247,6 @@ const styles = StyleSheet.create({
     marginBottom: hp(2),
   },
   timeSlotHeading: {
-    fontWeight: 'bold',
     marginBottom: hp(1),
   },
   timeSlotRow: {

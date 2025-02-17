@@ -3,6 +3,7 @@ import { TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import CustomText from "../Texts/CustomText";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Nunito_Bold } from "../../Constants/FontFamily";
 
 const HorizontalIconList = ({ data, colors = ["#78C560", "#36AB70"], onPressItem }) => {
   return (
@@ -17,9 +18,9 @@ const HorizontalIconList = ({ data, colors = ["#78C560", "#36AB70"], onPressItem
         return (
           <TouchableOpacity style={styles.itemContainer} onPress={() => onPressItem(screen)}>
             <LinearGradient colors={colors} style={styles.iconCircle}>
-              <IconComponent name={icon.name} size={23} color="black" />
+              <IconComponent name={icon.name} size={hp(4)} color="black" />
             </LinearGradient>
-            <CustomText size={12} style={styles.txt}>{name}</CustomText>
+            <CustomText fontFamily={Nunito_Bold} style={styles.txt}>{name}</CustomText>
           </TouchableOpacity>
         );
       }}
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
     marginHorizontal: hp(1),
   },
   iconCircle: {
-    width: hp(7),
-    height: hp(7),
+    width: hp(9),
+    height: hp(9),
     borderRadius: hp(500),
     justifyContent: "center",
     alignItems: "center",

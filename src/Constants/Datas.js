@@ -13,14 +13,14 @@ export const onboardingData = [
 
 // data for fadeIn slides
 export const slides = [
-"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
-"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
-"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
-"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
-"https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
 
 
-];  
+];
 
 // data for Horizontal cards
 export const data = [
@@ -42,7 +42,7 @@ export const rewardData = [
         rating: '4.8',
         image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg',
         bookingsRequired: 20,
-        currentBookings: 16, 
+        currentBookings: 16,
     },
     {
         id: '2',
@@ -95,7 +95,7 @@ export const bookingData = {
     title: 'Spark Academy',
     venue: 'Strikers Academy, Purasaiwakkam, Chennai',
     time: '10 AM - 11:30 AM'
-  };
+};
 
 export const perfectData = [
     { id: '1', title: 'Game On 2.0', location: 'Thoraipakkam, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg' },
@@ -230,10 +230,11 @@ export const bookings = {
         {
             id: "1",
             title: "Spark Academy",
-            date: "Jan - 13th",
+            date: "13th",
             venue: "Strikers Academy, Purasaiwakkam, Chennai",
             time: "10 AM - 11:30 AM",
             image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+            month: "Jan"
         },
     ],
     past: [

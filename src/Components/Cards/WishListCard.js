@@ -9,13 +9,19 @@ import { RFPercentage as rf } from 'react-native-responsive-fontsize';
 import { Heart, CrownIcon, PhoneCallIcon } from 'lucide-react-native';
 import CustomButton from '../Buttons/CustomButton';
 
+// components
+import CustomText from '../Texts/CustomText';
+import { COLORS } from '../../Constants/Colors';
+import { Nunito_Bold } from '../../Constants/FontFamily';
+
+
 // Wishlist Card List Component
-const WishListCard = ({ data }) => {
+const WishListCard = ({ data , onPressBtn}) => {
   return (
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <CardItem item={item} />}
+      renderItem={({ item }) => <CardItem item={item} onPressBtn={onPressBtn} />}
       contentContainerStyle={{ paddingBottom: hp(15) }}
       showsVerticalScrollIndicator={false}
     />
@@ -23,7 +29,7 @@ const WishListCard = ({ data }) => {
 };
 
 // Card Component
-const CardItem = ({ item }) => {
+const CardItem = ({ item, onPressBtn }) => {
   if (!item || !item.images || item.images.length === 0) {
     return null; // Avoid crashing when item is undefined
   }
@@ -73,18 +79,33 @@ const CardItem = ({ item }) => {
 
       {/* Content */}
       <View style={styles.info}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.location}>📍 {item.location}</Text>
-        <Text style={styles.price}>🏷️ Price: <Text style={{ fontWeight: 'bold' }}>{item.price}</Text></Text>
+        {/* Title Row with Rating & Distance */}
+        <View style={styles.titleRow}>
+          <CustomText size={2.3} fontFamily={Nunito_Bold}>{item.title}</CustomText>
+          <View style={styles.ratingDistanceContainer}>
+            <CustomText>⭐ ({item.rating})</CustomText>
+            <View style={styles.middleBorder} />
+            <CustomText>Distance <CustomText color={COLORS.primary}>(1.5 km)</CustomText></CustomText>
+          </View>
+        </View>
 
+        <View>
+          <CustomText MT={.5} MB={.5}>📍 {item.location}</CustomText>
+          <CustomText>🏷️ Price Start From <CustomText color='#023101' fontFamily={Nunito_Bold}>{item.price}</CustomText></CustomText>
+        </View>
+
+        {/* Bottom Row: Icons on Left, Book Now on Right */}
         <View style={styles.bottomRow}>
-          <View className={`flex-row`}>
+          {/* Icons */}
+          <View style={styles.icons}>
             <CrownIcon size={rf(2.5)} color="gray" />
             <PhoneCallIcon size={rf(2.5)} color="gray" style={{ marginLeft: wp('2%') }} />
           </View>
 
-          {/* Book Again Button */}
-          <CustomButton title={"Book Again"} className={`rounded-md`} style={{ height: hp(4.5) }} />
+          {/* Book Now Button */}
+          <TouchableOpacity style={styles.bookNow} onPress={onPressBtn}>
+            <Text style={styles.bookNowText}>Book Now</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -97,7 +118,7 @@ export default WishListCard;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
-    borderRadius: wp('2%'),
+    borderRadius: wp('3%'),
     marginBottom: hp('2%'),
     width: '100%',
     elevation: 3,
@@ -120,20 +141,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dot: {
-    width: 8,
-    height: 8,
+    width: hp(1),
+    height: hp(1),
     borderRadius: hp(100),
     backgroundColor: 'gray', 
     marginHorizontal: 4,
   },
   activeDot: {
     backgroundColor: 'white',
-    width: 10,
-    height: 10,
+    width: hp(1),
+    height: hp(1),
   },
-  info: { padding: wp('3%') },
-  title: { fontSize: rf(2.5), fontWeight: 'bold' },
+  info: { padding: wp('2%'), paddingHorizontal: wp(3) },
   location: { fontSize: rf(2), color: 'gray', marginTop: hp('0.5%') },
+  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   price: { fontSize: rf(2), marginVertical: hp('1%') },
   bottomRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: hp('1%') },
+  ratingDistanceContainer: { flexDirection: 'row', alignItems: 'center' },
+  middleBorder: { width: wp('0.3%'), height: hp('2%'), backgroundColor: 'gray', marginHorizontal: wp('2%') },
+  icons: { flexDirection: 'row' },
+  bookNow: { backgroundColor: 'green', paddingVertical: hp('1%'), paddingHorizontal: wp('5%'), borderRadius: wp('2%') },
+  bookNowText: { color: 'white', fontSize: rf(2), fontWeight: 'bold' },
+
 });

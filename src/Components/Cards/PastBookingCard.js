@@ -9,11 +9,12 @@ import CustomText from '../Texts/CustomText';
 // packages
 import { useNavigation } from '@react-navigation/native';
 import { navigate } from '../../Utils/NavigationUtil';
+import { Nunito_Bold } from '../../Constants/FontFamily';
 
 
 const Card = ({ item }) => {
-      const navigation = useNavigation();
-    
+    const navigation = useNavigation();
+
     return (
         <View style={{
             backgroundColor: '#fff',
@@ -29,23 +30,24 @@ const Card = ({ item }) => {
         }}>
             <Image
                 source={{ uri: item.image }}
-                style={{ width: wp(40), height: hp(18.5), borderRadius: 10 , borderTopRightRadius: 0}}
+                style={{ width: wp(40), height: hp(18.5), borderRadius: 10, borderTopRightRadius: 0 }}
             />
-            <View style={{ flex: 1, marginLeft: wp(3), paddingVertical: hp(1.5), paddingRight: hp(2) }}>
-                <Text style={{ fontSize: RFValue(14), fontWeight: 'bold', color: '#000' }}>{item.name}</Text>
+
+            {/* right side content */}
+            <View style={{ flex: 1, marginLeft: wp(2), paddingVertical: hp(1.5), paddingRight: hp(2) }}>
+                <CustomText size={2.3} fontFamily={Nunito_Bold}>{item.name}</CustomText>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp(0.5) }}>
                     <MapPin size={16} color="#4A90E2" />
-                    <Text style={{ fontSize: RFValue(12), color: '#555', marginLeft: wp(1) }}>{item.location}</Text>
+                    <CustomText ML={.3}>{item.location}</CustomText>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp(0.5) }}>
                     <Star size={16} color="#FFD700" />
-                    <Text style={{ fontSize: RFValue(12), color: '#000', marginLeft: wp(1) }}>({item.rating})</Text>
+                    <CustomText>({item.rating})</CustomText>
                     <View style={styles.middleBorder} />
-                    <CustomText size={13} >Distance</CustomText>
-                    <Text style={{ fontSize: RFValue(12), color: '#4A90E2', marginLeft: wp(1) }}>({item.distance} km)</Text>
+                    <CustomText>Distance</CustomText>
+                    <CustomText>({item.distance} km)</CustomText>
                 </View>
-
 
                 <View style={{ marginTop: hp(3), marginLeft: hp(6) }}>
                     <CustomButton size={14} className={`rounded-md`} title={'Book Again'} height={hp(4)} onPress={() => navigate("TurfDetailsScreen")} />

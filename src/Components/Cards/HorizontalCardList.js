@@ -4,18 +4,26 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import { RFPercentage as rf } from "react-native-responsive-fontsize";
 import { Heart } from "lucide-react-native";
 import { COLORS } from "../../Constants/Colors";
+import { truncateText } from "../../Utils/Scaling";
+import CustomText from "../Texts/CustomText";
+import { Nunito_Bold } from "../../Constants/FontFamily";
+
 
 const CardItem = ({ item, onPress }) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
+
       <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+      
       <View style={styles.info}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.location}>{item.location}</Text>
-        <Text style={styles.price}>{item.price}</Text>
-        <Text style={styles.rating}>⭐ {item.rating}</Text>
+        <CustomText size={2} fontFamily={Nunito_Bold}>{truncateText(item.title, 16)}</CustomText>
+        <CustomText>{truncateText(item.location, 19)}</CustomText>
+        <View className="flex-row justify-between items-center">
+            <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
+            <CustomText>⭐ ({item.rating})</CustomText>
+          </View>
       </View>
       <TouchableOpacity
         style={styles.like}
@@ -48,14 +56,14 @@ const styles = StyleSheet.create({
     borderRadius: wp("2%"),
     marginRight: wp("3%"),
     width: wp("40%"),
-    height: hp("26%"),
+    height: hp("24.5%"),
     elevation: 3,
     overflow: "hidden",
     marginVertical: hp(1.5),
   },
   image: {
     width: "100%",
-    height: hp("14%"),
+    height: hp("15%"),
   },
   like: {
     position: "absolute",

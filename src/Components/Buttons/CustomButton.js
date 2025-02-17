@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
+import { Inter } from "../../Constants/FontFamily";
 
 const CustomButton = ({ 
   title, 
@@ -27,7 +28,7 @@ const CustomButton = ({
       ) : (
         <Text 
           className="text-white"
-          style={[{ fontSize: RFValue(size) }, textStyle]}
+          style={[{ fontSize: RFValue(size), fontFamily: Inter }, textStyle]}
         >
           {title}
         </Text>

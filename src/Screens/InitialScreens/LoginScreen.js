@@ -14,6 +14,7 @@ import { errorAlert, successAlert } from "../../Components/Toast/ToastServices";
 // Utils
 import { navigate, resetAndNavigate } from '../../Utils/NavigationUtil';
 import { API_URL } from '../../Services/Api';
+import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
 const LoginScreen = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,12 +35,12 @@ const LoginScreen = () => {
             setPhoneError("Please enter a valid 10-digit phone number.");
             return;
         }
-    
+
         setLoading(true);
         try {
-            const otp = Math.floor(1000 + Math.random() * 9000); 
-            console.log("Generated OTP:", otp); 
-    
+            const otp = Math.floor(1000 + Math.random() * 9000);
+            console.log("Generated OTP:", otp);
+
             const payload = {
                 username: "heKK",
                 mobileNumber: phoneNumber,
@@ -48,10 +49,10 @@ const LoginScreen = () => {
 
             const data = response.data.user
             console.log("login data", data)
-    
+
             if (response.status === 201) {
                 successAlert({ message: "OTP sent successfully!" });
-                navigate("OtpScreen", {data,otp}); 
+                navigate("OtpScreen", { data, otp });
                 setPhoneError("");
             } else {
                 errorAlert({ message: "Something went wrong" });
@@ -63,7 +64,7 @@ const LoginScreen = () => {
             setLoading(false);
         }
     };
-    
+
 
 
     return (
@@ -77,7 +78,7 @@ const LoginScreen = () => {
 
                 {/* Title Section */}
                 <View style={styles.titleContainer}>
-                    <CustomText className="font-medium" size={25}>Log in</CustomText>
+                    <CustomHeaderText size={3.5}>Log in</CustomHeaderText>
                     <CustomText>Enter your phone number to continue</CustomText>
                 </View>
 

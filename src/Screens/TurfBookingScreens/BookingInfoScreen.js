@@ -61,7 +61,7 @@ const BookingInfoScreen = () => {
                 />
 
                 {/* Booking Details */}
-                <CustomText size={15} style={{ marginTop: hp(2), marginBottom: hp(1) }}>Visiting Date : <CustomText size={15} className={`font-medium`}>17-12-2024</CustomText></CustomText>
+                <CustomText MB={1} MT={2}>Visiting Date : <CustomText fontWight='700'>17-12-2024</CustomText></CustomText>
 
                 {/* Box Info */}
                 <View className='flex-row'>
@@ -75,32 +75,32 @@ const BookingInfoScreen = () => {
 
                 {/* Timing and Price */}
                 <View style={{ backgroundColor: 'white', paddingHorizontal: hp(2), borderRadius: wp(3), marginTop: hp(2), paddingVertical: hp(1) }}>
-                    <CustomText size={14} className={`font-medium`}>Check in - Check out</CustomText>
+                    <CustomText fontWight='700'>Check in - Check out</CustomText>
                     <View className={`flex-row items-center justify-between`}>
                         <CustomText>☀️ 10am - 11:30am</CustomText>
-                        <CustomText className={`font-medium`}>₹ 550</CustomText>
+                        <CustomText fontWight='700'>₹ 550</CustomText>
                     </View>
                 </View>
 
                 {/* Price Breakdown */}
                 <View style={{ marginTop: hp(2), marginRight: hp(2) }}>
-                    <CustomText size={13} className={`text-right font-medium`}>₹ 950.00</CustomText>
+                    <CustomText fontWight='700' style={{textAlign: "right"}}>₹ 950.00</CustomText>
 
                     <View className={`flex-row items-center justify-between`} style={{ marginVertical: hp(1) }}>
-                        <CustomText size={14} className={`font-medium`}>GST Amount (10%)</CustomText>
-                        <CustomText size={14} className={`font-medium`}> ₹ 95.00</CustomText>
+                        <CustomText fontWight='700'>GST Amount (10%)</CustomText>
+                        <CustomText fontWight='700'> ₹ 95.00</CustomText>
                     </View>
                 </View>
 
                 <View className='bg-neutral-800 rounded-lg flex-row items-center justify-between' style={{ height: hp(5), marginTop: hp(1), paddingHorizontal: hp(2) }}>
-                    <CustomText size={13} className={`font-medium text-white`}>Total Amount</CustomText>
-                    <CustomText size={13} className={`font-medium text-white`}>1045.00</CustomText>
+                    <CustomText color='#fff' fontWight='700'>Total Amount</CustomText>
+                    <CustomText color='#fff' fontWight='700'>1045.00</CustomText>
                 </View>
 
                 {/* Advance Payment Toggle */}
                 <View className={`flex-row items-center justify-between border rounded-md`} style={{ marginTop: hp(2), height: hp(5), paddingHorizontal: hp(1.5) }}>
-                    <CustomText size={13} className={`font-medium`}>Pay Advance Only</CustomText>
-                    <CustomText size={13} className={`font-medium`}>₹ 550.00</CustomText>
+                    <CustomText fontWight='700'>Pay Advance Only</CustomText>
+                    <CustomText fontWight='700'>₹ 550.00</CustomText>
                 </View>
 
                 {/* Coupon Section */}
@@ -123,8 +123,8 @@ const BookingInfoScreen = () => {
                             className={`bg-black rounded-md`}
                         />
                         <View className='ml-2'>
-                            <CustomText size={12}>Pay using</CustomText>
-                            <CustomText size={14} className={`font-medium`}>Google Pay</CustomText>
+                            <CustomText >Pay using</CustomText>
+                            <CustomText >Google Pay</CustomText>
                         </View>
                     </View>
 

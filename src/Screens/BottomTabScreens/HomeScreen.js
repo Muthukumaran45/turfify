@@ -30,11 +30,12 @@ import { data, perfectData, sportsData, bookingData, slides, rewardData } from '
 import { navigate } from '../../Utils/NavigationUtil';
 import Zustand from '../../Zustand/Zustand'
 import { API_URL } from '../../Services/Api';
+import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
 const HomeScreen = () => {
-  const {user}=Zustand()
+  const { user } = Zustand()
 
-  console.log(user,'useruseruser')
+  console.log(user, 'useruseruser')
 
   const [location, setLocation] = useState({
     latitude: "",
@@ -123,7 +124,7 @@ const HomeScreen = () => {
         </View>
 
         {/* Search Bar */}
-        <View style={{ marginHorizontal: hp(2) }}>
+        <View style={{marginHorizontal: hp(2)}}>
           <SearchBar placeholder="Search here..." />
         </View>
 
@@ -142,25 +143,25 @@ const HomeScreen = () => {
           <UpcomingBooking booking={bookingData} onView={handleView} onDelete={handleDelete} />
         </View>
 
-
         {/* Horizontal Icon List */}
         <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
 
         {/* Reward card */}
         <View style={styles.section}>
-          <CustomText size={18} className="font-medium" style={styles.title}>Reward your Booking !</CustomText>
+          <CustomHeaderText ML={2} MB={.5}>🎁 Reward your Booking !</CustomHeaderText>
           <RewardsCard data={rewardData} onPress={() => navigate("TurfDetailsScreen")} onPressBtn={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* Nearby Court */}
         <View style={styles.section}>
-          <CustomText size={18} className="font-medium" style={styles.title}>Nearby Court</CustomText>
+          <CustomHeaderText ML={2}>Near By Court</CustomHeaderText>
           <HorizontalCardList data={data} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* Perfect Pick for You */}
         <View style={styles.section}>
-          <CustomText size={18} className="font-medium" style={styles.title}>Perfect pick for you</CustomText>
+          <CustomHeaderText ML={2}>Perfect pick for you</CustomHeaderText>
+
           <HorizontalCardList data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
@@ -193,10 +194,7 @@ const styles = StyleSheet.create({
     borderRadius: hp(2),
   },
   section: {
-    marginTop: hp(3),
-  },
-  title: {
-    marginLeft: hp(2),
+    marginTop: hp(4),
   },
   bottomSpacing: {
     marginBottom: hp(14),

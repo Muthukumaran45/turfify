@@ -8,6 +8,7 @@ import { RFPercentage as rf } from "react-native-responsive-fontsize";
 import CustomText from "../Texts/CustomText";
 import { COLORS } from "../../Constants/Colors";
 import CustomButton from "../Buttons/CustomButton";
+import { Nunito_Bold } from "../../Constants/FontFamily";
 
 const TournamentCard = ({ item }) => {
   return (
@@ -15,15 +16,15 @@ const TournamentCard = ({ item }) => {
       <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
 
       <View style={styles.info}>
-        <CustomText className="font-medium">{item.title}</CustomText>
-        <CustomText className="text-gray-400" size={14} style={{ marginVertical: hp(0.5) }}>
+        <CustomText size={2} fontFamily={Nunito_Bold}>{item.title}</CustomText>
+        <CustomText MT={.5} MB={.5}>
           📍 {item.venue}
         </CustomText>
-        <CustomText className="text-gray-400" size={14}>
+        <CustomText >
           📅 {item.date}
         </CustomText>
-        <CustomText size={14} style={{ marginTop: hp(0.5) }}>
-          Team Size: <CustomText size={14} className="text-red-500 font-medium">{item.teamSize}</CustomText>
+        <CustomText MT={1} ML={2.7}>
+          Team<CustomText color="#E23E2B"> Size: {item.teamSize}</CustomText>
         </CustomText>
       </View>
     </View>
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#fff",
-    borderRadius: wp(2),
+    borderRadius: wp(3),
     marginBottom: hp(1.5),
     elevation: 3,
     overflow: "hidden",
@@ -71,9 +72,11 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: hp(20),
+    borderBottomRightRadius: wp(3),
+    borderBottomLeftRadius: wp(3),
   },
   info: {
-    padding: wp(4),
+    padding: wp(2),
   },
 
 });

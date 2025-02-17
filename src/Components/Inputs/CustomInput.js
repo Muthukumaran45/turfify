@@ -7,6 +7,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 
 // Icons
 import { Eye, EyeOff } from "lucide-react-native";
+import { Nunito_Bold, Nunito_Regular } from "../../Constants/FontFamily";
 
 const CustomInput = ({
   placeholder = "Enter text",
@@ -43,7 +44,7 @@ const CustomInput = ({
             <TextInput
               value={countryCode}
               editable={false}
-              style={{ fontSize: RFValue(16), fontWeight: "bold" }}
+              style={{ fontSize: RFValue(16), fontFamily: Nunito_Bold }}
               className="text-neutral-600"
             />
           </View>
@@ -63,7 +64,7 @@ const CustomInput = ({
           secureTextEntry={isPasswordVisible}
           keyboardType={keyboardType}
           maxLength={maxLength}
-          style={[{ fontSize: RFValue(16), flex: 1 }, inputStyle]}
+          style={[{ fontSize: RFValue(16), flex: 1, fontFamily: Nunito_Regular }, inputStyle]}
           {...props}
         />
 
@@ -82,7 +83,7 @@ const CustomInput = ({
       </View>
 
       {/* 🔴 Show Error Message */}
-      {error && <Text style={{ color: "red", marginTop: 5, fontSize: RFValue(12) }}>{error}</Text>}
+      {error && <Text style={{ color: "red", marginTop: 5, fontSize: RFValue(12), fontFamily: Nunito_Regular }}>{error}</Text>}
     </View>
   );
 };

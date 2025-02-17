@@ -2,24 +2,23 @@ import React from "react";
 import { Text } from "react-native";
 
 // packages
-import { RFPercentage as FP } from "react-native-responsive-fontsize";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Nunito_Regular } from "../../Constants/FontFamily";
+import { Inter_Bold } from "../../Constants/FontFamily";
 
-
-const CustomText = (
+const CustomHeaderText = (
   { style,
-    size = 1.8,
+    size = 2.5,
     children,
-    fontWight = "",
+    fontWight = "700",
+    fontFamily = Inter_Bold || "",
     color = "#000",
     ML = 0,
     MR = 0,
     MT = 0,
     MB = 0,
-    fontFamily = Nunito_Regular || ""
-  }
-) => {
+    MX = 0,
+    MY = 0
+  }) => {
   return (
     <Text style={[
       {
@@ -31,7 +30,9 @@ const CustomText = (
         marginRight: hp(MR),
         marginTop: hp(MT),
         marginBottom: hp(MB),
-
+        marginVertical: hp(MY),
+        marginHorizontal: hp(MX),
+        
       },
       style]}>
       {children}
@@ -39,4 +40,4 @@ const CustomText = (
   );
 };
 
-export default CustomText;
+export default CustomHeaderText;

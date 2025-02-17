@@ -16,6 +16,7 @@ import CustomText from "../../Components/Texts/CustomText";
 import { navigate } from "../../Utils/NavigationUtil";
 import { API_URL } from "../../Services/Api";
 import FeedbackComponent from "../../Components/Reviews/FeedbackComponent";
+import { Nunito_Bold } from "../../Constants/FontFamily";
 
 // Mock image URL (replace with actual image source)
 const turfImage = "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg";
@@ -72,10 +73,10 @@ const TurfDetailsScreen = () => {
                             <Image source={{ uri: turfImage }} style={styles.turfImage} />
                             <View className={`flex-row absolute right-5 mt-3`}>
                                 <TouchableOpacity style={styles.backButton}>
-                                    <Share2 color="white" size={RFValue(18)} />
+                                    <Share2 color="white" size={hp(2.5)} />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.favoriteButton}>
-                                    <Heart color="white" size={RFValue(18)} />
+                                    <Heart color="white" size={hp(2.5)} />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -83,24 +84,24 @@ const TurfDetailsScreen = () => {
                         {/* Turf Info */}
                         <View style={styles.infoContainer}>
                             <View className={`flex-row justify-between`} >
-                                <CustomText size={20} className={`font-medium`} style={{ marginBottom: hp(.5) }}>Strikers Academy </CustomText>
+                                <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>Strikers Academy </CustomText>
                                 <View className={`flex-row items-center`} style={{ marginTop: hp(0.5) }}>
-                                    <Star size={16} color="#FFD700" />
-                                    <CustomText size={13}> (4.8)</CustomText>
+                                    <Star size={hp(2)} color="#FFD700" />
+                                    <CustomText > (4.8)</CustomText>
                                     <View style={styles.middleBorder} />
-                                    <CustomText size={13} >Distance</CustomText>
-                                    <CustomText size={13}> (1.5km)</CustomText>
+                                    <CustomText >Distance</CustomText>
+                                    <CustomText > (1.5km)</CustomText>
                                 </View>
                             </View>
 
                             <View style={styles.locationRow}>
-                                <MapPin color="gray" size={RFValue(14)} />
-                                <CustomText size={13} style={{ paddingLeft: hp(1) }}>Purasaiwakkam, Chennai</CustomText>
-                                <CustomText size={13}> (1.5km)</CustomText>
+                                <MapPin color="gray" size={hp(2)} />
+                                <CustomText style={{ paddingLeft: hp(1) }}>Purasaiwakkam, Chennai</CustomText>
+                                <CustomText> (1.5km)</CustomText>
                             </View>
 
                             {/* Pricing */}
-                            <CustomText size={13} style={{ paddingLeft: hp(.8) }}>₹ Price Start From 800/hr</CustomText>
+                            <CustomText style={{ paddingLeft: hp(.8) }}>₹ Price Start From 800/hr</CustomText>
 
                             {/* Price Details */}
                             <View style={styles.priceContainer}>
@@ -114,7 +115,7 @@ const TurfDetailsScreen = () => {
                                             <Text style={styles.headerText}>{item.hours}</Text>
                                         </View>
                                     ))}
-                                    <CustomText size={12} style={{ marginLeft: hp(1) }}>Half Day</CustomText>
+                                    <CustomText ML={1}>Half Day</CustomText>
                                 </View>
 
                                 {/* Discount Row */}
@@ -129,18 +130,18 @@ const TurfDetailsScreen = () => {
                                         </View>
                                     ))}
 
-                                    <CustomText size={12} style={{ marginLeft: hp(2.8) }}>50</CustomText>
+                                    <CustomText size={2} style={{ marginLeft: hp(2.8) }}>50</CustomText>
                                 </View>
                             </View>
 
 
                             {/* Amenities */}
                             <View>
-                                <CustomText size={20} className={`font-medium`} style={{ marginVertical: hp(1), marginTop: hp(3) }}>Amenities</CustomText>
+                                <CustomText size={2.5} fontFamily={Nunito_Bold} MB={1} MT={3}>Amenities</CustomText>
                                 <View style={styles.amenitiesContainer}>
                                     {["Washroom", "Changing Room", "Drinking Water", "Cafe", "Parking", "Prayer Room"].map((item, index) => (
                                         <View key={index} style={{ marginRight: hp(1.5), marginBottom: hp(1) }}>
-                                            <CustomText size={13} className={`rounded-md p-2 text-neutral-600`} style={{ backgroundColor: "#e0ffe0" }}>{item}</CustomText>
+                                            <CustomText style={{ backgroundColor: "#e0ffe0", padding: hp(.5), borderRadius: hp(1), paddingHorizontal: hp(1) }}>{item}</CustomText>
                                         </View>
                                     ))}
                                 </View>
@@ -157,31 +158,31 @@ const TurfDetailsScreen = () => {
                             </View>
 
                             {/* About Us */}
-                            <CustomText size={20} className={`font-medium`} style={{ marginVertical: hp(1), marginTop: hp(2) }}>About Us</CustomText>
-                            <CustomText size={13}>• 500mm grass</CustomText>
-                            <CustomText size={13}>• Sound Setup for commentary and music</CustomText>
-                            <CustomText size={13}>• Tournament and event friendly</CustomText>
+                            <CustomText size={2.5} fontFamily={Nunito_Bold} MT={2} style={{ marginVertical: hp(1) }}>About Us</CustomText>
+                            <CustomText >• 500mm grass</CustomText>
+                            <CustomText >• Sound Setup for commentary and music</CustomText>
+                            <CustomText >• Tournament and event friendly</CustomText>
 
                             {/* Available Sports */}
-                            <CustomText size={20} className={`font-medium`} style={{ marginVertical: hp(1), marginTop: hp(2) }}>Available Sports</CustomText>
+                            <CustomText size={2.5} fontFamily={Nunito_Bold} MT={1} style={{ marginVertical: hp(1) }}>Available Sports</CustomText>
                             <View className={`flex-row`}>
                                 <Text style={styles.sportIcon}>⚽</Text>
                                 <Text style={styles.sportIcon}>🏏</Text>
                             </View>
 
                             {/* Rating & Reviews */}
-                            <CustomText size={20} className={`font-medium`} style={{ marginVertical: hp(1), marginTop: hp(2) }}>Rating & Review</CustomText>
-                            <View className={`flex-row items-center`}>
-                                <CustomText size={20} className={`font-medium`}>4.0</CustomText>
-                                <CustomText className={'pl-2'} size={13}>Based on {feedbackData.length} reviews</CustomText>
+                            <CustomText size={2.5} fontFamily={Nunito_Bold} MT={2} style={{ marginVertical: hp(1), }}>Rating & Review</CustomText>
+                            <View className={`flex-row items-baseline`}>
+                                <CustomText size={5}>4.0</CustomText>
+                                <CustomText ML={1}>Based on {feedbackData.length} reviews</CustomText>
                             </View>
 
                             {/* Review */}
-                            <View style={{marginBottom: hp(1)}}>
+                            <View style={{ marginBottom: hp(1) }}>
                                 {feedbackData.length > 0 ? (
                                     <FeedbackComponent data={feedbackData} />
                                 ) : (
-                                    <CustomText size={13} className="text-center text-neutral-400" style={{ marginVertical: 10 }}>
+                                    <CustomText  style={{ marginVertical: 10, textAlign: "center" }}>
                                         No reviews available.
                                     </CustomText>
                                 )}
@@ -212,7 +213,7 @@ export default TurfDetailsScreen;
 const styles = StyleSheet.create({
     container: { flex: 1, paddingHorizontal: hp(2) },
     imageContainer: { position: "relative", marginTop: hp(2) },
-    turfImage: { width: "100%", height: hp("25%"), borderRadius: 20 },
+    turfImage: { width: "100%", height: hp("22%"), borderRadius: 20 },
     backButton: { backgroundColor: "rgba(0,0,0,0.5)", padding: 8, borderRadius: hp(50) },
     favoriteButton: { backgroundColor: "rgba(0,0,0,0.5)", padding: 8, borderRadius: hp(50), marginLeft: hp(1) },
     infoContainer: { paddingVertical: wp("5%") },

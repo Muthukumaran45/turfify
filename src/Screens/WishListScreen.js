@@ -11,11 +11,13 @@ import WishListCard from '../Components/Cards/WishListCard';
 import { WishListData } from '../Constants/Datas';
 import Header from '../Components/Headers/Header';
 
+import { navigate } from '../Utils/NavigationUtil';
+
 const WishListScreen = () => {
   return (
     <View style={{ flex: 1, paddingHorizontal: hp(2) }}>
       <Header title='Favorite' />
-      <WishListCard data={WishListData} /> 
+      <WishListCard data={WishListData} onPressBtn={() => navigate("TurfDetailsScreen")} /> 
     </View>
   );
 };

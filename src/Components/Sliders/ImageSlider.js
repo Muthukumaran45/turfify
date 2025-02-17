@@ -70,18 +70,19 @@ const styles = StyleSheet.create({
   },
   image: {
     width: wp(94),
-    height: hp(25),
-    borderRadius: wp(2),
+    height: hp(20),
+    borderRadius: wp(4),
     marginHorizontal: wp(3),
   },
   pagination: {
     flexDirection: "row",
     marginTop: hp(1.5),
     justifyContent: "center",
+    
   },
   dot: {
-    width: wp(2),
-    height: wp(2),
+    width: hp(1),
+    height: hp(1),
     marginHorizontal: wp(1),
     borderRadius: wp(1),
   },

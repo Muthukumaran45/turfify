@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp('3%'),
     marginRight: wp('3%'),
-    overflow: 'hidden', // Ensures proper border radius
+    overflow: 'hidden',
     elevation: 3,
   },
   leftContainer: {

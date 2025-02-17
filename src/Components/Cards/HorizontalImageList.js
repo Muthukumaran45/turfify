@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 160,
+    height: hp(20),
     borderRadius: 12,
   },
   pagination: {

@@ -40,7 +40,7 @@ const TournamentForm = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ChevronLeft size={rf(22)} color={"#000"} />
         </TouchableOpacity>
-        <CustomText size={17} className={`font-medium`} style={styles.header}>Match Details</CustomText>
+        <CustomText size={2.3} fontWight='700' style={styles.header}>Match Details</CustomText>
       </View>
 
       <View className={`items-center justify-center`} style={{ marginTop: hp(3) }} >
@@ -53,7 +53,7 @@ const TournamentForm = () => {
           }}
           className={`bg-gray-300`}
         >
-          <CustomText size={12} className={`text-white`} style={styles.logoText}>Team Logo</CustomText>
+          <CustomText color='#fff' style={styles.logoText}>Team Logo</CustomText>
           <View className='rounded-full' style={styles.switchCamera}>
             <Ionicons name={"camera-sharp"} size={hp(2.8)} style={{ color: "#fff" }} />
           </View>
@@ -62,7 +62,7 @@ const TournamentForm = () => {
 
       <View style={{ marginTop: hp(3), marginHorizontal: hp(4) }}>
         <View>
-          <CustomText size={14}>Team Name</CustomText>
+          <CustomText >Team Name</CustomText>
           <CustomInput
             height={hp(6)}
             className={`rounded-md`}
@@ -73,7 +73,7 @@ const TournamentForm = () => {
         </View>
 
         <View style={{ marginTop: hp(1.5) }}>
-          <CustomText size={14}>Skill Level</CustomText>
+          <CustomText >Skill Level</CustomText>
           <CustomInput
             height={hp(6)}
             className={`rounded-md`}
@@ -83,7 +83,7 @@ const TournamentForm = () => {
         </View>
 
         <View style={{ marginTop: hp(1.5) }}>
-          <CustomText size={14}>Team Strength</CustomText>
+          <CustomText >Team Strength</CustomText>
           <CustomInput
             height={hp(6)}
             className={`rounded-md`}
@@ -93,7 +93,7 @@ const TournamentForm = () => {
         </View>
 
         <View style={{ marginTop: hp(1.5) }}>
-          <CustomText size={14}>Message</CustomText>
+          <CustomText >Message</CustomText>
           <CustomInput
             height={hp(13)}
             className={`rounded-md`}
