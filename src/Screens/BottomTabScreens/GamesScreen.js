@@ -1,8 +1,10 @@
 import { SafeAreaView, FlatList, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../Services/Api';
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import axios from 'axios';
 
 // Components
 import CustomText from '../../Components/Texts/CustomText';
@@ -16,16 +18,37 @@ import TournamentCardList from '../../Components/Cards/TournamentCard';
 import { Heart } from "lucide-react-native";
 
 // Data
-import { data, categoryData, tournamentData } from '../../Constants/Datas';
+import { bottomSlides, categoryData, tournamentDatas } from '../../Constants/Datas';
 
 // Utils
 import { navigate } from '../../Utils/NavigationUtil';
 import { COLORS } from '../../Constants/Colors';
 import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
+// store
+import useLocationStore from '../../Zustand/useLocationStore';
+
 const GamesScreen = () => {
 
   const sections = [{ id: '1' }];
+
+  const { latitude, longitude } = useLocationStore();
+  const [tournamentData, setTournamentData] = useState([]);
+
+  const fetchTournamentData = async () => {
+
+    try {
+      const response = await axios.get(`${API_URL}/tournaments/nearby?latitude=12.9706288&longitude=80.2510542`);
+      const data = response.data;
+      setTournamentData(data);
+    } catch (error) {
+      console.log("Error from getting Tournament data", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchTournamentData();
+  }, [])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -51,7 +74,7 @@ const GamesScreen = () => {
             </View>
 
             {/* Image Scroller */}
-            <HorizontalImageList data={data} />
+            <HorizontalImageList data={bottomSlides} />
 
             {/* Category List */}
             <View>
@@ -62,7 +85,7 @@ const GamesScreen = () => {
             {/* Near You Section */}
             <View>
               <CustomHeaderText ML={2} MB={1.5} MT={3}>Near you</CustomHeaderText>
-              <TournamentCardList data={tournamentData} style={{ marginHorizontal: hp(2) }} />
+              <TournamentCardList data={tournamentData?.length ? tournamentData : tournamentDatas } style={{ marginHorizontal: hp(2) }} />
             </View>
 
             <View style={{ marginBottom: hp(8) }} />

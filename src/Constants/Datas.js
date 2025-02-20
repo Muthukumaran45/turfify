@@ -18,11 +18,17 @@ export const slides = [
     "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
     "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
     "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
-
-
 ];
 
-// data for Horizontal cards
+export const bottomSlides = [
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
+    "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+];
+
+// data for nearby turf
 export const data = [
     { id: '1', title: 'Game On 2.0', location: 'Thoraipakkam, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg' },
     { id: '2', title: 'Spark Academy', location: 'Sholinganallur, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg' },
@@ -31,6 +37,33 @@ export const data = [
     { id: '5', title: 'Urban Turf', location: 'OMR, Chennai', price: '₹350 ONWARDS', rating: '4.8', image: 'https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174876/img3_tt3uu5.jpg' },
 ];
 
+
+// turf price data
+export const priceData = {
+    weekend: {
+      title: 'SAT, SUN',
+      slots: [
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+      ]
+    },
+    weekday: {
+      title: 'MON, TUE, WED, THU, FRI',
+      slots: [
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+      ]
+    },
+    wednesday: {
+      title: 'WED',
+      slots: [
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+        { time: '06:00 AM - 06:00 PM', price: 1000 },
+      ]
+    }
+  };
 
 // Reward data
 export const rewardData = [
@@ -165,25 +198,62 @@ export const categoryData = [
     { id: '3', name: 'Basketball', icon: Aperture, leftBgColor: '#FFECB3', rightBgColor: '#FF9800', textColor: '#FFF', iconColor: '#F57C00' },
 ];
 
-export const tournamentData = [
+export const tournamentDatas = [
     {
-        id: "1",
-        image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174874/img5_nxxq8e.jpg",
-        title: "Strikers Academy",
-        venue: "Strikers Academy, Purasaiwakkam, Chennai",
-        date: "12th & 13th Oct",
-        teamSize: "7+1",
+        "_id": "67b33a3b93df5da674a987b7",
+        "category": "Football",
+        "turfName": "Green Arena",
+        "venue": "Green Arena Sports ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                80.2510542,
+                12.9706288
+            ]
+        },
+        "banner": "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+        "teamSize": 7,
+        "date": "2025-03-15",
+        "organizerName": "John Doe",
+        "organizerNumber": "+1234567890",
+        "title": "Spring Football Championship",
+        "rules": "All players must wear proper football gear. No rough tackles allowed.",
+        "status": "pending",
+        "vendorId": "67ab98a2faa9d788d49fb5f9",
+        "__v": 0,
+        "createdAt": "2025-02-17T13:31:39.351Z",
+        "updatedAt": "2025-02-17T13:31:39.351Z",
+        "distance": 0
     },
     {
-        id: "2",
-        image: "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img1_zc1qkv.jpg",
-        title: "Elite Cricket League",
-        venue: "Elite Ground, Anna Nagar, Chennai",
-        date: "20th & 21st Oct",
-        teamSize: "8+2",
-    },
+        "_id": "67b33a3b93df5da674a987b7",
+        "category": "Football",
+        "turfName": "Green Arena",
+        "venue": "Green Arena Sports ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                80.2510542,
+                12.9706288
+            ]
+        },
+        "banner": "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg",
+        "teamSize": 7,
+        "date": "2025-03-15",
+        "organizerName": "John Doe",
+        "organizerNumber": "+1234567890",
+        "title": "Spring Football Championship",
+        "rules": "All players must wear proper football gear. No rough tackles allowed.",
+        "status": "pending",
+        "vendorId": "67ab98a2faa9d788d49fb5f9",
+        "__v": 0,
+        "createdAt": "2025-02-17T13:31:39.351Z",
+        "updatedAt": "2025-02-17T13:31:39.351Z",
+        "distance": 0
+    }
 
 ];
+
 
 // wishlist data
 export const WishListData = [

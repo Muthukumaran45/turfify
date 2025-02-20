@@ -24,7 +24,8 @@ import { Heart } from "lucide-react-native";
 import { COLORS } from '../../Constants/Colors';
 
 // data's
-import { data, perfectData, sportsData, bookingData, slides, rewardData } from '../../Constants/Datas';
+import { data, perfectData, sportsData, bookingData, slides, rewardData, bottomSlides } from '../../Constants/Datas';
+import { nearByturf } from '../../Constants/nearByData';
 
 // utils
 import { navigate } from '../../Utils/NavigationUtil';
@@ -32,22 +33,18 @@ import Zustand from '../../Zustand/Zustand'
 import { API_URL } from '../../Services/Api';
 import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
+// store
+import useLocationStore from '../../Zustand/useLocationStore';
+import useNearTurfStore from '../../Zustand/useNearTurfStore';
+import Card from '../../Components/Cards/Card';
+
 const HomeScreen = () => {
   const { user } = Zustand()
 
   console.log(user, 'useruseruser')
 
-  const [location, setLocation] = useState({
-    latitude: "",
-    longitude: ""
-  })
-
   const [bannerImg, setBannerImg] = useState([]);
-  const [nearbyTurf, setNearbyTurf] = useState([])
-
-  const handleNavigation = useCallback((screen) => {
-    if (screen) navigate(screen);
-  }, []);
+  const [nearByTurfData, setNearByTurfData] = useState([])
 
 
   const handleView = () => Alert.alert('View Booking', `Viewing ${bookingData.title}`);
@@ -62,7 +59,7 @@ const HomeScreen = () => {
       });
 
       console.log("location", loc);
-      setLocation({ latitude: loc.latitude, longitude: loc.longitude })
+      useLocationStore.getState().setLocation(loc.latitude, loc.longitude);
       fetchBannerSlide(loc.latitude, loc.longitude);
       fetchNearbyTurf(loc.latitude, loc.longitude)
     } catch (error) {
@@ -87,7 +84,7 @@ const HomeScreen = () => {
     }
   }
 
-  // getting nearby court
+  // Fetch nearby Turf
   const fetchNearbyTurf = async (latitude, longitude) => {
     const payload = {
       lat1: latitude,
@@ -96,16 +93,20 @@ const HomeScreen = () => {
 
     try {
       const response = await axios.post(`${API_URL}/turfs/getnearestturfs`, payload);
-      const Data = response.data.turfs
-      setNearbyTurf(Data)
+      const data = response.data.turfs
+      setNearByTurfData(data);
+      useNearTurfStore().getState().setNearByTurf(data);
     } catch (error) {
       console.log("Error from getting nearbyTurf ", error)
     }
   }
 
+
+
   useEffect(() => {
     getCurrentLocation();
   }, []);
+
 
 
   return (
@@ -124,7 +125,7 @@ const HomeScreen = () => {
         </View>
 
         {/* Search Bar */}
-        <View style={{marginHorizontal: hp(2)}}>
+        <View style={{ marginHorizontal: hp(2) }}>
           <SearchBar placeholder="Search here..." />
         </View>
 
@@ -137,14 +138,13 @@ const HomeScreen = () => {
           />
         </View>
 
-
         {/* upcoming booking */}
         <View>
           <UpcomingBooking booking={bookingData} onView={handleView} onDelete={handleDelete} />
         </View>
 
         {/* Horizontal Icon List */}
-        <HorizontalIconList data={sportsData} onPressItem={handleNavigation} />
+        <HorizontalIconList data={sportsData} onPressItem={() => navigate('CricketScreen')} />
 
         {/* Reward card */}
         <View style={styles.section}>
@@ -155,18 +155,17 @@ const HomeScreen = () => {
         {/* Nearby Court */}
         <View style={styles.section}>
           <CustomHeaderText ML={2}>Near By Court</CustomHeaderText>
-          <HorizontalCardList data={data} onPressItem={() => navigate("TurfDetailsScreen")} />
+          <HorizontalCardList  data={nearByTurfData?.length ? nearByTurfData : nearByturf} />
         </View>
 
         {/* Perfect Pick for You */}
         <View style={styles.section}>
           <CustomHeaderText ML={2}>Perfect pick for you</CustomHeaderText>
-
-          <HorizontalCardList data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
+          <Card data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* Bottom Image List */}
-        <HorizontalImageList data={data} />
+        <HorizontalImageList data={bottomSlides} />
 
         <View style={styles.bottomSpacing} />
       </ScrollView>

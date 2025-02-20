@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
@@ -109,7 +109,7 @@ const BookingDateTimeScreen = () => {
       </View>
 
       {/* Time Slot Selection */}
-      <View style={styles.timeSlotContainer}>
+      <ScrollView style={styles.timeSlotContainer} showsVerticalScrollIndicator={false}>
         {Object.keys(timeSlots).map((category) => {
           const categoryIcons = {
             Morning: "🌅 Morning",
@@ -140,7 +140,9 @@ const BookingDateTimeScreen = () => {
             </View>
           );
         })}
-      </View>
+
+        <View style={{marginBottom: hp(10)}} />
+      </ScrollView>
 
 
       {/* footer */}
@@ -245,6 +247,7 @@ const styles = StyleSheet.create({
   },
   timeSlotSection: {
     marginBottom: hp(2),
+
   },
   timeSlotHeading: {
     marginBottom: hp(1),

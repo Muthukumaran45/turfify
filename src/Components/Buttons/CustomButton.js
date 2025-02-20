@@ -3,17 +3,19 @@ import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from "react-nat
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Inter } from "../../Constants/FontFamily";
+import CustomText from "../Texts/CustomText";
 
-const CustomButton = ({ 
-  title, 
-  onPress, 
-  size = 16, 
-  className = "", 
-  style = {}, 
-  textStyle = {}, 
+const CustomButton = ({
+  title,
+  onPress,
+  size = 16,
+  className = "",
+  style = {},
+  textStyle = {},
   disabled = false,
   loading = false,
   height,
+  color,
 }) => {
   return (
     <TouchableOpacity
@@ -26,12 +28,9 @@ const CustomButton = ({
       {loading ? (
         <ActivityIndicator size="small" color="#fff" />
       ) : (
-        <Text 
-          className="text-white"
-          style={[{ fontSize: RFValue(size), fontFamily: Inter }, textStyle]}
-        >
-          {title}
-        </Text>
+        <CustomText  style={[{ fontSize: RFValue(size), fontFamily: Inter, color: color || "#fff"}, textStyle]}>
+        {title}
+        </CustomText>
       )}
     </TouchableOpacity>
   );

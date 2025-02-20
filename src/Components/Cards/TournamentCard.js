@@ -13,7 +13,7 @@ import { Nunito_Bold } from "../../Constants/FontFamily";
 const TournamentCard = ({ item }) => {
   return (
     <View style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+      <Image source={{ uri: item.banner }} style={styles.image} resizeMode="cover" />
 
       <View style={styles.info}>
         <CustomText size={2} fontFamily={Nunito_Bold}>{item.title}</CustomText>

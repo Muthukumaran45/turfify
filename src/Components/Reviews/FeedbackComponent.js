@@ -12,12 +12,12 @@ const FeedbackComponent = ({ data }) => {
           <CustomText  className="font-medium text-neutral-400">
             {item.reviewerId?.username || "Anonymous"}
           </CustomText>
-          <CustomText className="mt-1" size={13} >
+          <CustomText className="mt-1" >
             {new Date(item.date).toDateString()}
           </CustomText>
         </View>
         <CustomText>{'⭐'.repeat(item.rating)}</CustomText>
-        <CustomText size={13}>{item.review}</CustomText>
+        <CustomText>{item.review}</CustomText>
       </View>
     </View>
   );

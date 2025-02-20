@@ -19,7 +19,7 @@ const ImageSlider = ({ slides, style, bg, inactiveDotColor, activeDotColor, inte
         setActiveIndex(nextIndex);
       }
     }, interval);
-
+ 
     return () => clearInterval(autoScroll);
   }, [activeIndex, slides.length]);
 

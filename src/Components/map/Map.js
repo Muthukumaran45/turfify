@@ -210,9 +210,9 @@ const LocationComponent = () => {
           <CustomButton
             title="Submit"
             onPress={() => {
-              if (selectedLocation) {
-                sendLocationToBackend(selectedLocation.latitude, selectedLocation.longitude);
-              }
+              // if (selectedLocation) {
+              //   sendLocationToBackend(selectedLocation.latitude, selectedLocation.longitude);
+              // }
               setModalVisible(false);
             }}
           />

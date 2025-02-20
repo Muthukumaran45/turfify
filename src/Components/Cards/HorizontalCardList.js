@@ -1,96 +1,150 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { RFPercentage as rf } from "react-native-responsive-fontsize";
-import { Heart } from "lucide-react-native";
-import { COLORS } from "../../Constants/Colors";
-import { truncateText } from "../../Utils/Scaling";
-import CustomText from "../Texts/CustomText";
-import { Nunito_Bold } from "../../Constants/FontFamily";
+  import React, { useState, useEffect, useRef } from "react";
+  import { View, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, Dimensions } from "react-native";
+  import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+  import { RFPercentage as rf } from "react-native-responsive-fontsize";
+  import { Heart } from "lucide-react-native";
+  import { COLORS } from "../../Constants/Colors";
+  import CustomText from "../Texts/CustomText";
+  import { Nunito_Bold } from "../../Constants/FontFamily";
+import { navigate } from "../../Utils/NavigationUtil";
 
+  const { width } = Dimensions.get("window");
 
-const CardItem = ({ item, onPress }) => {
-  const [liked, setLiked] = useState(false);
+  const CardItem = ({ item }) => {
+    const [liked, setLiked] = useState(false);
+    const [activeSlide, setActiveSlide] = useState(0);
+    const scrollViewRef = useRef(null);
 
-  return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    // Default image URL
+    const defaultImage = "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174881/img4_qt8b36.jpg";
 
-      <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-      
-      <View style={styles.info}>
-        <CustomText size={2} fontFamily={Nunito_Bold}>{truncateText(item.title, 16)}</CustomText>
-        <CustomText>{truncateText(item.location, 19)}</CustomText>
-        <View className="flex-row justify-between items-center">
-            <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
-            <CustomText>⭐ ({item.rating})</CustomText>
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setActiveSlide((prev) => {
+          const nextSlide = (prev + 1) % item.images?.length;
+          if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ x: nextSlide * wp("40%"), animated: true });
+          }
+          return nextSlide;
+        });
+      }, 3000); // Adjust time as needed (3000ms = 3 seconds)
+
+      return () => clearInterval(interval); // Cleanup on unmount
+    }, [item.images?.length]);
+
+    // If no images exist, show the default image
+    const imagesToDisplay = item.images?.length > 0 ? item.images : [defaultImage];
+
+    return (
+      <TouchableOpacity onPress={() => navigate('TurfDetailsScreen', {turfData : item})} style={styles.card}>
+        {/* Image Slider */}
+        <View>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            ref={scrollViewRef}
+            onScroll={(event) => {
+              const slideIndex = Math.round(event.nativeEvent.contentOffset.x / wp("40%"));
+              setActiveSlide(slideIndex);
+            }}
+            scrollEventThrottle={16}
+          >
+            {imagesToDisplay.map((image, index) => (
+              <Image key={index} source={{ uri: image }} style={styles.image} resizeMode="cover" />
+            ))}
+          </ScrollView>
+
+          {/* Pagination Dots (Only if there are multiple images) */}
+          {imagesToDisplay.length > 1 && (
+            <View style={styles.paginationContainer}>
+              {imagesToDisplay.map((_, index) => (
+                <View
+                  key={index}
+                  style={[styles.dotStyle, activeSlide === index ? styles.activeDot : styles.inactiveDot]}
+                />
+              ))}
+            </View>
+          )}
+        </View>
+
+        {/* Turf Information */}
+        <View style={styles.info}>
+          <CustomText size={2} fontFamily={Nunito_Bold}>{item.turfName}</CustomText>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <CustomText MT={0.5}>
+              {item.pitches?.[0]?.timeSlots?.[0]?.pricing?.weekdays?.originalPrice ?? "N/A"}
+            </CustomText>
           </View>
-      </View>
-      <TouchableOpacity
-        style={styles.like}
-        onPress={() => setLiked(!liked)}
-      >
-        <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
+        </View>
+
+        {/* Like Button */}
+        <TouchableOpacity style={styles.like} onPress={() => setLiked(!liked)}>
+          <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
+    );
+  };
+
+  const HorizontalCardList = ({ data }) => (
+    <FlatList
+      data={data}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item) => item._id}
+      renderItem={({ item }) => <CardItem item={item}/>}
+      contentContainerStyle={styles.container}
+    />
   );
-};
 
-const HorizontalCardList = ({ data, onPressItem }) => (
-  <FlatList
-    data={data}
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    keyExtractor={(item) => item.id}
-    renderItem={({ item }) => <CardItem item={item} onPress={onPressItem} />}
-    contentContainerStyle={styles.container}
-  />
-);
+  const styles = StyleSheet.create({
+    container: {
+      paddingHorizontal: hp(2),
+      position: "relative",
+    },
+    card: {
+      backgroundColor: "#fff",
+      borderRadius: wp("2%"),
+      marginRight: wp("3%"),
+      width: wp("40%"),
+      height: hp("24.5%"),
+      elevation: 3,
+      overflow: "hidden",
+      marginVertical: hp(1.5),
+    },
+    image: {
+      width: wp("40%"),
+      height: hp("15%"),
+      borderTopLeftRadius: wp("2%"),
+      borderTopRightRadius: wp("2%"),
+    },
+    like: {
+      position: "absolute",
+      right: hp(1),
+      top: hp(1),
+    },
+    info: {
+      height: hp("9%"),
+      padding: wp("2%"),
+    },
+    paginationContainer: {
+      position: "absolute",
+      bottom: 5,
+      alignSelf: "center",
+      flexDirection: "row",
+    },
+    dotStyle: {
+      width: 6,
+      height: 6,
+      borderRadius: 5,
+      marginHorizontal: 3,
+    },
+    activeDot: {
+      backgroundColor: COLORS.primary,
+    },
+    inactiveDot: {
+      backgroundColor: "#C4C4C4",
+    },
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: hp(2),
-    position: "relative",
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: wp("2%"),
-    marginRight: wp("3%"),
-    width: wp("40%"),
-    height: hp("24.5%"),
-    elevation: 3,
-    overflow: "hidden",
-    marginVertical: hp(1.5),
-  },
-  image: {
-    width: "100%",
-    height: hp("15%"),
-  },
-  like: {
-    position: "absolute",
-    right: hp(1),
-    top: hp(1),
-  },
-  info: {
-    height: hp("13%"),
-    padding: wp("2%"),
-  },
-  title: {
-    fontSize: rf(2.2),
-    fontWeight: "bold",
-  },
-  location: {
-    fontSize: rf(1.8),
-    color: "gray",
-  },
-  price: {
-    fontSize: rf(2),
-    fontWeight: "bold",
-    color: "green",
-  },
-  rating: {
-    fontSize: rf(2),
-    color: "orange",
-  },
-});
-
-export default HorizontalCardList;
+  export default HorizontalCardList;

@@ -24,7 +24,7 @@ const Carousel = ({ data }) => {
         data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{ paddingHorizontal: SPACING }}
         snapToInterval={ITEM_WIDTH + SPACING}
         snapToAlignment="start"
@@ -32,7 +32,7 @@ const Carousel = ({ data }) => {
         onMomentumScrollEnd={handleMomentumScrollEnd}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Image source={{ uri: item.image }} style={styles.image} />
+            <Image source={{ uri: String(item)}} style={styles.image} />
           </View>
         )}
       />

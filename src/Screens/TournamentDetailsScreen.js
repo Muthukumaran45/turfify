@@ -29,7 +29,7 @@ const TournamentDetailsScreen = () => {
 
       {/* Display Image */}
       <View style={{ marginHorizontal: hp(2), marginTop: hp(5) }}>
-        <Image source={{ uri: tournament.image }} style={styles.image} resizeMode="cover" />
+        <Image source={{ uri: tournament.banner }} style={styles.image} resizeMode="cover" />
       </View>
 
       {/* Skills & Requirements Section */}

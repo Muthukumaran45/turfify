@@ -18,12 +18,13 @@ import CardList from '../../Components/Cards/CardList';
 import { ChevronLeft } from "lucide-react-native";
 
 // data's
-import { data, sportsData, CardListData } from '../../Constants/Datas';
+import { data, sportsData, CardListData, bottomSlides } from '../../Constants/Datas';
 import Header from '../../Components/Headers/Header';
 
 // utils
 import { navigate } from '../../Utils/NavigationUtil';
 import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
+import Card from '../../Components/Cards/Card';
 
 const CricketScreen = () => {
   const navigation = useNavigation();
@@ -46,7 +47,7 @@ const CricketScreen = () => {
 
       {/* image scroller */}
       <View>
-        <HorizontalImageList data={data} />
+        <HorizontalImageList data={bottomSlides} />
       </View>
 
       {/* horizontal icon list */}
@@ -57,7 +58,7 @@ const CricketScreen = () => {
       {/* best deals */}
       <View style={{ marginVertical: hp(3), }}>
         <CustomHeaderText ML={2}>Best Deals for you</CustomHeaderText>
-        <HorizontalCardList data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")} />
+        <Card data={data} onPressItem={() => navigation.navigate("TurfDetailsScreen")}  />
       </View>
 
       {/* short by distance */}
