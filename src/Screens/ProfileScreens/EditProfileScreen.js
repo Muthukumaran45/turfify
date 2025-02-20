@@ -5,6 +5,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, SafeAreaVi
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import ImageViewer from "react-native-image-zoom-viewer";
+import { request, PERMISSIONS, RESULTS } from "react-native-permissions";
 
 // components
 import CustomText from "../../Components/Texts/CustomText";
@@ -23,24 +24,68 @@ const EditProfileScreen = () => {
 
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
   const [zoomModalVisible, setZoomModalVisible] = useState(false);
+  const [profileImage, setProfileImage] = useState(""); 
 
-  const [profileImage, setProfileImage] = useState(require("../../Assets/profile.png")); // Default image
 
-  const handleCameraPress = () => {
+  const handleDeleteProfilePic = () => {
+    setProfileImage(null); // Remove the image
+  };
+
+  // Request camera permission
+  const requestCameraPermission = async () => {
+    const permission = Platform.OS === 'android' ? PERMISSIONS.ANDROID.CAMERA : PERMISSIONS.IOS.CAMERA;
+    const result = await request(permission);
+    return result === RESULTS.GRANTED;
+  };
+
+  // Request gallery permission
+  const requestGalleryPermission = async () => {
+    const permission = Platform.OS === 'android'
+      ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+      : PERMISSIONS.IOS.PHOTO_LIBRARY;
+
+    const result = await request(permission);
+    return result === RESULTS.GRANTED;
+  };
+
+
+  const handleCameraPress = async () => {
+    const hasPermission = await requestCameraPermission();
+    if (!hasPermission) {
+      console.log("Camera permission denied");
+      return;
+    }
+
     launchCamera({ mediaType: "photo", quality: 1 }, (response) => {
-      if (!response.didCancel && !response.error) {
+      if (response.didCancel) {
+        console.log("User cancelled camera");
+      } else if (response.errorCode) {
+        console.log("Camera Error: ", response.errorMessage);
+      } else {
         setProfileImage({ uri: response.assets[0].uri });
       }
     });
+
     setCameraModalVisible(false);
   };
 
-  const handleGalleryPress = () => {
+  const handleGalleryPress = async () => {
+    const hasPermission = await requestGalleryPermission();
+    if (!hasPermission) {
+      console.log("Gallery permission denied");
+      return;
+    }
+
     launchImageLibrary({ mediaType: "photo", quality: 1 }, (response) => {
-      if (!response.didCancel && !response.error) {
+      if (response.didCancel) {
+        console.log("User cancelled gallery");
+      } else if (response.errorCode) {
+        console.log("Gallery Error: ", response.errorMessage);
+      } else {
         setProfileImage({ uri: response.assets[0].uri });
       }
     });
+
     setCameraModalVisible(false);
   };
 
@@ -57,21 +102,30 @@ const EditProfileScreen = () => {
         {/* user image & user details */}
         <View className={`items-center justify-center`} style={{ marginVertical: hp(2), marginHorizontal: hp(2) }}>
           <View>
-            <TouchableOpacity onPress={() => setZoomModalVisible(true)}>
-              <Image
-                source={profileImage}
+            <TouchableOpacity onPress={() => profileImage && setZoomModalVisible(true)}>
+              <View
                 style={{
-                  width: wp("23%"),
-                  height: wp("23%"),
+                  width: hp(18),
+                  height: hp(18),
                   borderRadius: wp("50%"),
-                  position: "relative",
+                  backgroundColor: profileImage ? "transparent" : "#D3D3D3", // Grey background when empty
                 }}
-              />
+              >
+                {profileImage ? (
+                  <Image
+                    source={profileImage}
+                    style={{ width: "100%", height: "100%", borderRadius: wp("50%") }}
+                  />
+                ) : (
+                  <View style={{ flex: 1, backgroundColor: "#D3D3D3", borderRadius: wp("50%") }} />
+                )}
+
+              </View>
             </TouchableOpacity>
 
-            {/* camera */}
+            {/* Camera Button */}
             <TouchableOpacity onPress={() => setCameraModalVisible(true)} style={styles.switchCamera}>
-              <Ionicons name={"camera-reverse-sharp"} size={hp(4)} style={{ color: "#000" }} />
+              <Ionicons name={"camera-reverse-sharp"} size={hp(3.5)} style={{ color: "#000" }} />
             </TouchableOpacity>
           </View>
 
@@ -80,6 +134,7 @@ const EditProfileScreen = () => {
             onClose={() => setCameraModalVisible(false)}
             onCameraPress={handleCameraPress}
             onGalleryPress={handleGalleryPress}
+            onDeletePress={handleDeleteProfilePic}
           />
 
 
@@ -113,11 +168,16 @@ const EditProfileScreen = () => {
 
             {/* Image Viewer */}
             <ImageViewer
-              imageUrls={[{ url: profileImage.uri ? profileImage.uri : Image.resolveAssetSource(profileImage).uri }]}
+              imageUrls={
+                profileImage
+                  ? [{ url: profileImage.uri ? profileImage.uri : Image.resolveAssetSource(profileImage).uri }]
+                  : [{ url: "" }] // Provide a fallback empty URL
+              }
               enableSwipeDown={true}
               onSwipeDown={() => setZoomModalVisible(false)}
-               renderIndicator={() => null}
+              renderIndicator={() => null}
             />
+
 
           </View>
         </Modal>
@@ -158,6 +218,9 @@ const styles = StyleSheet.create({
   switchCamera: {
     position: "absolute",
     right: hp(-1),
-    top: hp(.5)
+    top: hp(.5),
+    backgroundColor: "#fff",
+    borderRadius: hp(100),
+    padding: hp(1)
   }
 })

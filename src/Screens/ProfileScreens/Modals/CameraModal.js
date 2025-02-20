@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { X, Trash2 } from "lucide-react-native"; 
+import { X, Trash2 } from "lucide-react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const CameraModal = ({ visible, onClose, onCameraPress, onGalleryPress, onDeletePress }) => {
@@ -16,9 +16,11 @@ const CameraModal = ({ visible, onClose, onCameraPress, onGalleryPress, onDelete
             <X size={hp(2.8)} color="black" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Profile Photo</Text>
-          <TouchableOpacity onPress={onDeletePress}>
+
+          <TouchableOpacity onPress={() => { onClose(); onDeletePress(); }}>
             <Trash2 size={hp(2.8)} color="black" />
           </TouchableOpacity>
+
         </View>
 
         {/* Options */}
@@ -28,7 +30,7 @@ const CameraModal = ({ visible, onClose, onCameraPress, onGalleryPress, onDelete
             <Ionicons name="camera" size={hp(4)} color="black" />
             <Text style={styles.optionText}>Camera</Text>
           </TouchableOpacity>
-          
+
           {/* Gallery Option */}
           <TouchableOpacity style={styles.option} onPress={onGalleryPress}>
             <Ionicons name="image" size={hp(4)} color="black" />
@@ -46,7 +48,7 @@ export default CameraModal;
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "flex-end"
   },
   modalContainer: {
@@ -71,9 +73,9 @@ const styles = StyleSheet.create({
     color: "black"
   },
   optionContainer: {
-    flexDirection: "row", 
-    justifyContent: "space-around", 
-    width: "100%", 
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
     paddingVertical: hp(2)
   },
   option: {
