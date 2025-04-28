@@ -29,10 +29,10 @@ const TabBarIcon = ({ IconComponent, label, color, focused }) => {
     <View className='items-center justify-center'>
       <IconComponent
         absoluteStrokeWidth={true}
-        strokeWidth={2}
+        strokeWidth={1.3}
         color={focused ? color : color}
         fill={focused ? color : "none"}
-        size={hp(3.5)}
+        size={hp(3)}
       />
       {/* <Text style={{ fontSize: hp(1.5), color: focused ? "#378E26" : color, marginTop: hp(0.5) }}>
         {label}
@@ -48,13 +48,13 @@ export const CustomBottomTabs = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#fff",
-          height: hp(9),
+          height: hp(10),
           position: 'absolute',
-          paddingBottom: hp(1),
+          paddingBottom: hp(2),
         },
         tabBarLabelStyle: { fontSize: hp(1.8) },
         tabBarActiveTintColor: "#378E26",
-        tabBarInactiveTintColor: "#A8A8A8",
+        tabBarInactiveTintColor: "#495057",
         tabBarPressColor: "transparent",
         tabBarHideOnKeyboard: true,
       }}

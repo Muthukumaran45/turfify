@@ -8,6 +8,7 @@ export const COLORS = {
   discountGradient1: "#FF4B4B",
   discountGradient2: "#8E0508",
   claimRewardColor: "#D9AB34",
+  bgColor: "#f2f2f2",
 
   themeColor: "#00D09C",
   lite_black: "#3D3D3D2B",

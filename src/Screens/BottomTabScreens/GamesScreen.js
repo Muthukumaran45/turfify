@@ -13,6 +13,7 @@ import CategoryList from '../../Components/Cards/CategoryList';
 import LocationComponent from '../../Components/map/Map';
 import SearchBar from '../../Components/SearchBars/SearchBar';
 import TournamentCardList from '../../Components/Cards/TournamentCard';
+import CoinHeartHeader from '../../Components/Headers/CoinHeartHeader';
 
 // Icons
 import { Heart } from "lucide-react-native";
@@ -36,7 +37,6 @@ const GamesScreen = () => {
   const [tournamentData, setTournamentData] = useState([]);
 
   const fetchTournamentData = async () => {
-
     try {
       const response = await axios.get(`${API_URL}/tournaments/nearby?latitude=12.9706288&longitude=80.2510542`);
       const data = response.data;
@@ -51,7 +51,7 @@ const GamesScreen = () => {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.bgColor }}>
       <FlatList
         data={sections}
         keyExtractor={(item) => item.id}
@@ -63,9 +63,8 @@ const GamesScreen = () => {
               <View>
                 <LocationComponent />
               </View>
-              <TouchableOpacity onPress={() => navigate("WishListScreen")}>
-                <Heart size={hp(3.5)} fill={COLORS.likedColor} color={COLORS.likedColor} />
-              </TouchableOpacity>
+
+              <CoinHeartHeader />
             </View>
 
             {/* Search Bar */}
@@ -85,7 +84,7 @@ const GamesScreen = () => {
             {/* Near You Section */}
             <View>
               <CustomHeaderText ML={2} MB={1.5} MT={3}>Near you</CustomHeaderText>
-              <TournamentCardList data={tournamentData?.length ? tournamentData : tournamentDatas } style={{ marginHorizontal: hp(2) }} />
+              <TournamentCardList data={tournamentData?.length ? tournamentData : tournamentDatas} style={{ marginHorizontal: hp(2) }} />
             </View>
 
             <View style={{ marginBottom: hp(8) }} />

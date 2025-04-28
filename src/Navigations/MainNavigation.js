@@ -6,10 +6,10 @@ const Stack = createNativeStackNavigator();
 
 // Animation mapping for different screens
 const screenAnimations = {
-    CricketScreen: "slide_from_bottom",
-    BookingInfoScreen: "slide_from_right",
-    BookingDateTimeScreen:"slide_from_bottom",
-    TournamentFormScreen: "slide_from_bottom",
+    // CricketScreen: "slide_from_bottom",
+    // BookingInfoScreen: "slide_from_right",
+    // BookingDateTimeScreen:"slide_from_bottom",
+    // TournamentFormScreen: "slide_from_bottom",
 };
 
 const MainNavigation = () => {

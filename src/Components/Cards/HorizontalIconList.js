@@ -16,9 +16,9 @@ const HorizontalIconList = ({ data, colors = ["#78C560", "#36AB70"], onPressItem
       renderItem={({ item: { name, icon, screen } }) => {
         const IconComponent = icon.library; // Get the icon library
         return (
-          <TouchableOpacity style={styles.itemContainer} onPress={() => onPressItem(screen)}>
+          <TouchableOpacity style={styles.itemContainer} onPress={onPressItem}>
             <LinearGradient colors={colors} style={styles.iconCircle}>
-              <IconComponent name={icon.name} size={hp(4)} color="black" />
+              <IconComponent name={icon.name} size={hp(5.5)} color="black" />
             </LinearGradient>
             <CustomText fontFamily={Nunito_Bold} style={styles.txt}>{name}</CustomText>
           </TouchableOpacity>

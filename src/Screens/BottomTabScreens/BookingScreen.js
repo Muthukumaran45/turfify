@@ -15,6 +15,7 @@ import PastBookingCard from "../../Components/Cards/PastBookingCard";
 import { pastBookingData, bookings } from "../../Constants/Datas";
 import CustomText from "../../Components/Texts/CustomText";
 import { Nunito_Bold } from "../../Constants/FontFamily";
+import { COLORS } from "../../Constants/Colors";
 
 
 
@@ -89,7 +90,7 @@ const BookingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F5F5F5" },
+  container: { flex: 1, backgroundColor: COLORS.bgColor },
   tabContainer: { flexDirection: "row", marginVertical: hp(2), },
   tab: { paddingVertical: hp(1.5), backgroundColor: "#E0E0E0", width: wp(50), alignItems: "center" },
   activeTab: { backgroundColor: "#2C3E50" },

@@ -32,7 +32,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: COLORS.bgPrimary }}>
+    <ScrollView style={{ flex: 1, backgroundColor: COLORS.bgColor }}>
 
       {/* Header */}
       <View style={{ marginHorizontal: hp(2) }}>

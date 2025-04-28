@@ -2,7 +2,6 @@ import React from "react";
 import { Text } from "react-native";
 
 // packages
-import { RFPercentage as FP } from "react-native-responsive-fontsize";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Nunito_Regular } from "../../Constants/FontFamily";
 

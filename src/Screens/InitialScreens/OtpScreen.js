@@ -92,7 +92,7 @@ const OtpScreen = () => {
                 {/* Title Section */}
                 <View style={styles.titleContainer}>
                     <CustomHeaderText size={3.5}>OTP Verification Code</CustomHeaderText>
-                    <CustomText size={12} className="text-neutral-400 my-2">
+                    <CustomText className="text-neutral-400 my-2">
                         We have sent the code to +91 {userData.mobileNumber}
                     </CustomText>
                 </View>

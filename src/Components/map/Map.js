@@ -43,6 +43,7 @@ const LocationComponent = () => {
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
       );
+      
       const data = await response.json();
 
       if (data.results.length > 0) {

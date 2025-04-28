@@ -6,6 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import { RFValue, RFPercentage as rf } from "react-native-responsive-fontsize";
 import { MapPin, Star, Heart, Share2 } from "lucide-react-native";
 import axios from "axios";
+import Share from 'react-native-share';
 
 // components
 import Header from "../../Components/Headers/Header";
@@ -33,7 +34,8 @@ const defaultImage = "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174
 
 const TurfDetailsScreen = ({ route }) => {
   const { turfData } = route?.params || {};
-  const [turfDetails, setTurfDetails] = useState(turfData)
+  const [turfDetails, setTurfDetails] = useState({"selectedAmenities" :["chatroom", "cricket", "foot ball"]})
+
   // Check if images exist, else use default image
   const imagesToDisplay = turfData?.images?.length > 0 ? turfData.images : [defaultImage];
 
@@ -66,18 +68,28 @@ const TurfDetailsScreen = ({ route }) => {
     console.log('Selected option:', selectedOption);
   };
 
+  // share page link
+  const shareLink = async () => {
+    const shareOptions = {
+      title: 'Share via',
+      message: 'Check this out!',
+      url: 'https://turfify.com/turfDetails', // Your app link (important!)
+    };
+    await Share.open(shareOptions);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-
       <FlatList
         data={sections}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: hp(10) }} 
         renderItem={() => (
           <>
             {/* Header */}
             <View style={{ marginHorizontal: hp(2) }}>
-              <Header title="Turf Details" />
+              <Header title="Turf Details" onPress={() => navigate("WelcomeScreen")} />
             </View>
 
 
@@ -86,7 +98,7 @@ const TurfDetailsScreen = ({ route }) => {
               <ImageSliderNormal images={imagesToDisplay} />
 
               <View className={`flex-row absolute right-8 mt-3`}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton}  onPress={shareLink}>
                   <Share2 color="white" size={hp(2.5)} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.favoriteButton}>
@@ -98,7 +110,8 @@ const TurfDetailsScreen = ({ route }) => {
             {/* Turf Info */}
             <View style={styles.infoContainer}>
               <View className={`flex-row justify-between`} >
-                <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>{turfDetails?.turfName}</CustomText>
+                {/* <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>{turfDetails?.turfName}</CustomText> */}
+                <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>STRIKERS Academy</CustomText>
                 <View className={`flex-row items-center`} style={{ marginTop: hp(0.5) }}>
                   <Star size={hp(2)} color="#FFD700" />
                   <CustomText > (4.8)</CustomText>
@@ -192,22 +205,20 @@ const TurfDetailsScreen = ({ route }) => {
                   </CustomText>
                 )}
               </View>
-
-
-
-              {/* Book Now Button */}
-              <View>
-                <CustomButton
-                  height={hp(6)}
-                  title={'Book Now'}
-                  className={`rounded-md`}
-                  onPress={() => navigate("BookingDateTimeScreen")}
-                />
-              </View>
             </View>
           </>
         )}
       />
+
+      {/* Fixed Book Now Button */}
+      <View style={styles.fixedButtonContainer}>
+        <CustomButton
+          height={hp(6)}
+          title={'Book Now'}
+          className={`rounded-md`}
+          onPress={() => navigate("BookingDateTimeScreen",{turfDatas : turfDetails})}
+        />
+      </View>
 
     </SafeAreaView>
   );
@@ -216,24 +227,22 @@ const TurfDetailsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
-  infoContainer: { paddingVertical: wp("5%"), paddingHorizontal: hp(2) },
+  infoContainer: { 
+    paddingVertical: wp("5%"), 
+    paddingHorizontal: hp(2) 
+  },
   ratingText: { fontSize: RFValue(14), marginLeft: 5 },
   locationRow: { flexDirection: "row", alignItems: "center", marginVertical: 5 },
   distanceText: { fontSize: RFValue(12), color: "gray", marginLeft: 5 },
-
-
   amenitiesContainer: { flexDirection: "row", flexWrap: "wrap" },
-
   bulkEnquiryText: { fontSize: RFValue(14), fontWeight: "bold" },
-
   aboutText: { fontSize: RFValue(12), color: "gray" },
-
   sportIcon: { fontSize: RFValue(24), marginRight: 10 },
   ratingNumber: { fontSize: RFValue(18), fontWeight: "bold" },
   reviewCount: { fontSize: RFValue(12), color: "gray", marginLeft: 10 },
   middleBorder: { width: wp('0.3%'), height: hp('2%'), backgroundColor: 'gray', marginHorizontal: wp('2%') },
-
   priceContainer: {
     borderRadius: wp("2%"),
     overflow: "hidden",
@@ -272,20 +281,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: wp("1%"),
   },
-  backButton:
-  {
+  backButton: {
     backgroundColor: "rgba(0,0,0,0.5)",
     padding: 8,
     borderRadius: hp(50)
   },
-  favoriteButton:
-  {
+  favoriteButton: {
     backgroundColor: "rgba(0,0,0,0.5)",
     padding: 8,
     borderRadius: hp(50),
     marginLeft: hp(1)
   },
+  fixedButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    paddingHorizontal: hp(2),
+    paddingVertical: hp(1.5),
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    elevation: 5, // for Android shadow
+    shadowColor: '#000', // for iOS shadow
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
 });
 
 export default TurfDetailsScreen;
-

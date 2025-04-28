@@ -1,34 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { API_URL } from '../../Services/Api';
+
+// packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import axios from 'axios';
 
 // Components
 import Header from '../../Components/Headers/Header';
-import { Info, CalendarDays } from 'lucide-react-native';
+import { Info, CalendarDays, CloudCog } from 'lucide-react-native';
 import { COLORS } from '../../Constants/Colors';
 import CustomText from '../../Components/Texts/CustomText';
 import CustomButton from '../../Components/Buttons/CustomButton';
 import { navigate } from '../../Utils/NavigationUtil';
 import { Nunito_Bold, Nunito_Regular, Roboto_Bold } from '../../Constants/FontFamily';
 
-const BookingDateTimeScreen = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+
+// store
+import Zustand from "../../Zustand/Zustand"
+import { errorAlert, successAlert } from '../../Components/Toast/ToastServices';
+
+const BookingDateTimeScreen = ({ route }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [baseDate, setBaseDate] = useState(new Date());
+
+  const currentDate = new Date(); 
+  const formattedCurrentDate = moment(currentDate).format('YYYY-MM-DD');
+
+  const [baseDate, setBaseDate] = useState(currentDate);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [date, setDate] = useState(formattedCurrentDate);
+
   const [selectedTurf, setSelectedTurf] = useState('Full Turf');
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
+
+  const { turfDatas } = route?.params || {};
+  const { user } = Zustand();
+
+
+  useEffect(() => {
+    if (date && turfDatas?.turfId) {
+      getBookedSlot(date);
+    }
+  }, [date, turfDatas]);
+  
 
   const getNextDays = (date) => {
-    return Array.from({ length: 6 }, (_, i) => moment(date).add(i, 'days'));
+    return Array.from({ length: 7 }, (_, i) => moment(date).add(i, 'days'));
   };
 
   const nextDays = getNextDays(baseDate);
 
   const handleDatePress = (date) => {
+    const formattedDate = moment(date).format('YYYY-MM-DD');
     setSelectedDate(date.toDate());
+    setDate(formattedDate);
+    getBookedSlot(formattedDate)
   };
+
 
   const openCalendar = () => {
     setShowPicker(true);
@@ -39,8 +69,11 @@ const BookingDateTimeScreen = () => {
     if (date) {
       setSelectedDate(date);
       setBaseDate(date);
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      setDate(formattedDate)
     }
   };
+
 
   const timeSlots = {
     Morning: ["6am - 7am", "7am - 8am", "8am - 9am", "9am - 10am"],
@@ -49,25 +82,69 @@ const BookingDateTimeScreen = () => {
     Twilight: ["7pm - 8pm", "8pm - 9pm", "9pm - 10pm"],
   };
 
+  const getBookedSlot = async (selectedDate) => {
+
+    try {
+      const response = await axios.get(`${API_URL}/bookings/booked?date=${selectedDate}&turfId=${turfDatas.turfId}`);
+      const data = response.data
+      console.log("booked slot data :", data)
+
+    } catch (error) {
+      console.log("Error from  ", error)
+    }
+  }
+
+
+
+
+  const sendBookingData = async () => {
+    navigate("BookingInfoScreen")
+
+    // try {
+    //   const response = await axios.post(`${API_URL}/bookings`, {
+    //     userId: user._id,
+    //     turfId: turfDatas.turfId,
+    //     pitchId: turfDatas._id,
+    //     date: date,
+    //     time: selectedTimeSlot
+    //   });
+
+    //   const data = response.data
+    //   console.log("res booking data :", data)
+
+    //   if (response && response.status === 201) {
+    //     successAlert({ message: "Turf Booked successfully!" });
+    //   } else {
+    //     errorAlert({ message: "Something went wrong" });
+    //   }
+
+    // } catch (error) {
+    //   console.log("Error from sending booking data ", error)
+    //   errorAlert({ message: error.message });
+
+    // }
+  }
+
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View className='flex-row items-center justify-between'>
+      <View className='flex-row items-center justify-between' style={{paddingHorizontal: hp(2)}}>
         <Header title={'Margin Turf'} />
         <View className='flex-row items-center justify-center gap-5'>
           <TouchableOpacity>
             <Info size={hp(2.5)} strokeWidth={2} color={"#000"} />
           </TouchableOpacity>
           <TouchableOpacity onPress={openCalendar}>
-            <CalendarDays size={hp(2.5)} strokeWidth={2} color={"#000"} />
+            <CalendarDays size={hp(3)} strokeWidth={2} color={"#000"} />
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Date Selection */}
-      <View style={styles.dateList}>
+      <ScrollView horizontal style={styles.dateList}>
         {nextDays.map((date, index) => {
-          const isSelected = selectedDate.toDateString() === date.toDate().toDateString();
+          const isSelected = selectedDate && selectedDate.toDateString() === date.toDate().toDateString();
+
           return (
             <TouchableOpacity
               key={index}
@@ -79,11 +156,11 @@ const BookingDateTimeScreen = () => {
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
 
       <View
         className={`flex-row justify-between items-center`}
-        style={{ marginTop: hp(3), marginBottom: hp(1) }}
+        style={{ marginTop: hp(3), marginBottom: hp(1),paddingHorizontal: hp(2) }}
       >
         <View>
           <CustomText size={2.5} fontFamily={Nunito_Bold}>No.of Courts</CustomText>
@@ -141,7 +218,7 @@ const BookingDateTimeScreen = () => {
           );
         })}
 
-        <View style={{marginBottom: hp(10)}} />
+        <View style={{ marginBottom: hp(10) }} />
       </ScrollView>
 
 
@@ -167,12 +244,10 @@ const BookingDateTimeScreen = () => {
         <CustomButton
           className='rounded-md'
           title={'Next >>'}
-          onPress={() => navigate("BookingInfoScreen")}
+          onPress={sendBookingData}
         />
 
       </View>
-
-
 
       {showPicker && (
         <DateTimePicker
@@ -180,6 +255,7 @@ const BookingDateTimeScreen = () => {
           mode="date"
           display="default"
           onChange={onDateChange}
+          minimumDate={new Date()}
         />
       )}
     </View>
@@ -189,12 +265,11 @@ const BookingDateTimeScreen = () => {
 export default BookingDateTimeScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: hp(2) },
+  container: { flex: 1 },
 
   // Date Selection
   dateList: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: hp(2),
   },
   dateItem: {
@@ -205,6 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#ccc',
+    marginHorizontal: hp(1)
   },
   selectedDate: {
     backgroundColor: 'green',
@@ -218,6 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: hp(2),
+    paddingHorizontal: hp(2)
   },
   turfOption: {
     flex: 1,
@@ -244,6 +321,7 @@ const styles = StyleSheet.create({
   // Time Slot Selection
   timeSlotContainer: {
     marginTop: hp(2),
+    paddingHorizontal: hp(2)
   },
   timeSlotSection: {
     marginBottom: hp(2),

@@ -126,7 +126,7 @@ export const rewardData = [
 export const bookingData = {
     date: 'Jan - 13th',
     title: 'Spark Academy',
-    venue: 'Strikers Academy, Purasaiwakkam, Chennai',
+    venue: 'Strikers, Purasaiwakkam, Chennai',
     time: '10 AM - 11:30 AM'
 };
 

@@ -1,9 +1,11 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 // Packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios from 'axios';
+import GetLocation from "react-native-get-location";
+
 
 // Components
 import CustomInput from '../../Components/Inputs/CustomInput';
@@ -16,13 +18,45 @@ import { navigate, resetAndNavigate } from '../../Utils/NavigationUtil';
 import { API_URL } from '../../Services/Api';
 import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 
+// Zustand
+import useFcmStore from '../../Zustand/useFcmStore';
+import useLocationStore from '../../Zustand/useLocationStore';
+
 const LoginScreen = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneError, setPhoneError] = useState(""); // Error state
     const [loading, setLoading] = useState(false); // Loading state
 
+    // zustand
+    const fcmToken = useFcmStore(state => state.fcmToken)
 
     const handleSkip = useCallback(() => resetAndNavigate("BottomNavigation"), []);
+
+
+    // get latitude 
+    const getCurrentLocation = async () => {
+        try {
+            const loc = await GetLocation.getCurrentPosition({
+                enableHighAccuracy: true,
+                timeout: 15000,
+            });
+
+            useLocationStore.getState().setLocation(loc.latitude, loc.longitude);
+
+        } catch (error) {
+            console.warn("Error fetching current location:", error);
+        }
+    };
+
+
+    useEffect(() => {
+        getCurrentLocation()
+    }, [])
+
+    const { latitude, longitude } = useLocationStore();
+
+    console.log("latitude", latitude);
+    console.log("longitude", longitude);
 
 
     const handleInputChange = (text) => {
@@ -38,24 +72,23 @@ const LoginScreen = () => {
 
         setLoading(true);
         try {
-            const otp = Math.floor(1000 + Math.random() * 9000);
-            console.log("Generated OTP:", otp);
 
+
+            const myMobileNumber = "9840247340"
             const payload = {
-                username: "heKK",
-                mobileNumber: phoneNumber,
+                mobileNumber: myMobileNumber,
+
+                fcmToken: fcmToken,
+                latitude: latitude,
+                longitude: longitude
             };
-            const response = await axios.post(`${API_URL}/users/create`, payload);
+            console.log("payload :", payload)
 
-            const data = response.data.user
-            console.log("login data", data)
+            const response = await axios.post(`${API_URL}/users/register`, payload);
 
-            if (response.status === 201) {
-                successAlert({ message: "OTP sent successfully!" });
-                navigate("OtpScreen", { data, otp });
-                setPhoneError("");
-            } else {
-                errorAlert({ message: "Something went wrong" });
+            if (response) {
+                navigate("OtpScreen")
+                console.log("login res :", response.data)
             }
         } catch (error) {
             console.log("Error sending login data:", error);
@@ -73,16 +106,16 @@ const LoginScreen = () => {
 
                 {/* Skip Button */}
                 <TouchableOpacity onPress={handleSkip} style={styles.skipBtn}>
-                    <CustomText>Skip</CustomText>
+                    <CustomText size={2.5}>Skip</CustomText>
                 </TouchableOpacity>
 
                 {/* Title Section */}
                 <View style={styles.titleContainer}>
-                    <CustomHeaderText size={3.5}>Log in</CustomHeaderText>
-                    <CustomText>Enter your phone number to continue</CustomText>
+                    <CustomHeaderText size={4.5}>Log in</CustomHeaderText>
+                    <CustomText size={2.3}>Enter your phone number to continue</CustomText>
                 </View>
 
-                {/* Input Field */}
+                {/* phone number input field */}
                 <CustomInput
                     isPhoneNumber
                     keyboardType="phone-pad"
@@ -92,6 +125,14 @@ const LoginScreen = () => {
                     onChangeText={handleInputChange}
                     className="rounded-full bg-white border-0"
                     error={phoneError}
+                />
+
+                {/* Referal code input field */}
+                <CustomInput
+                    style={{marginTop: hp(2)}}
+                    
+                    placeholder="REFERAL code"
+                    className="rounded-full bg-white border-0"
                 />
 
                 {/* OTP Button */}

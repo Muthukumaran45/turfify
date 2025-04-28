@@ -1,22 +1,36 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, FlatList, Image, StyleSheet } from "react-native";
+import { View, FlatList, Image, StyleSheet} from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const ImageSlider = ({ slides, style, bg, inactiveDotColor, activeDotColor, interval = 3000 }) => {
+const ImageSlider = ({ slides, style, bg, inactiveDotColor, activeDotColor, interval = 4000 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef(null);
-
+  const slideWidth = wp(94) + wp(6); 
+  
   useEffect(() => {
     const autoScroll = setInterval(() => {
       if (flatListRef.current && slides.length > 0) {
         const nextIndex = (activeIndex + 1) % slides.length;
-
-        flatListRef.current.scrollToIndex({
-          index: nextIndex,
-          animated: true,
-        });
-
-        setActiveIndex(nextIndex);
+        
+        if (activeIndex === slides.length - 1) {
+          // When at the last image, first reset to the start without animation
+          flatListRef.current.scrollToOffset({ 
+            offset: 0,
+            animated: false
+          });
+          
+          // Then after a brief moment, animate to the first item
+          setTimeout(() => {
+            setActiveIndex(0);
+          }, 10);
+        } else {
+          // Normal scroll to next item
+          flatListRef.current.scrollToIndex({
+            index: nextIndex,
+            animated: true,
+          });
+          setActiveIndex(nextIndex);
+        }
       }
     }, interval);
  
@@ -28,6 +42,13 @@ const ImageSlider = ({ slides, style, bg, inactiveDotColor, activeDotColor, inte
       setActiveIndex(viewableItems[0].index);
     }
   }).current;
+
+  // Function to handle manual scrolling
+  const handleMomentumScrollEnd = (event) => {
+    const contentOffset = event.nativeEvent.contentOffset.x;
+    const index = Math.round(contentOffset / slideWidth);
+    setActiveIndex(index);
+  };
 
   return (
     <View>
@@ -41,12 +62,15 @@ const ImageSlider = ({ slides, style, bg, inactiveDotColor, activeDotColor, inte
           showsHorizontalScrollIndicator={false}
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
+          onMomentumScrollEnd={handleMomentumScrollEnd}
+          scrollEventThrottle={16}
           renderItem={({ item }) => (
             <Image source={{ uri: item }} style={styles.image} resizeMode="cover" />
           )}
+          // This prevents the bounce effect at the ends
+          bounces={false}
         />
       </View>
-
       {/* Pagination Dots */}
       <View style={styles.pagination}>
         {slides.map((_, index) => (
@@ -70,7 +94,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: wp(94),
-    height: hp(20),
+    height: hp(23),
     borderRadius: wp(4),
     marginHorizontal: wp(3),
   },
@@ -78,7 +102,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: hp(1.5),
     justifyContent: "center",
-    
+    position: "absolute",
+    bottom: 10,
+    left: hp(20)
   },
   dot: {
     width: hp(1),

@@ -16,14 +16,14 @@ const WelcomeScreen = () => {
     const opacity = useSharedValue(0);
     const { user } = Zustand()
 
-
+    console.log("userData ", user)
 
     const navigateToNextScreen = () => {
 
         if (user) {
             resetAndNavigate("BottomNavigation");
         } else {
-            resetAndNavigate("OnboardingScreen"); 
+            resetAndNavigate("OnboardingScreen");
         }
     };
 

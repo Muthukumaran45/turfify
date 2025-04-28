@@ -50,10 +50,10 @@ const UpcomingBooking = ({ booking, onView, onDelete }) => {
         {menuVisible && (
           <View style={styles.menu}>
             <TouchableOpacity onPress={() => { onView(); setMenuVisible(false); }}>
-              <CustomText>View</CustomText>
+              <CustomText size={2.3}>View</CustomText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { onDelete(); setMenuVisible(false); }}>
-              <CustomText>Delete</CustomText>
+            <TouchableOpacity style={{paddingTop: hp(1)}} onPress={() => { onDelete(); setMenuVisible(false); }}>
+              <CustomText size={2.3}>Delete</CustomText>
             </TouchableOpacity>
           </View>
         )}
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     marginBottom: hp(1),
   },
   card: {
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#fff',
     padding: wp(4),
     borderRadius: wp(2),
     shadowColor: '#000',
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
   menu: {
     position: 'absolute',
-    top: hp(4),
+    top: hp(5),
     right: wp(3),
     backgroundColor: 'white',
     padding: wp(2),
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     zIndex: 10,
+    paddingHorizontal: hp(2)
   },
 
 });

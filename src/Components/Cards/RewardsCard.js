@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFPercentage as rf } from "react-native-responsive-fontsize";
-import { Heart } from "lucide-react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { COLORS } from "../../Constants/Colors";
 import CustomText from "../Texts/CustomText";
@@ -29,9 +28,6 @@ const CardItem = ({ item, onPress, onPressBtn }) => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.like} onPress={() => setLiked(!liked)}>
-          <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
-        </TouchableOpacity>
       </TouchableOpacity>
 
       {/* Progress Row */}

@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingTop: hp(2),
     paddingBottom: hp(3),
-    borderTopLeftRadius: hp(3),
-    borderTopRightRadius: hp(3),
+
     alignItems: "center",
   },
   header: {

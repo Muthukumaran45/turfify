@@ -20,15 +20,16 @@ import Header from "../../Components/Headers/Header";
 import { Nunito_Bold } from "../../Constants/FontFamily";
 
 
+
 const EditProfileScreen = () => {
 
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
   const [zoomModalVisible, setZoomModalVisible] = useState(false);
-  const [profileImage, setProfileImage] = useState(""); 
+  const [profileImage, setProfileImage] = useState("");
 
 
   const handleDeleteProfilePic = () => {
-    setProfileImage(null); // Remove the image
+    setProfileImage(null); 
   };
 
   // Request camera permission

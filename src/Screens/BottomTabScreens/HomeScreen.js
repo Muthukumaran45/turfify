@@ -7,7 +7,6 @@ import GetLocation from "react-native-get-location";
 import axios from 'axios';
 
 // Components
-import CustomText from '../../Components/Texts/CustomText';
 import SearchBar from '../../Components/SearchBars/SearchBar';
 import ImageSlider from '../../Components/Sliders/ImageSlider';
 import HorizontalCardList from '../../Components/Cards/HorizontalCardList';
@@ -16,9 +15,12 @@ import HorizontalImageList from '../../Components/Cards/HorizontalImageList';
 import LocationComponent from '../../Components/map/Map';
 import UpcomingBooking from '../../Components/Cards/UpcomingBooking';
 import RewardsCard from '../../Components/Cards/RewardsCard';
+import ReferalCard from '../../Components/Cards/ReferalCard';
+import Footer from '../../Components/Footer/Footer';
+import CoinHeartHeader from '../../Components/Headers/CoinHeartHeader';
 
 // Icons
-import { Heart } from "lucide-react-native";
+import { Heart, Filter } from "lucide-react-native";
 
 // Constants
 import { COLORS } from '../../Constants/Colors';
@@ -116,12 +118,10 @@ const HomeScreen = () => {
         {/* Location & Wishlist */}
         <View style={styles.row}>
           <View>
-            {/* <LocationComponent /> */}
+            <LocationComponent />
           </View>
 
-          <TouchableOpacity onPress={() => navigate("WishListScreen")}>
-            <Heart size={hp(3.5)} fill={COLORS.likedColor} color={COLORS.likedColor} />
-          </TouchableOpacity>
+          <CoinHeartHeader />
         </View>
 
         {/* Search Bar */}
@@ -130,11 +130,12 @@ const HomeScreen = () => {
         </View>
 
         {/* Banner Slider */}
-        <View style={styles.marginVertical}>
+        <View style={[styles.marginVertical]}>
           <ImageSlider
             slides={bannerImg?.length ? bannerImg : slides}
-            inactiveDotColor={"#ccc"}
+            inactiveDotColor={"#fff"}
             activeDotColor={COLORS.primary}
+            interval={5000}
           />
         </View>
 
@@ -144,28 +145,59 @@ const HomeScreen = () => {
         </View>
 
         {/* Horizontal Icon List */}
-        <HorizontalIconList data={sportsData} onPressItem={() => navigate('CricketScreen')} />
+        <View style={{ marginTop: hp(1.7) }}>
+          <HorizontalIconList data={sportsData} onPressItem={() => navigate('CricketScreen')} />
+        </View>
 
-        {/* Reward card */}
+        {/* Rewards your booking card */}
         <View style={styles.section}>
           <CustomHeaderText ML={2} MB={.5}>🎁 Reward your Booking !</CustomHeaderText>
           <RewardsCard data={rewardData} onPress={() => navigate("TurfDetailsScreen")} onPressBtn={() => navigate("TurfDetailsScreen")} />
         </View>
 
-        {/* Nearby Court */}
+        {/* Nearby by turf */}
         <View style={styles.section}>
-          <CustomHeaderText ML={2}>Near By Court</CustomHeaderText>
-          <HorizontalCardList  data={nearByTurfData?.length ? nearByTurfData : nearByturf} />
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: hp(3), alignItems: "center" }}>
+            <CustomHeaderText ML={2} >Near By Court</CustomHeaderText>
+            <TouchableOpacity>
+              <Filter size={hp(3)} color="green" />
+            </TouchableOpacity>
+          </View>
+          <HorizontalCardList data={nearByTurfData?.length ? nearByTurfData : nearByturf} />
         </View>
 
         {/* Perfect Pick for You */}
         <View style={styles.section}>
-          <CustomHeaderText ML={2}>Perfect pick for you</CustomHeaderText>
-          <Card data={perfectData} onPressItem={() => navigate("TurfDetailsScreen")} />
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingRight: hp(3), alignItems: "center" }}>
+            <CustomHeaderText ML={2}>Best Deals for you</CustomHeaderText>
+            <TouchableOpacity>
+              <Filter size={hp(3)} color="green" />
+            </TouchableOpacity>
+          </View>
+
+          <Card data={data} onPressItem={() => navigate("TurfDetailsScreen")} />
         </View>
 
         {/* Bottom Image List */}
         <HorizontalImageList data={bottomSlides} />
+
+
+        {/* referal code */}
+        <View
+          style={[styles.commonHorizontalPadding,
+          {
+            backgroundColor: "#fff",
+            borderRadius: hp(2),
+            elevation: 2
+          }]}>
+          <ReferalCard />
+        </View>
+
+
+        {/* footer */}
+        <View style={{ paddingHorizontal: hp(2), marginTop: hp(4) }}>
+          <Footer />
+        </View>
 
         <View style={styles.bottomSpacing} />
       </ScrollView>
@@ -178,6 +210,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.bgColor
   },
   row: {
     flexDirection: 'row',
@@ -194,8 +227,19 @@ const styles = StyleSheet.create({
   },
   section: {
     marginTop: hp(4),
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    marginLeft: 16,
   },
   bottomSpacing: {
     marginBottom: hp(14),
   },
+  commonHorizontalPadding: {
+    marginHorizontal: hp(2),
+    marginTop: hp(3),
+    padding: hp(1.5),
+
+  }
 });
