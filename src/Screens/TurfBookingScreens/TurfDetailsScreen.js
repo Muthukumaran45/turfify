@@ -29,6 +29,9 @@ import PriceModal from "./Modals/PriceModal";
 import { priceData } from "../../Constants/Datas";
 import BulkEnquiryModal from "./Modals/BulkEnquiryModal";
 
+// services
+import { ForegroundNotification } from "../../Services/ForegroundNotification";
+
 
 const defaultImage = "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg";
 
@@ -89,7 +92,7 @@ const TurfDetailsScreen = ({ route }) => {
           <>
             {/* Header */}
             <View style={{ marginHorizontal: hp(2) }}>
-              <Header title="Turf Details" onPress={() => navigate("WelcomeScreen")} />
+              <Header title="Turf Details"  />
             </View>
 
 
@@ -216,7 +219,8 @@ const TurfDetailsScreen = ({ route }) => {
           height={hp(6)}
           title={'Book Now'}
           className={`rounded-md`}
-          onPress={() => navigate("BookingDateTimeScreen",{turfDatas : turfDetails})}
+          // onPress={() => navigate("BookingDateTimeScreen",{turfDatas : turfDetails})}
+          onPress={ForegroundNotification}
         />
       </View>
 
