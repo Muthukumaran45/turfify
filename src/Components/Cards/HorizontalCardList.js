@@ -105,7 +105,7 @@ const HorizontalCardList = ({ data }) => (
 );
 
 const styles = StyleSheet.create({
-  container: {
+  container: { 
     paddingHorizontal: hp(2),
     position: "relative",
   },

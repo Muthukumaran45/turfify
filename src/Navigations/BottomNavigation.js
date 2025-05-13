@@ -1,6 +1,8 @@
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Gamepad2Icon, HouseIcon, UserRoundIcon, LaptopMinimalCheckIcon } from 'lucide-react-native';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';  // For other icons
+import Ionicons from 'react-native-vector-icons/Ionicons';  // For Ionicons
+import { View, TouchableWithoutFeedback } from 'react-native';
 
 // Screens
 import HomeScreen from '../Screens/BottomTabScreens/HomeScreen';
@@ -13,33 +15,41 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 const Tab = createBottomTabNavigator();
 
-const CustomTabBarButton = ({ children, onPress }) => {
+// Custom Tab Button with top border indicator
+const CustomTabBarButton = ({ children, onPress, accessibilityState }) => {
+  const focused = accessibilityState.selected;
+
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View className='flex-1 items-center justify-center'>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        {focused && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: '100%',
+              height: hp(0.3),
+              backgroundColor: '#378E26',
+              borderRadius: hp(50)
+            }}
+          />
+        )}
         {children}
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-// Custom Tab Bar Icon (ensures proper alignment)
-const TabBarIcon = ({ IconComponent, label, color, focused }) => {
-  return (
-    <View className='items-center justify-center'>
-      <IconComponent
-        absoluteStrokeWidth={true}
-        strokeWidth={1.3}
-        color={focused ? color : color}
-        fill={focused ? color : "none"}
-        size={hp(3)}
-      />
-      {/* <Text style={{ fontSize: hp(1.5), color: focused ? "#378E26" : color, marginTop: hp(0.5) }}>
-        {label}
-      </Text> */}
-    </View>
-  );
-};
+// Custom Icon Renderer
+const TabBarIcon = ({ name, IconComponent, color, focused }) => (
+  <View style={{ alignItems: "center", justifyContent: "center" }}>
+    <IconComponent
+      name={name}
+      size={hp(3)}
+      color={focused ? color : "#495057"}
+    />
+  </View>
+);
 
 export const CustomBottomTabs = () => {
   return (
@@ -59,64 +69,73 @@ export const CustomBottomTabs = () => {
         tabBarHideOnKeyboard: true,
       }}
     >
-      {/* Home Tab */}
+      {/* Home */}
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon IconComponent={HouseIcon} color={color} focused={focused} />
+            <TabBarIcon 
+              IconComponent={Ionicons} 
+              name={focused ? "home" : "home-outline"} 
+              color={color}
+              focused={focused}
+            />
           ),
         }}
       />
 
-      {/* Games Tab */}
+      {/* Games */}
       <Tab.Screen
         name="Games"
         component={GamesScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon IconComponent={Gamepad2Icon} color={color} focused={focused} />
+            <TabBarIcon 
+              IconComponent={Ionicons} 
+              name={focused ? "game-controller" : "game-controller-outline"} 
+              color={color} 
+              focused={focused}
+            />
           ),
         }}
       />
 
-      {/* Booking Tab */}
+      {/* Booking */}
       <Tab.Screen
         name="Booking"
         component={BookingScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon IconComponent={LaptopMinimalCheckIcon} color={color} focused={focused} />
+            <TabBarIcon 
+              IconComponent={Ionicons} 
+              name={focused ? "calendar" : "calendar-outline"} 
+              color={color} 
+              focused={focused}
+            />
           ),
         }}
       />
 
-      {/* Profile Tab */}
+      {/* Profile */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon IconComponent={UserRoundIcon} color={color} focused={focused} />
+            <TabBarIcon 
+              IconComponent={FontAwesome} 
+              name={focused ? "user-circle" : "user-circle-o"} 
+              color={color} 
+              focused={focused}
+            />
           ),
         }}
       />
     </Tab.Navigator>
   );
 };
-
-{/* <Tab.Screen
-  name="Profile"
-  component={ProfileScreen}
-  options={{
-    tabBarButton: (props) => <CustomTabBarButton {...props} />,
-    tabBarIcon: ({ color, focused }) => (
-      <TabBarIcon IconComponent={UserRoundIcon} label="Profile" color={color} focused={focused} />
-    ),
-  }}
-/> */}

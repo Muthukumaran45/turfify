@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import { RFValue as rf } from "react-native-responsive-fontsize";
 
 // Icons
-import { LogOut, History, Heart, HelpCircle, DollarSign, ChevronRight } from "lucide-react-native";
+import { LogOut, History, Heart, HelpCircle, DollarSign, ChevronRight, Gamepad2 } from "lucide-react-native";
 
 // Components
 import CustomText from "../../Components/Texts/CustomText";
@@ -29,6 +29,8 @@ const ProfileScreen = () => {
 
   const handleLogout = async() => {
    await clearUser() 
+  // navigate("LoginScreen");
+
   };
 
   return (
@@ -40,7 +42,7 @@ const ProfileScreen = () => {
       </View>
 
       {/* User image & details */}
-      <View className={`flex-row items-center`} style={{ marginVertical: hp("3%"), marginHorizontal: hp(2) }}>
+      <View  style={{ marginVertical: hp("3%"), marginHorizontal: hp(2), flexDirection: "row", alignItems: "center",  }}>
         <Image
           source={require("../../Assets/profile.png")}
           style={{
@@ -67,6 +69,7 @@ const ProfileScreen = () => {
       <MenuItem icon={Heart} text="My Favorites" onPress={() => navigate("WishListScreen")} />
       <MenuItem icon={HelpCircle} text="Help & Support" onPress={() => navigate("HelpScreen")} />
       <MenuItem icon={DollarSign} text="Payment & Refund" onPress={() => navigate("PaymentScreen")} />
+      <MenuItem icon={Gamepad2} text="Tournament Entrollers" onPress={() => navigate("TournamentEntrollers")} />
       <MenuItem icon={LogOut} text="Log Out" isLogout onPress={handleLogout} />
 
     </ScrollView>
@@ -75,10 +78,11 @@ const ProfileScreen = () => {
 
 const MenuItem = ({ icon: Icon, text, isLogout, onPress }) => (
   <TouchableOpacity
-    className={`flex-row items-center justify-between border-t border-gray-200`}
+    className={` border-t border-gray-200`}
     style={{
       paddingVertical: hp("2%"),
       paddingHorizontal: wp("5%"),
+      flexDirection: "row", alignItems: "center", justifyContent: "space-between"
     }}
     onPress={onPress}
   >

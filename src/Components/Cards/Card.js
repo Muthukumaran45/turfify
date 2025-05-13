@@ -2,34 +2,74 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFPercentage as rf } from "react-native-responsive-fontsize";
-import { Heart } from "lucide-react-native";
+
+
 import { COLORS } from "../../Constants/Colors";
 import { truncateText } from "../../Utils/Scaling";
 import CustomText from "../Texts/CustomText";
 import { Nunito_Bold } from "../../Constants/FontFamily";
 
+// utils
+import { API_URL } from "../../Services/Api";
+
+// icons
+import Ionicons from "react-native-vector-icons/Ionicons"
+
+// packages
+import axios from "axios";
+
+// zustand
+import useUserStore from "../../Zustand/Zustand"
 
 const CardItem = ({ item, onPress }) => {
   const [liked, setLiked] = useState(false);
+  // console.log("turffff =", item)
+
+  // zustand
+  const token = useUserStore((state) => state.token)
+  const userid = useUserStore((state) => state.user)
+
+  
+  const likedTurf = async () => {
+
+    payload = {
+      userId: userid,
+
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/favorites/add`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = response.data
+
+
+    } catch (error) {
+      console.log("Error from  ", error)
+    }
+
+  }
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
 
       <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-      
+
       <View style={styles.info}>
         <CustomText size={2} fontFamily={Nunito_Bold}>{truncateText(item.title, 16)}</CustomText>
         <CustomText>{truncateText(item.location, 19)}</CustomText>
-        <View className="flex-row justify-between items-center">
-            <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
-            <CustomText>⭐ ({item.rating})</CustomText>
-          </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
+          <CustomText>⭐ ({item.rating})</CustomText>
+        </View>
       </View>
       <TouchableOpacity
         style={styles.like}
         onPress={() => setLiked(!liked)}
       >
-        <Heart size={hp(3)} color={COLORS.likedColor} fill={liked ? COLORS.likedColor : "none"} />
+        <Ionicons name={liked ? "heart" : "heart-outline"} size={hp(3.5)} color={liked ? COLORS.likedColor : "#fff"} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

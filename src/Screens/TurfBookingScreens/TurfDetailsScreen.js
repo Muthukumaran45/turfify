@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from "react-native";
 
 // packages
@@ -23,6 +23,9 @@ import TurfHoursDiscount from "./TurfHoursDiscount";
 
 // icons
 import { ChevronDown } from 'lucide-react-native'
+import Ionicons from "react-native-vector-icons/Ionicons"
+
+
 import PriceModal from "./Modals/PriceModal";
 
 // data's
@@ -32,28 +35,36 @@ import BulkEnquiryModal from "./Modals/BulkEnquiryModal";
 // services
 import { ForegroundNotification } from "../../Services/ForegroundNotification";
 
+// zustand
+import useTurfDetails from "../../Zustand/useTurfDetails";
+import useUserStore from "../../Zustand/Zustand"
+
 
 const defaultImage = "https://res.cloudinary.com/ddjgg4ecg/image/upload/v1739174884/img2_pgsber.jpg";
 
 const TurfDetailsScreen = ({ route }) => {
+
   const { turfData } = route?.params || {};
-  const [turfDetails, setTurfDetails] = useState({"selectedAmenities" :["chatroom", "cricket", "foot ball"]})
+  useTurfDetails.getState().setTurfDetails(turfData)
+  const token = useUserStore((state) => state.token);
+  const userId = useUserStore((state) => state.user);
+
+
 
   // Check if images exist, else use default image
   const imagesToDisplay = turfData?.images?.length > 0 ? turfData.images : [defaultImage];
 
-
   const [feedbackData, setFeedbackData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [bulkEnquiryModal, setBulkEnquiryModal] = useState(false);
-
+  const [discountData, setDiscountData] = useState([]);
 
   const fetchFeedbackData = async () => {
     try {
       const response = await axios.get(`${API_URL}/feedback/all`);
       const data = response.data
       setFeedbackData(data);
-      console.log('feedback data', data)
+      // console.log('feedback data', data)
 
     } catch (error) {
       console.log("Error from fetching feedback data ", error)
@@ -63,6 +74,9 @@ const TurfDetailsScreen = ({ route }) => {
   useEffect(() => {
     fetchFeedbackData();
   }, []);
+
+
+
 
   const sections = [{ id: '1' }];
 
@@ -81,59 +95,130 @@ const TurfDetailsScreen = ({ route }) => {
     await Share.open(shareOptions);
   };
 
+  // average rating
+  const rating = turfData?.averageRating ?? 0;
+  const displayRating = rating > 0 ? Math.round(rating) : 1;
+
+  // wishlist api
+  const handleWishlistToggle = async () => {
+    const isWishlisted = wishlist.includes(turfData?._id);
+  
+    const payload = {
+      userId: userId,
+      turfId: turfData?._id
+    };
+  
+    try {
+      if (isWishlisted) {
+        const response = await axios.post(`${API_URL}/favorites/remove`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("Removed from wishlist:", response.data);
+        // Update state
+        setWishlist(prev => prev.filter(id => id !== turfData?._id));
+      } else {
+        const response = await axios.post(`${API_URL}/favorites/add`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("Added to wishlist:", response.data);
+        // Update state
+        setWishlist(prev => [...prev, turfData?._id]);
+      }
+    } catch (error) {
+      console.log("Wishlist toggle error:", error);
+    }
+  };
+  
+
+  // fetch wish list 
+  const [wishlist, setWishlist] = useState([]);
+  const fetchWishlist = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/favorites/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = response.data
+      setWishlist(data);
+      console.log("fetch user wishlist =", data)
+    } catch (error) {
+      console.log("Error from  wishlist", error)
+    }
+
+  }
+
+  useEffect(() => {
+    fetchWishlist()
+  }, [])
+
+ 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={sections}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: hp(10) }} 
+        contentContainerStyle={{ paddingBottom: hp(10) }}
         renderItem={() => (
           <>
             {/* Header */}
             <View style={{ marginHorizontal: hp(2) }}>
-              <Header title="Turf Details"  />
+              <Header title="Turf Details" />
             </View>
 
 
             {/* Image Slider */}
-            <View className="relative">
+            <View style={{ position: "relative" }}>
               <ImageSliderNormal images={imagesToDisplay} />
 
-              <View className={`flex-row absolute right-8 mt-3`}>
-                <TouchableOpacity style={styles.backButton}  onPress={shareLink}>
-                  <Share2 color="white" size={hp(2.5)} />
+              <View style={{ flexDirection: "row", position: "absolute", right: hp(3), top: hp(1) }}>
+                <TouchableOpacity style={styles.backButton} onPress={shareLink}>
+                  <Share2 color="white" size={hp(3)} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.favoriteButton}>
-                  <Heart color="white" size={hp(2.5)} />
+                <TouchableOpacity style={styles.favoriteButton} onPress={handleWishlistToggle}>
+                  <Ionicons
+                    name={wishlist.includes(turfData?._id) ? "heart" : "heart-outline"}
+                    size={hp(3)}
+                    color={wishlist.includes(turfData?._id) ? "red" : "white"}
+                  />
                 </TouchableOpacity>
+
               </View>
             </View>
 
             {/* Turf Info */}
             <View style={styles.infoContainer}>
-              <View className={`flex-row justify-between`} >
+              <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
                 {/* <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>{turfDetails?.turfName}</CustomText> */}
-                <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>STRIKERS Academy</CustomText>
-                <View className={`flex-row items-center`} style={{ marginTop: hp(0.5) }}>
-                  <Star size={hp(2)} color="#FFD700" />
-                  <CustomText > (4.8)</CustomText>
+                <CustomText size={2.5} MB={.5} fontFamily={Nunito_Bold}>{turfData?.turfName}</CustomText>
+                <View style={{ marginTop: hp(0.5), flexDirection: "row", alignItems: "center", }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {Array.from({ length: displayRating }).map((_, index) => (
+                      <Star key={index} size={hp(2)} color="#FFD700" />
+                    ))}
+                  </View>
                   <View style={styles.middleBorder} />
-                  <CustomText >Distance</CustomText>
-                  <CustomText > (1.5km)</CustomText>
+                  <CustomText >Distance </CustomText>
+                  <CustomText>- {(turfData?.distance / 1000).toFixed(2)} km</CustomText>
                 </View>
               </View>
 
               <View style={styles.locationRow}>
                 <MapPin color="gray" size={hp(2)} />
-                <CustomText style={{ paddingLeft: hp(1) }}>Purasaiwakkam, Chennai</CustomText>
-                <CustomText> (1.5km)</CustomText>
+                <CustomText style={{ paddingLeft: hp(1) }}>{turfData?.address}</CustomText>
+                {/* <CustomText> (1.5km)</CustomText> */}
               </View>
 
               {/* Pricing */}
-              <View style={[styles.row, { justifyContent: "space-between" }]}>
-                <CustomText style={{ paddingLeft: hp(.8) }}>₹ Price Start From 800/hr</CustomText>
-                <TouchableOpacity style={styles.row} onPress={() => setModalVisible(true)}>
+              <View style={[styles.row, { justifyContent: "space-between", }]}>
+                <CustomText style={{ paddingLeft: hp(.8) }}>₹ Price Start From <CustomText style={{ fontWeight: "bold" }}>{turfData?.startingAmount}</CustomText>/hr</CustomText>
+                <TouchableOpacity style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }} onPress={() => setModalVisible(true)}>
                   <CustomText>Price Details</CustomText>
                   <ChevronDown size={hp(2)} />
                 </TouchableOpacity>
@@ -150,12 +235,14 @@ const TurfDetailsScreen = ({ route }) => {
 
               {/* Amenities */}
               <View>
-                <CustomText size={2.5} fontFamily={Nunito_Bold} MB={1} MT={3}>Amenities</CustomText>
+                <CustomText size={2.5} fontFamily={Nunito_Bold} MT={3}>Amenities</CustomText>
                 <View style={styles.amenitiesContainer}>
-                  {turfDetails?.selectedAmenities?.map((item, index) => (
-                    <View key={index} style={{ marginRight: hp(1.5), marginBottom: hp(1) }}>
-                      <CustomText style={{ backgroundColor: "#e0ffe0", padding: hp(.5), borderRadius: hp(1), paddingHorizontal: hp(1) }}>
-                        {item}
+                  {turfData?.selectedAmenities?.map((item, index) => (
+                    <View key={index} style={{ marginBottom: hp(1), flexDirection: "row", marginRight: hp(1) }} >
+                      {/* <Image source={{ uri: item.url }} style={styles.iconImage} resizeMode="contain" /> */}
+
+                      <CustomText style={{ padding: hp(.5), borderRadius: hp(1), paddingHorizontal: hp(1), backgroundColor: "#e0ffe0", }}>
+                        {item.name}
                       </CustomText>
                     </View>
                   ))}
@@ -164,9 +251,8 @@ const TurfDetailsScreen = ({ route }) => {
 
 
               {/* Bulk Enquiry */}
-              <View>
-
-                <TouchableOpacity style={[styles.row, {backgroundColor: "#fff", justifyContent: "center", height: hp(6), borderWidth: 1 , borderRadius: hp(1)}]} onPress={() => setBulkEnquiryModal(true)}>
+              <View >
+                <TouchableOpacity style={[styles.row, { backgroundColor: "#fff", justifyContent: "center", height: hp(6), borderWidth: 1, borderRadius: hp(1) }]} onPress={() => setBulkEnquiryModal(true)}>
                   <CustomText size={2} MR={1}>Bulk Enquiry</CustomText>
                   <ChevronDown size={hp(2)} />
                 </TouchableOpacity>
@@ -179,22 +265,33 @@ const TurfDetailsScreen = ({ route }) => {
               </View>
 
               {/* About Us */}
-              <CustomText size={2.5} fontFamily={Nunito_Bold} MT={2} style={{ marginVertical: hp(1) }}>About Us</CustomText>
-              <CustomText >• 500mm grass</CustomText>
-              <CustomText >• Sound Setup for commentary and music</CustomText>
-              <CustomText >• Tournament and event friendly</CustomText>
+              <View>
+                <CustomText size={2.5} fontFamily={Nunito_Bold} MT={2} style={{ marginVertical: hp(1.5) }}>About Us</CustomText>
+                <CustomText >• {turfData?.aboutUs}</CustomText>
+              </View>
+
+
 
               {/* Available Sports */}
-              <CustomText size={2.5} fontFamily={Nunito_Bold} MT={1} style={{ marginVertical: hp(1) }}>Available Sports</CustomText>
-              <View className={`flex-row`}>
-                <Text style={styles.sportIcon}>⚽</Text>
-                <Text style={styles.sportIcon}>🏏</Text>
+              <View style={{ marginTop: hp(2) }}>
+                <CustomText size={2.5} fontFamily={Nunito_Bold} MT={1} style={{ marginVertical: hp(1) }}>Available Sports</CustomText>
+                <View style={styles.amenitiesContainer}>
+                  {turfData?.selectedSports?.map((item, index) => (
+                    <View key={index} style={{ marginBottom: hp(1), flexDirection: "row", marginRight: hp(1) }} >
+                      {/* <Image source={{ uri: item.url }} style={styles.iconImage} resizeMode="contain" /> */}
+
+                      <CustomText style={{ padding: hp(.5), borderRadius: hp(1), paddingHorizontal: hp(1), backgroundColor: "#e0ffe0", }}>
+                        {item.name}
+                      </CustomText>
+                    </View>
+                  ))}
+                </View>
               </View>
 
               {/* Rating & Reviews */}
               <CustomText size={2.5} fontFamily={Nunito_Bold} MT={2} style={{ marginVertical: hp(1), }}>Rating & Review</CustomText>
-              <View className={`flex-row items-baseline`}>
-                <CustomText size={5}>4.0</CustomText>
+              <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                <CustomText size={5}>{feedbackData[0]?.rating}.0</CustomText>
                 <CustomText ML={1}>Based on {feedbackData.length} reviews</CustomText>
               </View>
 
@@ -216,11 +313,11 @@ const TurfDetailsScreen = ({ route }) => {
       {/* Fixed Book Now Button */}
       <View style={styles.fixedButtonContainer}>
         <CustomButton
-          height={hp(6)}
+          height={hp(7)}
           title={'Book Now'}
-          className={`rounded-md`}
-          // onPress={() => navigate("BookingDateTimeScreen",{turfDatas : turfDetails})}
-          onPress={ForegroundNotification}
+          style={{ elevation: 3, borderRadius: hp(1) }}
+          onPress={() => navigate("BookingDateTimeScreen", { turfDatas: turfData })}
+        // onPress={ForegroundNotification}
         />
       </View>
 
@@ -233,14 +330,14 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  infoContainer: { 
-    paddingVertical: wp("5%"), 
-    paddingHorizontal: hp(2) 
+  infoContainer: {
+    paddingVertical: wp("5%"),
+    paddingHorizontal: hp(2)
   },
   ratingText: { fontSize: RFValue(14), marginLeft: 5 },
-  locationRow: { flexDirection: "row", alignItems: "center", marginVertical: 5 },
+  locationRow: { flexDirection: "row", alignItems: "center", marginTop: hp(1.5) },
   distanceText: { fontSize: RFValue(12), color: "gray", marginLeft: 5 },
-  amenitiesContainer: { flexDirection: "row", flexWrap: "wrap" },
+  amenitiesContainer: { flexDirection: "row", flexWrap: "wrap", marginTop: hp(1) },
   bulkEnquiryText: { fontSize: RFValue(14), fontWeight: "bold" },
   aboutText: { fontSize: RFValue(12), color: "gray" },
   sportIcon: { fontSize: RFValue(24), marginRight: 10 },
@@ -258,6 +355,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: hp(1.5)
   },
   cell: {
     width: wp("11%"),
@@ -298,20 +396,17 @@ const styles = StyleSheet.create({
   },
   fixedButtonContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: hp(4),
     left: 0,
     right: 0,
-    backgroundColor: 'white',
-    paddingHorizontal: hp(2),
-    paddingVertical: hp(1.5),
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-    elevation: 5, // for Android shadow
-    shadowColor: '#000', // for iOS shadow
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    marginHorizontal: hp(2)
+
+
   },
+  iconImage: {
+    width: '30%',
+    height: '30%',
+  }
 });
 
 export default TurfDetailsScreen;

@@ -9,12 +9,12 @@ import MMKVStorage from 'react-native-mmkv-storage';
 
 // Utils
 import { resetAndNavigate } from "../../Utils/NavigationUtil";
-import Zustand from '../../Zustand/Zustand'
+import useUserStore from '../../Zustand/Zustand'
 const MMKV = new MMKVStorage.Loader().initialize();
 
 const WelcomeScreen = () => {
     const opacity = useSharedValue(0);
-    const { user } = Zustand()
+    const user = useUserStore((state) => state.user);
 
     console.log("userData ", user)
 

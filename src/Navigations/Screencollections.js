@@ -23,6 +23,7 @@ const Screens = {
         EditProfileScreen: require("../Screens/ProfileScreens/EditProfileScreen").default,
         HelpScreen: require("../Screens/ProfileScreens/HelpScreen").default,
         PaymentScreen: require("../Screens/ProfileScreens/PaymentScreen").default,
+        TournamentEntrollers: require("../Screens/ProfileScreens/TournamentEntrollers").default,
     },
     TurfBooking: {
         TurfDetailsScreen: require("../Screens/TurfBookingScreens/TurfDetailsScreen").default,
@@ -33,6 +34,7 @@ const Screens = {
         WishListScreen: require("../Screens/WishListScreen").default,
         TournamentDetailsScreen: require("../Screens/TournamentDetailsScreen").default,
         TournamentFormScreen: require("../Screens/TournamentFormScreen").default,
+        ClaimRewardsPage: require("../Components/Cards/rewards/ClaimRewardsPage").default,
     }
 };
 

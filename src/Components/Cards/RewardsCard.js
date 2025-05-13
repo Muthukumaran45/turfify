@@ -22,7 +22,7 @@ const CardItem = ({ item, onPress, onPressBtn }) => {
         <View style={styles.info}>
           <CustomText size={1.9} fontFamily={Nunito_Bold}>{truncateText(item.title, 16)}</CustomText>
           <CustomText>{truncateText(item.location, 19)}</CustomText>
-          <View className="flex-row justify-between items-center">
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <CustomText MT={.5}>{truncateText(item.price, 10)}</CustomText>
             <CustomText>⭐ ({item.rating})</CustomText>
           </View>
@@ -50,9 +50,12 @@ const CardItem = ({ item, onPress, onPressBtn }) => {
         )}
       </View>
 
-      <Text style={styles.bookingsText}>
-        {item.bookingsRequired - item.currentBookings} booking{item.bookingsRequired - item.currentBookings !== 1 ? "s" : ""} more to reward!
-      </Text>
+      <CustomText style={styles.bookingsText}>
+        <CustomText>
+          {item.bookingsRequired - item.currentBookings}{" "}
+        </CustomText>
+        booking{item.bookingsRequired - item.currentBookings !== 1 ? "s" : ""} more to reward!
+      </CustomText>
 
       {/* Action Button */}
       <TouchableOpacity onPress={onPressBtn} style={[styles.button, isRewardReady ? styles.claimButton : styles.bookAgainButton]}>
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
   },
   bookingsText: {
     fontSize: rf(1.6),
-    color: "gray",
+    color: "#495057",
     marginTop: hp(0.5),
   },
   button: {

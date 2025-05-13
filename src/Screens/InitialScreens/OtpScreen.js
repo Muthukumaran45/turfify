@@ -13,14 +13,18 @@ import { successAlert, errorAlert } from "../../Components/Toast/ToastServices";
 
 // Utils
 import { resetAndNavigate } from '../../Utils/NavigationUtil';
+import { COLORS } from '../../Constants/Colors';
 
 // store
 import Zustand from "../../Zustand/Zustand"
+
 import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
+
 
 const OtpScreen = () => {
     const { setUser, user } = Zustand();
     console.log("kdfhkdsfhkdh", user)
+
 
     const route = useRoute();
     const userData = route.params?.data || "Unknown";
@@ -130,7 +134,7 @@ const OtpScreen = () => {
                 <CustomButton
                     title="Confirm"
                     size={20}
-                    className="bg-primary rounded-full"
+
                     style={styles.confirmBtn}
                     onPress={handleLogin}
                     height={hp(6)}
@@ -183,5 +187,8 @@ const styles = StyleSheet.create({
     },
     confirmBtn: {
         marginTop: hp(6),
+        backgroundColor: COLORS.primary,
+        borderRadius: hp(1)
+
     },
 });

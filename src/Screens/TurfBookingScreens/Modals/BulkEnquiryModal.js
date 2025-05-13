@@ -1,24 +1,59 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+    Modal,
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    TextInput
+} from 'react-native';
 import { X } from 'lucide-react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import RadioButton from "../../../Components/Buttons/CustomRadioButton";
 
-const options = [
-    'Rorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    'Rorem ipsum dolor sit amet, consectetur.',
-    'Rorem dipiscing elit.',
-    'Rorem ipsum dolor sit amet, consectetur adipiscing elit.'
-];
+// zustand
+import useUserStore from "../../../Zustand/Zustand";
+import useTurfDetails from "../../../Zustand/useTurfDetails";
+
+// constant
+import { API_URL } from '../../../Services/Api';
+
+// packages
+import axios from 'axios';
 
 const BulkEnquiryModal = ({ visible, onClose, onSubmit }) => {
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [description, setDescription] = useState('');
+
+    const token = useUserStore((state) => state.token);
+    const user = useUserStore((state) => state.user);
+    const turfData = useTurfDetails((state) => state.turfDetails);
 
     const handleSubmit = () => {
-        if (selectedOption !== null) {
-            console.log('Selected option:', options[selectedOption]);
-            onSubmit(options[selectedOption]);
+        if (description.trim().length > 0) {
+            postBulkEnquiry(description.trim());
+            onSubmit(description.trim());
             onClose();
+        }
+    };
+
+    const postBulkEnquiry = async (reasonText) => {
+        const payload = {
+            turfId: turfData._id,
+            userId: user,
+            contactNo: "9840247340",
+            reason: reasonText,
+        };
+
+        console.log("payload = ", payload);
+
+        try {
+            const response = await axios.post(`${API_URL}/bulk-enquiries`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log("Bulk enquiry submitted:", response.data);
+        } catch (error) {
+            console.log("Error from postBulkEnquiry:", error);
         }
     };
 
@@ -38,21 +73,13 @@ const BulkEnquiryModal = ({ visible, onClose, onSubmit }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.optionsContainer}>
-                        {options.map((option, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={styles.optionRow}
-                                onPress={() => setSelectedOption(index)}
-                            >
-                                <RadioButton
-                                    selected={selectedOption === index}
-                                    onSelect={() => setSelectedOption(index)}
-                                />
-                                <Text style={styles.optionText}>{option}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
+                    <TextInput
+                        style={styles.input}
+                        multiline
+                        placeholder="Enter your enquiry here..."
+                        value={description}
+                        onChangeText={setDescription}
+                    />
 
                     <TouchableOpacity
                         style={styles.submitButton}
@@ -94,19 +121,15 @@ const styles = StyleSheet.create({
     closeButton: {
         padding: wp(2),
     },
-    optionsContainer: {
-        marginBottom: hp(2),
-    },
-    optionRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: hp(1.5),
-    },
-    optionText: {
-        marginLeft: wp(3),
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: wp(2),
+        padding: wp(3),
         fontSize: wp(4),
-        color: '#4a4a4a',
-        flex: 1,
+        minHeight: hp(15),
+        textAlignVertical: 'top',
+        marginBottom: hp(2),
     },
     submitButton: {
         backgroundColor: '#fff',

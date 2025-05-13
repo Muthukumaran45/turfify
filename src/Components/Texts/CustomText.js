@@ -4,6 +4,7 @@ import { Text } from "react-native";
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Nunito_Regular } from "../../Constants/FontFamily";
+import { COLORS } from "../../Constants/Colors";
 
 
 const CustomText = (
@@ -11,7 +12,7 @@ const CustomText = (
     size = 1.8,
     children,
     fontWight = "",
-    color = "#000",
+    color = COLORS.textHeader,
     ML = 0,
     MR = 0,
     MT = 0,

@@ -5,31 +5,12 @@ import CustomText from '../../Components/Texts/CustomText';
 
 // packages
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import axios from 'axios';
+
+// zustand
+import useTurfDetails from "../../Zustand/useTurfDetails";
 
 const TurfHoursDiscount = () => {
-    const [turfHours, setTurfHours] = useState([]);
-
-    const fetchTurfHours = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/discounts/discounts/60c72b2f9e5c5a3b78f5f8f9`);
-            const data = response.data;
-
-            // Format data to show hours and discount
-            const formattedData = data.map(item => ({
-                hours: `${item.duration / 60}HR`,
-                discount: item.discountPrice,
-            }));
-
-            setTurfHours(formattedData);
-        } catch (error) {
-            console.log("Error fetching hours and discount", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchTurfHours();
-    }, []);
+    const turfData = useTurfDetails((state) => state.turfDetails);
 
     return (
         <View style={styles.container}>
@@ -38,14 +19,11 @@ const TurfHoursDiscount = () => {
                 <View style={styles.headerCell}>
                     <CustomText>HOURS</CustomText>
                 </View>
-                {turfHours.map((item, index) => (
+                {turfData?.discount?.map((item, index) => (
                     <View key={index} style={styles.cellHighlighted}>
-                        <CustomText>{item.hours}</CustomText>
+                        <CustomText>{item.duration / 60} hr</CustomText>
                     </View>
                 ))}
-                <View style={styles.cell}>
-                    <CustomText>Half Day</CustomText>
-                </View>
             </View>
 
             {/* Discount Row */}
@@ -53,18 +31,16 @@ const TurfHoursDiscount = () => {
                 <View style={styles.headerCell}>
                     <CustomText>DISCOUNT</CustomText>
                 </View>
-                {turfHours.map((item, index) => (
+                {turfData?.discount?.map((item, index) => (
                     <View key={index} style={styles.cellHighlighted}>
-                        <CustomText style={styles.discountText}>₹{item.discount}</CustomText>
+                        <CustomText style={styles.discountText}>₹{item.discountPrice}</CustomText>
                     </View>
                 ))}
-                <View style={styles.cell}>
-                    <CustomText style={styles.discountText}>50</CustomText>
-                </View>
             </View>
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

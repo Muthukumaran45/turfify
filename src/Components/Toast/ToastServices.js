@@ -64,7 +64,7 @@ const successAlert = ({ message }) => {
 const errorAlert = ({ message }) => {
   Toast.show({
     type: "error",
-    text2: truncateText(message, 200),
+    text2:message,
     position: "top",
   });
 };
@@ -73,7 +73,7 @@ const errorAlert = ({ message }) => {
 const infoAlert = ({ message }) => {
   Toast.show({
     type: "info",
-    text2: truncateText(message, 200),
+    text2:message,
     position: "top",
   });
 };

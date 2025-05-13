@@ -9,14 +9,18 @@ const mmkv = new MMKVLoader().initialize(); // This initializes MMKVStorage
 
 // Define the Zustand store with immer middleware
 const User = immer((set, get) => ({
-
     user: null,
+    token: null,
 
-    //  user access the app set logic
     setUser: (user) => set((state) => { state.user = user }),
-    clearUser: () => set((state) => { state.user = null, navigate("LoginScreen") }),
-
+    setToken: (token) => set((state) => { state.token = token }), // ← Add this function
+    clearUser: () => set((state) => {
+        state.user = null;
+        state.token = null; // clear token as well
+        navigate("LoginScreen");
+    }),
 }));
+
 
 // Define the storage object using MMKVStorage
 const storage = {

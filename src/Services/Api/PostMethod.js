@@ -6,7 +6,11 @@ const = async() => {
     }
 
     try {
-        const response = await axios.post(`${API_URL}/`, payload);
+        const response = await axios.post(`${API_URL}/`, payload, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const data = response.data
 
 

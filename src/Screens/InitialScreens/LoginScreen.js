@@ -21,14 +21,18 @@ import CustomHeaderText from '../../Components/Texts/CustomHeaderText';
 // Zustand
 import useFcmStore from '../../Zustand/useFcmStore';
 import useLocationStore from '../../Zustand/useLocationStore';
+import useUserStore from "../../Zustand/Zustand"
+import { COLORS } from '../../Constants/Colors';
 
 const LoginScreen = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneError, setPhoneError] = useState(""); // Error state
     const [loading, setLoading] = useState(false); // Loading state
 
+
     // zustand
     const fcmToken = useFcmStore(state => state.fcmToken)
+
 
     const handleSkip = useCallback(() => resetAndNavigate("BottomNavigation"), []);
 
@@ -43,6 +47,7 @@ const LoginScreen = () => {
 
             useLocationStore.getState().setLocation(loc.latitude, loc.longitude);
 
+
         } catch (error) {
             console.warn("Error fetching current location:", error);
         }
@@ -55,9 +60,8 @@ const LoginScreen = () => {
 
     const { latitude, longitude } = useLocationStore();
 
-    console.log("latitude", latitude);
-    console.log("longitude", longitude);
-
+    console.log("login page latitude", latitude);
+    console.log("login page longitude", longitude);
 
     const handleInputChange = (text) => {
         setPhoneNumber(text);
@@ -87,8 +91,12 @@ const LoginScreen = () => {
             const response = await axios.post(`${API_URL}/users/register`, payload);
 
             if (response) {
-                navigate("OtpScreen")
                 console.log("login res :", response.data)
+
+                useUserStore.getState().setToken(response.data.token);
+                useUserStore.getState().setUser(response.data.userId);
+                // navigate("OtpScreen")
+                navigate("BottomNavigation")
             }
         } catch (error) {
             console.log("Error sending login data:", error);
@@ -125,12 +133,12 @@ const LoginScreen = () => {
                     onChangeText={handleInputChange}
                     className="rounded-full bg-white border-0"
                     error={phoneError}
+                    style={{ backgroundColor: "#fff" }}
                 />
 
                 {/* Referal code input field */}
                 <CustomInput
-                    style={{marginTop: hp(2)}}
-                    
+                    style={{ backgroundColor: "#fff", marginTop: hp(2), paddingLeft: hp(2) }}
                     placeholder="REFERAL code"
                     className="rounded-full bg-white border-0"
                 />
@@ -138,7 +146,7 @@ const LoginScreen = () => {
                 {/* OTP Button */}
                 <CustomButton
                     title="Send OTP"
-                    className="bg-primary rounded-full"
+
                     style={styles.otpBtn}
                     size={20}
                     onPress={handleSendOtp}
@@ -169,5 +177,7 @@ const styles = StyleSheet.create({
     },
     otpBtn: {
         marginTop: hp(4),
+        backgroundColor: COLORS.primary,
+        borderRadius: hp(100)
     },
 });

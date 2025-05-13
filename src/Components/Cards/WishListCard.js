@@ -7,29 +7,49 @@ import { RFPercentage as rf } from 'react-native-responsive-fontsize';
 
 // Icons
 import { Heart, CrownIcon, PhoneCallIcon } from 'lucide-react-native';
-import CustomButton from '../Buttons/CustomButton';
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 // components
 import CustomText from '../Texts/CustomText';
 import { COLORS } from '../../Constants/Colors';
 import { Nunito_Bold } from '../../Constants/FontFamily';
 
+// packages
+import axios from "axios";
+
+// zustand
+import useUserStore from "../../Zustand/Zustand"
+import { API_URL } from '../../Services/Api';
 
 // Wishlist Card List Component
-const WishListCard = ({ data , onPressBtn}) => {
+const WishListCard = ({ data, onPressBtn }) => {
+  const [wishlistData, setWishlistData] = useState(data || []);
+
+  // Function to handle item removal from wishlist
+  const handleRemoveItem = (removedItemId) => {
+    // Filter out the removed item
+    setWishlistData(prevData => prevData.filter(item => item.id !== removedItemId));
+  };
+
   return (
     <FlatList
-      data={data}
+      data={wishlistData}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <CardItem item={item} onPressBtn={onPressBtn} />}
-      contentContainerStyle={{ paddingBottom: hp(15) }}
+      renderItem={({ item }) => (
+        <CardItem 
+          item={item} 
+          onPressBtn={onPressBtn} 
+          onRemoveItem={handleRemoveItem} 
+        />
+      )}
+      contentContainerStyle={{ paddingBottom: hp(15), paddingHorizontal: hp(2) }}
       showsVerticalScrollIndicator={false}
     />
   );
 };
 
 // Card Component
-const CardItem = ({ item, onPressBtn }) => {
+const CardItem = ({ item, onPressBtn, onRemoveItem }) => {
   if (!item || !item.images || item.images.length === 0) {
     return null; // Avoid crashing when item is undefined
   }
@@ -37,15 +57,50 @@ const CardItem = ({ item, onPressBtn }) => {
   const flatListRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  // zustand
+  const token = useUserStore((state) => state.token);
+  const userid = useUserStore((state) => state.user);
+
+  const handleRemoveturf = async () => {
+    setIsRemoving(true); // Set loading state
+
+    const payload = {
+      userId: userid,
+      turfId: item?.id
+    };
+    
+    try {
+      const response = await axios.post(`${API_URL}/favorites/remove`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("Removed from wishlist:", response.data);
+      
+      // Call the parent function to update the list
+      onRemoveItem(item.id);
+    } catch (error) {
+      console.log("Error removing from wishlist:", error);
+      setIsRemoving(false); // Reset loading state on error
+    }
+  };
 
   return (
     <View style={styles.card}>
       {/* Favorite Heart */}
-      {item.discount && (
-        <View style={styles.favorite}>
-          <Heart size={hp(3.5)} fill={"red"} color={"red"} />
-        </View>
-      )}
+      <TouchableOpacity 
+        onPress={handleRemoveturf} 
+        style={styles.favorite}
+        disabled={isRemoving} // Disable button while removing
+      >
+        <Ionicons 
+          name="heart" 
+          size={hp(4.5)} 
+          color={isRemoving ? "gray" : "red"} 
+        />
+      </TouchableOpacity>
 
       {/* Image Carousel */}
       <View>
@@ -103,7 +158,7 @@ const CardItem = ({ item, onPressBtn }) => {
           </View>
 
           {/* Book Now Button */}
-          <TouchableOpacity style={styles.bookNow} onPress={onPressBtn}>
+          <TouchableOpacity style={styles.bookNow} onPress={() => onPressBtn(item)}>
             <Text style={styles.bookNowText}>Book Now</Text>
           </TouchableOpacity>
         </View>
@@ -144,7 +199,7 @@ const styles = StyleSheet.create({
     width: hp(1),
     height: hp(1),
     borderRadius: hp(100),
-    backgroundColor: 'gray', 
+    backgroundColor: 'gray',
     marginHorizontal: 4,
   },
   activeDot: {
@@ -162,5 +217,4 @@ const styles = StyleSheet.create({
   icons: { flexDirection: 'row' },
   bookNow: { backgroundColor: 'green', paddingVertical: hp('1%'), paddingHorizontal: wp('5%'), borderRadius: wp('2%') },
   bookNowText: { color: 'white', fontSize: rf(2), fontWeight: 'bold' },
-
 });

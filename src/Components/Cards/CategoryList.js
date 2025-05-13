@@ -1,19 +1,30 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFValue } from 'react-native-responsive-fontsize';
+import CustomText from '../Texts/CustomText';
 
 const CategoryCard = ({ item }) => {
-  const IconComponent = item.icon;
   return (
     <TouchableOpacity style={styles.card}>
-      {/* Left Side (Icon with Background) */}
-      <View style={[styles.leftContainer, { backgroundColor: item.leftBgColor }]}>
-        <IconComponent size={wp(6)} color={item.iconColor} />
+      {/* Left Side: Image */}
+      <View style={styles.leftContainer}>
+        <Image
+          source={{ uri: item.url }}
+          style={styles.image}
+          resizeMode="contain"
+        />
       </View>
-      {/* Right Side (Text with Background) */}
-      <View style={[styles.rightContainer, { backgroundColor: item.rightBgColor }]}>
-        <Text style={[styles.text, { color: item.textColor }]}>{item.name}</Text>
+
+      {/* Right Side: Name */}
+      <View style={styles.rightContainer}>
+        <CustomText style={styles.text}>{item.name}</CustomText>
       </View>
     </TouchableOpacity>
   );
@@ -25,7 +36,7 @@ const CategoryList = ({ data }) => {
       <FlatList
         data={data}
         renderItem={({ item }) => <CategoryCard item={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
@@ -50,10 +61,10 @@ const styles = StyleSheet.create({
     marginRight: wp('3%'),
     overflow: 'hidden',
     elevation: 3,
+    backgroundColor: '#fff', // optional: make it look clean
   },
   leftContainer: {
-    paddingVertical: hp('2%'),
-    paddingHorizontal: wp('4%'),
+    padding: wp('3%'),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -62,8 +73,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('5%'),
     justifyContent: 'center',
   },
+  image: {
+    width: wp(10),
+    height: wp(10),
+  },
   text: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(15),
     fontWeight: 'bold',
   },
 });

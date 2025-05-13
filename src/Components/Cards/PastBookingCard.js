@@ -15,6 +15,14 @@ import { Nunito_Bold } from '../../Constants/FontFamily';
 const Card = ({ item }) => {
     const navigation = useNavigation();
 
+    if (item.time && item.time.length > 0) {
+        console.log("data inside array =", item.time.map((t) => t));
+    } else {
+        console.log("item.time is empty or undefined");
+    }
+
+
+
     return (
         <View style={{
             backgroundColor: '#fff',
@@ -41,16 +49,26 @@ const Card = ({ item }) => {
                     <CustomText ML={.3}>{item.location}</CustomText>
                 </View>
 
+                {/* time */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp(0.5) }}>
-                    <Star size={16} color="#FFD700" />
-                    <CustomText>({item.rating})</CustomText>
-                    <View style={styles.middleBorder} />
-                    <CustomText>Distance</CustomText>
-                    <CustomText>({item.distance} km)</CustomText>
+                    <CustomText>Time : </CustomText>
+                    <CustomText>{item.time} </CustomText>
+                </View>
+
+                {/* date */}
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp(0.5) }}>
+                    <CustomText>
+                        Date{" "}:{" "}
+                        <CustomText color="#787878">
+                            {item.date
+                                ? item.date.split("-").reverse().join("-")
+                                : ""}
+                        </CustomText>
+                    </CustomText>
                 </View>
 
                 <View style={{ marginTop: hp(3), marginLeft: hp(6) }}>
-                    <CustomButton size={14} className={`rounded-md`} title={'Book Again'} height={hp(4)} onPress={() => navigate("TurfDetailsScreen")} />
+                    <CustomButton size={14} style={{borderRadius: hp(1)}}  title={'Book Again'} height={hp(4)} onPress={() => navigate("TurfDetailsScreen")} />
                 </View>
             </View>
         </View>

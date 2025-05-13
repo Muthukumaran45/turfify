@@ -13,6 +13,7 @@ import Header from "../Components/Headers/Header";
 const TournamentDetailsScreen = () => {
   const route = useRoute();
   const { tournament } = route.params;
+
   const navigation = useNavigation();
 
 
@@ -22,51 +23,42 @@ const TournamentDetailsScreen = () => {
       showsVerticalScrollIndicator={false}
     >
 
-    {/* header */}
-    <View>
-      <Header title="" />
-    </View>
+      {/* header */}
+
+      <View style={{ paddingHorizontal: hp(2), }}>
+        <Header title="Tournament Details" paddingLeft={hp(10)} />
+      </View>
 
       {/* Display Image */}
-      <View style={{ marginHorizontal: hp(2), marginTop: hp(5) }}>
+      <View style={{ marginHorizontal: hp(2), marginTop: hp(2) }}>
         <Image source={{ uri: tournament.banner }} style={styles.image} resizeMode="cover" />
       </View>
 
+    
+
       {/* Skills & Requirements Section */}
       <View style={styles.sectionContainer}>
-        <CustomText size={2.3} fontWight='700'>Skills & Requirements</CustomText>
-        <CustomText MT={2}>• 3 years experience</CustomText>
-        <CustomText MT={.8}>• Degree in Computer Science, Psychology, Design or any other related fields.</CustomText>
-        <CustomText MT={.8}>• Proficiency in User Personas, Competitive Analysis, Empathy Maps and Information Architecture.</CustomText>
+        <CustomText size={2.3} fontWight='700'>Rules</CustomText>
+        <CustomText MT={2}>{tournament.rules}</CustomText>
+
       </View>
 
-      {/* Role Section */}
-      <View style={styles.sectionContainer}>
-        <CustomText size={2.3} fontWight='700'>Your Role</CustomText>
-        <CustomText MT={2}>
-          As a UX Designer, you will be directly responsible for helping the evolution of enterprise design systems at Google.
-          You will engineer solutions that create shareable web components to be used in enterprise products within the organization.
-          You’ll support multiple different product areas and collaborate with multiple job functions across the globe.
-        </CustomText>
+  
+      <View style={{
+        position: 'absolute',
+        bottom: hp(4),
+        left: 0,
+        right: 0,
+        marginHorizontal: hp(2),
+      }}>
+        <CustomButton
+          title={'Enroll Now'}
+          onPress={() => navigation.navigate("TournamentFormScreen", { id: tournament._id })}
+          style={{ marginBottom: hp(4), marginHorizontal: hp(2), borderRadius: hp(1) }}
+
+          height={hp(7)}
+        />
       </View>
-
-      {/* Benefits Section */}
-      <View style={styles.sectionContainer}>
-        <CustomText size={2.3} fontWight='700'>Benefits</CustomText>
-        <CustomText MT={2}>
-          As a UX Designer, you will be directly responsible for helping the evolution of enterprise design systems at Google.
-          You will engineer solutions that create shareable web components to be used in enterprise products within the organization.
-          You’ll support multiple different product areas and collaborate with multiple job functions across the globe.
-        </CustomText>
-      </View>
-
-      <CustomButton
-        title={'Enroll Now'}
-        onPress={() => navigation.navigate("TournamentFormScreen")}
-        style={{ marginBottom: hp(4) }}
-        className={`rounded-md`}
-      />
-
     </ScrollView>
   );
 };
@@ -75,7 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: hp(2),
+
   },
   image: {
     width: "100%",
@@ -86,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     padding: hp(2),
     borderRadius: hp(1.5),
-    marginVertical: hp(2),
+    margin: hp(2),
   },
 
   sectionText: {

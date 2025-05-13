@@ -101,7 +101,7 @@ const EditProfileScreen = () => {
         </View>
 
         {/* user image & user details */}
-        <View className={`items-center justify-center`} style={{ marginVertical: hp(2), marginHorizontal: hp(2) }}>
+        <View  style={{ marginVertical: hp(2), marginHorizontal: hp(2) ,  alignItems: "center", justifyContent: "center"}}>
           <View>
             <TouchableOpacity onPress={() => profileImage && setZoomModalVisible(true)}>
               <View
@@ -189,17 +189,17 @@ const EditProfileScreen = () => {
 
           {/* name & bio */}
           <View>
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="Name" style={{ marginVertical: hp(2), height: hp(6) }} />
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="Bio" style={{ height: hp(6) }} />
+            <CustomInput  placeholder="Name" style={{ marginVertical: hp(2), height: hp(6), backgroundColor: "#fff", borderRadius: hp(1.5), elevation :2 }} />
+            <CustomInput  placeholder="Bio" style={{ height: hp(6), backgroundColor: "#fff", borderRadius: hp(1.5), elevation :2 }} />
           </View>
 
           <View style={{ marginTop: hp(3) }}>
             <CustomText size={2.2} fontFamily={Nunito_Bold}>Contact Details</CustomText>
 
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="Email" style={{ marginVertical: hp(2), height: hp(6) }} />
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="Phone Number" style={{ height: hp(6) }} />
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="Gender" style={{ marginVertical: hp(2), height: hp(6) }} />
-            <CustomInput className={`bg-white border-0 rounded-md`} placeholder="City" style={{ height: hp(6) }} />
+            <CustomInput placeholder="Email" style={{ marginVertical: hp(2), height: hp(6), backgroundColor: "#fff", borderRadius: hp(1.5) }} />
+            <CustomInput placeholder="Phone Number" style={{ height: hp(6) , backgroundColor: "#fff", borderRadius: hp(1.5)}} />
+            <CustomInput placeholder="Gender" style={{ marginVertical: hp(2), height: hp(6), backgroundColor: "#fff", borderRadius: hp(1.5) }} />
+            <CustomInput placeholder="City" style={{ height: hp(6), backgroundColor: "#fff", borderRadius: hp(1.5) }} />
 
           </View>
 

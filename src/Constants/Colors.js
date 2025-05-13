@@ -9,11 +9,17 @@ export const COLORS = {
   discountGradient2: "#8E0508",
   claimRewardColor: "#D9AB34",
   bgColor: "#f2f2f2",
+  statusBarColor: "#f2f2f2",
+  lightGreen: "#d8f3dc",
+  inputGray: "#adb5bd",
 
   themeColor: "#00D09C",
   lite_black: "#3D3D3D2B",
   Ash: "#DBC1FC",
   lite_purple: "#A45CFF",
+  arrowIcon: "#343a40", 
+  textHeader: "#212529", // text header color
+  iconColor: "#6c757d",
 
   dark_background: "#121212",
   dark_background_light: "#252525",
